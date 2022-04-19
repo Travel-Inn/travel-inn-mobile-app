@@ -4,14 +4,20 @@ import { StyleSheet, Text, View } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import SideDrawer from './screens/drawer.js';
-import Login from './screens/login.js';
+import SignupPage from './screens/signupPage.js';
+import LoginPage from './screens/loginPage.js';
+import ForgottenPasswordPage from './screens/forg_Pass.js';
+import ResetPasswordPage from './screens/resetPassword.js';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
 	return (
 		<NavigationContainer >
-		  <Stack.Navigator initialRouteName='Login' screenOptions={{headerShown: false}}>
-			<Stack.Screen name="Login" component={Login}/>
+		  <Stack.Navigator initialRouteName='Signup' screenOptions={{headerShown: false}}>
+			<Stack.Screen name="Signup" component={SignupPage}/>
+			<Stack.Screen name="Login" component={LoginPage} />
+			<Stack.Screen name="Forgotten Password" component={ForgottenPasswordPage}/>
+			<Stack.Screen name="Reset Password" component={ResetPasswordPage}/>
 			<Stack.Screen name="Drawer" component={SideDrawer}/>
 		  </Stack.Navigator>
 		</NavigationContainer>
