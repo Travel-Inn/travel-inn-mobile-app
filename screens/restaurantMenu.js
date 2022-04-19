@@ -31,7 +31,7 @@ const RestaurantMenu =[
 				name: "Orange Juice",
 				price: 'GHS 6.00'
 			},
-			{
+			{ 
 				name: 'Iced Tea',
 				price: 'GHS 8.00',
 			}
