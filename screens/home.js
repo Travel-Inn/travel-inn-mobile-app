@@ -17,7 +17,7 @@ export default function Home({navigation}){
                     <TouchableOpacity style={[styles.btn ,styles.firstBtn]}>
                         <Text style={styles.whiteText}>Contact Now</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.btn, styles.secondBtn]} onPress={()=>navigation.openDrawer()}>
+                    <TouchableOpacity style={[styles.btn, styles.secondBtn]}>
                         <Text style={styles.whiteText}>Reserve Now</Text>
                     </TouchableOpacity>
                 </View>
