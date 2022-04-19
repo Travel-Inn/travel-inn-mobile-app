@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		marginLeft: 10,
 		marginRight: 0,
-		marginTop: 10,
+		marginTop: 30,
 		position: 'absolute',
 		zIndex: 1,
 		width: Dimensions.get('screen').width-25,
