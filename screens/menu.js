@@ -1,8 +1,5 @@
 import React from 'react';
 import { Text, View, ImageBackground, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions} from 'react-native';
-import {Col, Row, Grid} from 'react-native-easy-grid';
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
 import TopBtns from './topBar.js';
 import RestaurantMenu from './restaurantMenu.js';
 
@@ -59,8 +56,8 @@ export default function Menu({navigation}) {
 			<View style={styles.menuList}>
 				<ScrollView horizontal={true} contentContainerStyle={styles.menuTabs} showsHorizontalScrollIndicator={false}>
 					{
-						menuTabs.map((menuTab)=>(
-							<TouchableOpacity style={styles.menuTab} key={menuTab.id} onPress={()=>scrollHandler(menuTab.loc)}>
+						menuTabs.map((menuTab, index)=>(
+							<TouchableOpacity style={styles.menuTab} key={index} onPress={()=>scrollHandler(menuTab.loc)}>
 								<Image source={menuTab.image} resizeMode="cover" style={styles.menuTabImage}/>
 								<Text>{menuTab.name}</Text>
 							</TouchableOpacity>
@@ -68,8 +65,8 @@ export default function Menu({navigation}) {
 					}
 				</ScrollView>
 				{
-					RestaurantMenu.map((item,key)=>(
-						<ImageBackground  key={key} onLayout={(event) =>{ const layout=event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
+					RestaurantMenu.map((item, index)=>(
+						<ImageBackground  key={index} onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
 							source={item.image} 
 							style={styles.menuContainer} resizeMode="cover" >
 							<View style={styles.menuName}>
