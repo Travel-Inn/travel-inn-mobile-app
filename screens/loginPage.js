@@ -20,7 +20,7 @@ export default function SignupPage({navigation}){
 						color = "black"
 						style= {styles.signUpOption}
 					>
-					<Text>Login with google</Text>
+					<Text>Login with Google</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress = {null}
@@ -102,14 +102,14 @@ const styles = StyleSheet.create({
 		backgroundColor: 'black',
 		paddingLeft: 15,
 		paddingRight: 15,
-		marginTop: -Dimensions.get('screen').width*0.1
 	},
 	loginText: {
 		color: 'white',
 		fontSize: 25,
 		marginBottom: 35,
 		alignSelf: 'center',
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		marginTop: Dimensions.get('screen').width*0.05
 	},
 	signupText:{
 		color: 'white',

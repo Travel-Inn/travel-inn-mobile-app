@@ -21,7 +21,7 @@ export default function SignupPage({navigation}){
 						color = "black"
 						style= {styles.signUpOption}
 					>
-					<Text>Create with google</Text>
+					<Text>Create with Google</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress = {null}
@@ -33,7 +33,7 @@ export default function SignupPage({navigation}){
 				</View>
 				<Input
 					placeholder = "abcde123@example.com"
-					leftIcon = {<Icon name="user" size = {20} color = 'white' style={{paddingRight: 5}}/>}
+					leftIcon = {<Icon name="at" size = {20} color = 'white' style={{paddingRight: 5}}/>}
 					inputStyle = {{color: "white"}}
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
 				/>
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
 		backgroundColor: 'black',
 		paddingLeft: 15,
 		paddingRight: 15,
-		marginTop: -Dimensions.get('screen').width*0.1
 	},
 	loginText: {
 		color: 'white'
@@ -119,7 +118,8 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 25,
 		marginBottom: 15,
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		marginTop: Dimensions.get('screen').width*0.05
 	},
 	continue:{
 		padding: 12,
