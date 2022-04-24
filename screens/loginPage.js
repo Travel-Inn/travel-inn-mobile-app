@@ -33,12 +33,16 @@ export default function SignupPage({navigation}){
 				<Input
 					placeholder = "abcde123@example.com"
 					leftIcon = {<Icon name="at" size = {20} color = 'white' style={{paddingRight: 5}}/>}
+					inputStyle = {{color: "white"}}
+					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -6}}
 				/>
 				<Input
 					placeholder = "password"
 					leftIcon = {<Icon name="lock" size = {20} color = 'white' style={{paddingRight: 5}}/>}
 					secureTextEntry={true}
 					rightIcon ={<Icon name="eye" size={20} color ="white"/>}
+					inputStyle = {{color: "white"}}
+					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -7}}
 				/>
 				<Text onPress ={()=>navigation.navigate("Forgotten Password")} style={{color: 'white',  alignSelf: 'flex-end'}}>Forgotten Password?</Text>
 				<TouchableOpacity
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
 		borderBottomLeftRadius: Dimensions.get('screen').width*(50/100),
 		transform: [{scaleX: 2}],
 		overflow: 'hidden',
-		marginBottom: -26,
+		marginBottom: -Dimensions.get('screen').height*0.05,
 		zIndex: 1
 	},
 	imageBack:{
@@ -97,7 +101,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: 'black',
 		paddingLeft: 15,
-		paddingRight: 15
+		paddingRight: 15,
+		marginTop: -Dimensions.get('screen').width*0.1
 	},
 	loginText: {
 		color: 'white',

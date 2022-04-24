@@ -21,15 +21,19 @@ export default function ResetPasswordPage({navigation}){
 					secureTextEntry={true}
 					rightIcon ={<Icon name="eye" size={20} color ="white"/>}
                     inputContainerStyle={{marginTop: 25}}
+					inputStyle = {{color: "white"}}
+					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -7}}
 				/>
 				<Input
 					placeholder = "Confirm new password"
 					leftIcon = {<Icon name="lock" size = {20} color = 'white' style={{paddingRight: 5}}/>}
 					secureTextEntry={true}
 					rightIcon ={<Icon name="eye" size={20} color ="white"/>}
+					inputStyle = {{color: "white"}}
+					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -7}}
 				/>
 				<TouchableOpacity
-					onPress = {()=>navigation.navigate('Drawer')}
+					onPress = {()=>navigation.navigate('Login')}
 					color = "white"
 					style= {styles.continue}
 				>
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
 		borderBottomLeftRadius: Dimensions.get('screen').width*(50/100),
 		transform: [{scaleX: 2}],
 		overflow: 'hidden',
-		marginBottom: -26,
+		marginBottom: -Dimensions.get('screen').height*0.05,
 		zIndex: 1
 	},
 	imageBack:{
@@ -84,14 +88,15 @@ const styles = StyleSheet.create({
 		backgroundColor: 'black',
 		paddingLeft: 25,
 		paddingRight: 25,
-        paddingTop: 50
+        paddingTop: 50,
 	},
 	loginText: {
 		color: 'white',
 		fontSize: 25,
 		marginBottom: 35,
 		alignSelf: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+		marginTop: Dimensions.get('screen').width*0.05
 	},
 	info:{
 		color: 'white',

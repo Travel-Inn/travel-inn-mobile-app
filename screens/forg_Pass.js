@@ -19,6 +19,8 @@ export default function ForgottenPasswordPage({navigation}){
 					placeholder = "abcde123@example.com"
 					leftIcon = {<Icon name="at" size = {20} color = 'white' style={{paddingRight: 5}}/>}
                     inputContainerStyle={{marginTop: 25}}
+					inputStyle = {{color: "white"}}
+					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
 				/>
 				<TouchableOpacity
 					onPress = {()=>navigation.navigate('Reset Password')}
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
 		borderBottomLeftRadius: Dimensions.get('screen').width*(50/100),
 		transform: [{scaleX: 2}],
 		overflow: 'hidden',
-		marginBottom: -26,
+		marginBottom: -Dimensions.get('screen').height*0.05,
 		zIndex: 1
 	},
 	imageBack:{
@@ -75,14 +77,15 @@ const styles = StyleSheet.create({
 		backgroundColor: 'black',
 		paddingLeft: 25,
 		paddingRight: 25,
-        paddingTop: 50
+        paddingTop: 50,
 	},
 	loginText: {
 		color: 'white',
 		fontSize: 25,
 		marginBottom: 35,
 		alignSelf: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+		marginTop: Dimensions.get('screen').width*0.05
 	},
 	info:{
 		color: 'white',
