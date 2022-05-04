@@ -58,7 +58,7 @@ export default function Menu({navigation}) {
 					{
 						menuTabs.map((menuTab, index)=>(
 							<TouchableOpacity style={styles.menuTab} key={index} onPress={()=>scrollHandler(menuTab.loc)}>
-								<Image source={menuTab.image} resizeMode="cover" style={styles.menuTabImage}/>
+								<View style={styles.menuTabView}><Image source={menuTab.image} resizeMode="cover" style={styles.menuTabImage} /></View>
 								<Text>{menuTab.name}</Text>
 							</TouchableOpacity>
 						))
@@ -154,14 +154,27 @@ const styles = StyleSheet.create({
 	justifyContent: 'space-between',
   },
   menuTab:{
-	backgroundColor: 'white',
+	backgroundColor: 'transparent',
 	alignItems: 'center',
 	marginRight: 15,
+	borderStyle: 'solid',
   },
+  menuTabView:{
+    borderRadius: 105,
+	width: 105,
+	height: 105,
+	borderColor: "red",
+	justifyContent: "center",
+	alignItems: "center",
+	elevation: 4,
+	shadowColor: 'green',
+	shadowOpacity: 1.8,
+},
   menuTabImage:{
     borderRadius: 100,
 	width: 100,
 	height: 100,
+	borderColor: 'transparent',
   },
   menuContainer:{
     borderRadius: 25,
