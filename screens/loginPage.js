@@ -1,10 +1,28 @@
 import React from 'react';
+import { useState } from 'react';
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
+import Firebase from '../config/firebase';
 
-export default function SignupPage({navigation}){
+const auth = Firebase.auth();
+
+export default function LoginPage({navigation}){
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+
+	const onLogin = async () => {
+		try {
+			if (email !== '' && password !== ''){
+				await auth.signInWithEmailAndPassword(email, password)
+				console.log("User has been registered");
+			}
+			
+		} catch(error) {
+			console.log(error);
+		}
+	};
     return(
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
@@ -16,7 +34,7 @@ export default function SignupPage({navigation}){
 				<Text style={styles.loginText}>Login</Text>
 				<View style = {styles.signUpOptions}>
 					<TouchableOpacity
-						onPress = {null}
+						onPress = {onLogin}
 						color = "black"
 						style= {styles.signUpOption}
 					>
@@ -30,13 +48,20 @@ export default function SignupPage({navigation}){
 					<Text>Login with Apple</Text>
 					</TouchableOpacity>
 				</View>
-				<Input
+				<InputField
+					keyboardType="email-address"
+					textContentType="emailAddress"
+					value={email}
+					onChangeText={text => setEmail(text)}
 					placeholder = "abcde123@example.com"
 					leftIcon = {<Icon name="at" size = {20} color = 'white' style={{paddingRight: 5}}/>}
 					inputStyle = {{color: "white"}}
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -6}}
 				/>
-				<Input
+				<InputField
+					autoCapitalize="none"
+					value={password}
+					onChangeText={text => setPassword(text)}
 					placeholder = "password"
 					leftIcon = {<Icon name="lock" size = {20} color = 'white' style={{paddingRight: 5}}/>}
 					secureTextEntry={true}
