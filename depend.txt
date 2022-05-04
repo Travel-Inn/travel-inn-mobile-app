@@ -1,6 +1,8 @@
 @react-navigation/drawer
 @react-navigation/native
 @react-navigation/native-stack
+@react-native-firebase/app
+@react-native-firebase/auth
 expo-splash-screen
 react-native-easy-grid
 react-native-gesture-handler
