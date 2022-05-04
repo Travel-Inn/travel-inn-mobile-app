@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { useState } from 'react';
-import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, TextInput, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
@@ -15,12 +15,13 @@ export default function SignupPage({navigation}){
 
 	const onHandleSignup = async () => {
 		try {
-			if (email !== '' && passowrd !== '') {
+			if (email !== '' && password !== '') {
 				await auth.createUserWithEmailAndPassword(email,password);
+				console.log("User has signed in");
+				navigation.navigate("Drawer");
 			}
-
 		} catch (error) {
-			console.log(error.message);
+			console.log(error.message); // TODO: Make this a snackbar and Add some checks for the email and password fields
 		}
 	}
 
@@ -49,7 +50,7 @@ export default function SignupPage({navigation}){
 					<Text>Create with Apple</Text>
 					</TouchableOpacity>
 				</View>
-				<InputField
+				<Input
 					keyboardType='email-address'
 					textContentType='emailAddress'
 					autoCapitalize='none'
@@ -60,7 +61,7 @@ export default function SignupPage({navigation}){
 					inputStyle = {{color: "white"}}
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
 				/>
-				<InputField
+				<Input
 					autoCapitalize="none"
 					value={password}
 					onChangeText={text => setPassword(text)}
@@ -71,7 +72,7 @@ export default function SignupPage({navigation}){
 					inputStyle = {{color: "white"}}
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -7}}
 				/>
-				<InputField
+				<Input
 					placeholder = "Username"
 					leftIcon = {<Icon name="user" size = {20} color = 'white' style={{paddingRight: 5}}/>}
 					inputStyle = {{color: "white"}}

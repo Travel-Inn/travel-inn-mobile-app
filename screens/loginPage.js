@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import { Text,TextInput,  View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
@@ -17,10 +17,11 @@ export default function LoginPage({navigation}){
 			if (email !== '' && password !== ''){
 				await auth.signInWithEmailAndPassword(email, password)
 				console.log("User has been registered");
+				navigation.navigate("Drawer");
 			}
 			
 		} catch(error) {
-			console.log(error);
+			console.log(error); // TODO: Make this a snackbar and Add some checks for the email and password fields
 		}
 	};
     return(
@@ -48,7 +49,7 @@ export default function LoginPage({navigation}){
 					<Text>Login with Apple</Text>
 					</TouchableOpacity>
 				</View>
-				<InputField
+				<Input
 					keyboardType="email-address"
 					textContentType="emailAddress"
 					value={email}
@@ -58,7 +59,7 @@ export default function LoginPage({navigation}){
 					inputStyle = {{color: "white"}}
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -6}}
 				/>
-				<InputField
+				<Input
 					autoCapitalize="none"
 					value={password}
 					onChangeText={text => setPassword(text)}
