@@ -33,9 +33,19 @@ export async function signIn(email, password) {
       .auth()
       .signInWithEmailAndPassword(email, password);
       console.log("User has been signed in")
-      return 1;
   } catch (err) {
     console.log("There is something wrong!", err.message);
+  }
+}
+
+export async function passwordReset(email) {
+  try{
+    await firebase
+    .auth()
+    .sendPasswordResetEmail(email);
+    console.log("Password has been resetted")
+  } catch(err) {
+    console.log("There is something wrong", error.message);
   }
 }
 
