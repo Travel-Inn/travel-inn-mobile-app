@@ -18,9 +18,9 @@ export default function LoginPage({navigation}){
   };
   const onHandleLogin = () => {
     if (!email) {
-      Alert.alert('Email is required');
+      console.log('Email is required');
     } else if (!password) {
-      Alert.alert('Password is required.');
+      console.log('Password is required.');
     } else {
       var temp = signIn(
         email,

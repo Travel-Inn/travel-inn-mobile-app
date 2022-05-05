@@ -51,7 +51,7 @@ export default function SignupPage({navigation}){
 				<Text style={styles.signupText}>Sign Up</Text>
 				<View style = {styles.signUpOptions}>
 					<TouchableOpacity
-						onPress = {null}
+						onPress = {()=>navigation.navigate("Drawer")}
 						color = "black"
 						style= {styles.signUpOption}
 					>
