@@ -1,9 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import firebase from "firebase/compat/app";
 import { Text, View, StyleSheet, Dimensions, ImageBackground, ScrollView } from 'react-native';
 import TopBtns from './topBar.js';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 
 export default function Contact({navigation}){
+    const [ phone, setPhone ] = useState('');
+    const [ email, setEmail] = useState('');
+    const [facebook, setFacebook] = useState('');
+    const [instagram, setInstagram] = useState('');
+    const [linkedin, setLinkedin] = useState('');
+    const [twitter, setTwitter] = useState('');
+
+    useEffect(() => {
+        async function getContacts() {
+            let contactValues = await firebase
+            .firestore()
+            .collection("Contacts")
+            .doc("contact_id")
+            .get();
+
+            let contacts = contactValues.data();
+            setPhone(contacts.phone);
+            setEmail(contacts.email);
+            setFacebook(contacts.facebook);
+            setInstagram(contacts.instagram);
+            setLinkedin(contacts.linkedin);
+            setTwitter(contacts.twitter);
+         }
+         getContacts();
+    })
+
     return(
         <View style={styles.contactContent}>
 			<TopBtns touchAction={navigation.openDrawer}/>
@@ -15,16 +42,14 @@ export default function Contact({navigation}){
             <View style={styles.contacts}>
 				<ScrollView contentContainerStyle={styles.contactGrid}>
 					<View>
-						<View style={styles.contact}><Icons name="facebook" size = {25} /><Text>Facebook</Text></View>
-						<View style={styles.contact}><Icons name="twitter" size = {25} /><Text>Twitter</Text></View>
-						<View style={styles.contact}><Icons name="instagram" size = {25} /><Text>Instagram</Text></View>
-						<View style={styles.contact}><Icons name="phone" size = {20} /><Text>Phone</Text></View>
+						<View style={styles.contact}><Icons name="facebook" size = {25} /><Text>{facebook}</Text></View>
+						<View style={styles.contact}><Icons name="twitter" size = {25} /><Text>{twitter}</Text></View>
+						<View style={styles.contact}><Icons name="instagram" size = {25} /><Text>{instagram}</Text></View>
 					</View>
 					<View>
-						<View style={styles.contact}><Icons name="linkedin" size = {25} /><Text>LinkedIn</Text></View>
-						<View style={styles.contact}><Icons name="envelope" size = {25} /><Text>Email</Text></View>
-						<View style={styles.contact}><Icons name="snapchat" size = {25} /><Text>Snapchat</Text></View>
-						<View style={styles.contact}><Icons name="whatsapp" size = {25} /><Text>WhatsApp</Text></View>
+						<View style={styles.contact}><Icons name="linkedin" size = {25} /><Text>{linkedin}</Text></View>
+						<View style={styles.contact}><Icons name="envelope" size = {25} /><Text>{email}</Text></View>
+						<View style={styles.contact}><Icons name="phone" size = {20} /><Text>{phone}</Text></View>
 					</View>
 				</ScrollView>
             </View>
