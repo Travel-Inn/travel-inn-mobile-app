@@ -3,13 +3,14 @@ import "firebase/compat/firestore";
 import 'firebase/compat/auth';
 import {Alert} from "react-native";
 
+
 export async function registration(email, password, name) {
+  const db = firebase.firestore();
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
     const currentUser = firebase.auth().currentUser;
     console.log("User has created an account")
 
-    const db = firebase.firestore();
     db.collection("Users")
       .doc(currentUser.uid)
       .set({
