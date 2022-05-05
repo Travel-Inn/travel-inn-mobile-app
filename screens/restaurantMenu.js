@@ -1,11 +1,13 @@
+ 
 const RestaurantMenu =[
+	temp1 = 12,
 	{
 		menuName: "Breakfast",
 		image: require("../images/breakfast-foods.jpg"),
 		beverages:[
 			{
 				name: "TEA",
-				price: 'GHS 5.00'
+				price:'GHS 5.00',
 			},
 			{
 				name: 'COFFEE',

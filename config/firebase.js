@@ -43,7 +43,7 @@ export async function passwordReset(email) {
     await firebase
     .auth()
     .sendPasswordResetEmail(email);
-    console.log("Password has been resetted")
+    console.log("Password reset link has been sent")
   } catch(err) {
     console.log("There is something wrong", error.message);
   }
