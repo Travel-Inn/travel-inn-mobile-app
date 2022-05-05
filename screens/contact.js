@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import firebase from "firebase/compat/app";
-import { Text, View, StyleSheet, Dimensions, ImageBackground, ScrollView } from 'react-native';
+import { Text,Linking, View, StyleSheet, Dimensions, ImageBackground, ScrollView } from 'react-native';
 import TopBtns from './topBar.js';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 
@@ -42,14 +42,14 @@ export default function Contact({navigation}){
             <View style={styles.contacts}>
 				<ScrollView contentContainerStyle={styles.contactGrid}>
 					<View>
-						<View style={styles.contact}><Icons name="facebook" size = {25} /><Text>{facebook}</Text></View>
-						<View style={styles.contact}><Icons name="twitter" size = {25} /><Text>{twitter}</Text></View>
-						<View style={styles.contact}><Icons name="instagram" size = {25} /><Text>{instagram}</Text></View>
+						<View style={styles.contact}><Icons name="facebook" size = {25} /><Text onPress={()=> Linking.openURL(facebook)}>{facebook}</Text></View>
+						<View style={styles.contact}><Icons name="twitter" size = {25} /><Text onPress={()=> Linking.openURL(twitter)}>{twitter}</Text></View>
+						<View style={styles.contact}><Icons name="instagram" size = {25} /><Text onPress={()=> Linking.openURL(instagram)}>{instagram}</Text></View>
 					</View>
 					<View>
-						<View style={styles.contact}><Icons name="linkedin" size = {25} /><Text>{linkedin}</Text></View>
-						<View style={styles.contact}><Icons name="envelope" size = {25} /><Text>{email}</Text></View>
-						<View style={styles.contact}><Icons name="phone" size = {20} /><Text>{phone}</Text></View>
+						<View style={styles.contact}><Icons name="linkedin" size = {25} /><Text onPress={()=> Linking.openURL(linkedin)}>{linkedin}</Text></View>
+						<View style={styles.contact}><Icons name="envelope" size = {25} /><Text onPress={()=> Linking.openURL('mailto:${email}')}>{email}</Text></View>
+						<View style={styles.contact}><Icons name="phone" size = {20} /><Text onPress={()=> Linking.openURL('tel:${phone}')}>{phone}</Text></View>
 					</View>
 				</ScrollView>
             </View>
