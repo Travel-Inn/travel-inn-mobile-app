@@ -23,7 +23,7 @@ export default function LoginPage({navigation}){
     } else if (!password) {
       console.log('Password is required.');
     } else {
-      var temp = signIn(
+      signIn(
         email,
         password,
       );
