@@ -1,29 +1,42 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { useState } from 'react';
-import { Text, TextInput, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, Alert, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
 import Firebase from '../config/firebase';
+import { registration } from '../config/firebase';
 
-const auth = Firebase.auth();
 
 export default function SignupPage({navigation}){
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [name, setName] = useState('');
 
-	const onHandleSignup = async () => {
-		try {
-			if (email !== '' && password !== '') {
-				await auth.createUserWithEmailAndPassword(email,password);
-				console.log("User has signed in");
-				navigation.navigate("Drawer");
-			}
-		} catch (error) {
-			console.log(error.message); // TODO: Make this a snackbar and Add some checks for the email and password fields
-		}
-	}
+	const emptyState = () => {
+		setEmail('');
+		setPassword('');
+		setName('');
+  };
+
+	 const onHandleSignup = () => {
+    if (!email) {
+      Alert.alert('First name is required');
+    } else if (!password) {
+      Alert.alert('Email field is required.');
+    } else if (!name) {
+      Alert.alert('Password field is required.');
+    } else {
+      registration(
+        email,
+        password,
+        name
+      );
+	  //TODO: ADD A LOADING ICON
+      emptyState();
+    }
+  };
 
     return(
 		<View style={styles.container}>

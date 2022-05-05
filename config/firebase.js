@@ -1,23 +1,41 @@
-import  firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore'
-import 'firebase/compat/auth';
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import {Alert} from "react-native";
 
-// Web app firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyBESqOWbc5mpsJHB7DE-isPZsaogIFFu0k",
-  authDomain: "travel-inn-e9999.firebaseapp.com",
-  projectId: "travel-inn-e9999",
-  storageBucket: "travel-inn-e9999.appspot.com",
-  messagingSenderId: "208360428593",
-  appId: "1:208360428593:web:2b26c52249d0994466b110",
-  measurementId: "G-TRXZ6EG974"
-};
+export async function registration(email, password, name) {
+  try {
+    await firebase.auth().createUserWithEmailAndPassword(email, password);
+    const currentUser = firebase.auth().currentUser;
 
-// firebase init
-let Firebase;
-
-if (firebase.apps.length === 0) {
-Firebase = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    db.collection("users")
+      .doc(currentUser.uid)
+      .set({
+        email: currentUser.email,
+        name: name,
+      });
+      navigation.navigate('Drawer');
+  } catch (err) {
+    Alert.alert("There is something wrong!!!!", err.message);
+  }
 }
 
-export default Firebase;
+export async function signIn(email, password) {
+  try {
+   await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password);
+      navigation.navigate('Drawer');
+  } catch (err) {
+    Alert.alert("There is something wrong!", err.message);
+  }
+}
+
+export async function loggingOut() {
+  try {
+    await firebase.auth().signOut();
+    navigation.navigate('Login');
+  } catch (err) {
+    Alert.alert('There is something wrong!', err.message);
+  }
+}

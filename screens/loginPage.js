@@ -4,26 +4,32 @@ import { Text,TextInput,  View, StyleSheet, ImageBackground, TouchableOpacity, D
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
-import Firebase from '../config/firebase';
+import { signIn } from '../config/firebase';
 
-const auth = Firebase.auth();
 
 export default function LoginPage({navigation}){
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const onLogin = async () => {
-		try {
-			if (email !== '' && password !== ''){
-				await auth.signInWithEmailAndPassword(email, password)
-				console.log("User has been registered");
-				navigation.navigate("Drawer");
-			}
-			
-		} catch(error) {
-			console.log(error); // TODO: Make this a snackbar and Add some checks for the email and password fields
-		}
-	};
+	const emptyState = () => {
+		setEmail('');
+		setPassword('');
+		setName('');
+  };
+  const onHandleLogin = () => {
+    if (!email) {
+      Alert.alert('Email is required');
+    } else if (!password) {
+      Alert.alert('Password is required.');
+    } else {
+      signIn(
+        email,
+        password,
+      );
+	  //TODO: ADD A LOADING ICON
+      emptyState();
+    }
+  };
     return(
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
@@ -35,7 +41,7 @@ export default function LoginPage({navigation}){
 				<Text style={styles.loginText}>Login</Text>
 				<View style = {styles.signUpOptions}>
 					<TouchableOpacity
-						onPress = {onLogin}
+						onPress = {null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
@@ -72,7 +78,7 @@ export default function LoginPage({navigation}){
 				/>
 				<Text onPress ={()=>navigation.navigate("Forgotten Password")} style={{color: 'white',  alignSelf: 'flex-end'}}>Forgotten Password?</Text>
 				<TouchableOpacity
-					onPress = {()=>navigation.navigate('Drawer')}
+					onPress = {onHandleLogin}
 					color = "white"
 					style= {styles.continue}
 				>
