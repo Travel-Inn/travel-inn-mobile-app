@@ -22,12 +22,14 @@ export default function LoginPage({navigation}){
     } else if (!password) {
       Alert.alert('Password is required.');
     } else {
-      signIn(
+      var temp = signIn(
         email,
         password,
       );
+	  // If successful move to home screen
+	  	emptyState();
+		navigation.navigate('Drawer');
 	  //TODO: ADD A LOADING ICON
-      emptyState();
     }
   };
     return(

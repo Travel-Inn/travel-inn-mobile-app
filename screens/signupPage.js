@@ -22,19 +22,21 @@ export default function SignupPage({navigation}){
 
 	 const onHandleSignup = () => {
     if (!email) {
-      Alert.alert('First name is required');
+      console.log('Email is required');
     } else if (!password) {
-      Alert.alert('Email field is required.');
+      console.log('Password field is required.');
     } else if (!name) {
-      Alert.alert('Password field is required.');
+      console.log('Name field is required.');
     } else {
-      registration(
+     registration(
         email,
         password,
         name
       );
+	  // if successful move to the next home screen 
+	  	emptyState();
+		navigation.navigate('Drawer');
 	  //TODO: ADD A LOADING ICON
-      emptyState();
     }
   };
 
@@ -86,7 +88,10 @@ export default function SignupPage({navigation}){
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -7}}
 				/>
 				<Input
-					placeholder = "Username"
+					autoCapitalize="True"
+					value={name}
+					onChangeText={text => setName(text)}
+					placeholder = "Full Name"
 					leftIcon = {<Icon name="user" size = {20} color = 'white' style={{paddingRight: 5}}/>}
 					inputStyle = {{color: "white"}}
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
