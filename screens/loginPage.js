@@ -10,6 +10,7 @@ import { signIn } from '../config/firebase';
 export default function LoginPage({navigation}){
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [name, setName] = useState('');
 
 	const emptyState = () => {
 		setEmail('');
