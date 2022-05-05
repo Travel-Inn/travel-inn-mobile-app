@@ -1,9 +1,29 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { Input } from 'react-native-elements';
+import { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { passwordReset } from '../config/firebase';
 
 export default function ForgottenPasswordPage({navigation}){
+	const [email, setEmail] = useState('');
+
+	const emptyState = () => {
+		setEmail('');
+  };
+  const onHandlePasswordReset = () => {
+    if (!email) {
+      console.log('Email is required');
+    } else {
+      passwordReset(
+        email,
+      );
+	  // If successful move to home screen
+	  	emptyState();
+		navigation.navigate('Login')
+	  //TODO: ADD A LOADING ICON
+    }
+  };
     return(
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
@@ -16,6 +36,10 @@ export default function ForgottenPasswordPage({navigation}){
                 <Text style={styles.info}>Enter your Email address</Text>
                 <Text style={styles.info}>to receive a verification code</Text>
 				<Input
+					keyboardType="email-address"
+					textContentType="emailAddress"
+					value={email}
+					onChangeText={text => setEmail(text)}
 					placeholder = "abcde123@example.com"
 					leftIcon = {<Icon name="at" size = {20} color = 'white' style={{paddingRight: 5}}/>}
                     inputContainerStyle={{marginTop: 25}}
@@ -23,7 +47,7 @@ export default function ForgottenPasswordPage({navigation}){
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
 				/>
 				<TouchableOpacity
-					onPress = {()=>navigation.navigate('Reset Password')}
+					onPress = {onHandlePasswordReset}
 					color = "white"
 					style= {styles.continue}
 				>
