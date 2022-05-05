@@ -66,7 +66,8 @@ export default function Menu({navigation}) {
 				</ScrollView>
 				{
 					RestaurantMenu.map((item, index)=>(
-						<ImageBackground  key={index} onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
+						<ImageBackground  key={index} 
+						// onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
 							source={item.image} 
 							style={styles.menuContainer} resizeMode="cover" >
 							<View style={styles.menuName}>
