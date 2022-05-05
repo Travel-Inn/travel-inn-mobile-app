@@ -1,9 +1,27 @@
 import React from 'react';
+import firebase from "firebase/compat/app";
 import { Text, View, ImageBackground, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions} from 'react-native';
 import TopBtns from './topBar.js';
 import RestaurantMenu from './restaurantMenu.js';
 
 export default function Menu({navigation}) {
+	 const [ beverages, setBeverages ] = React.useState('');
+  
+    React.useEffect(() => {
+        async function getBeverages() {
+            let beveragesValues = await firebase
+            .firestore()
+            .collection("Menu")
+            .doc("Beverages")
+            .get();
+
+            setBeverages(beveragesValues.data());
+            
+         }
+         getBeverages();
+    })
+
+
 	const [ref, setRef] = React.useState(null);
 	const [loc, setLoc] = React.useState(0);
 	const [locs, setLocs] = React.useState([]);
@@ -83,7 +101,7 @@ export default function Menu({navigation}) {
 									</View>
 									<View style={{width: "45%", borderLeftWidth: 1, borderColor: "white"}}>
 										{item.beverages.map((beverageItem, index)=>(
-										<Text key={index} style={styles.whiteText}>{beverageItem.price}</Text>
+										<Text key={index} style={styles.whiteText}>{beverages.Tea}</Text>
 										))}
 									</View>
 								</ScrollView>

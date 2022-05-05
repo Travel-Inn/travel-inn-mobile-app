@@ -1,26 +1,25 @@
  
 const RestaurantMenu =[
-	temp1 = 12,
 	{
 		menuName: "Breakfast",
 		image: require("../images/breakfast-foods.jpg"),
 		beverages:[
 			{
-				name: "TEA",
+				name: "Tea",
 				price:'GHS 5.00',
 			},
 			{
-				name: 'COFFEE',
+				name: 'Coffee',
 				price: 'GHS 7.00',
 			}
 		],
 		food:[
 			{
-				name: 'WAFFLE',
+				name: 'Waffle',
 				price: 'GHS 10.00'
 			},
 			{
-				name: 'DOUGHNUT',
+				name: 'Doughnut',
 				price: 'GHS 12.00',
 			}
 		]
@@ -54,21 +53,21 @@ const RestaurantMenu =[
 		image: require("../images/lunch.png"),
 		beverages:[
 			{
-				name: "COCKTAILS",
+				name: "Cocktail",
 				price: 'GHS 5.00'
 			},
 			{
-				name: 'SMOOTHIE',
+				name: 'Smoothie',
 				price: 'GHS 7.00',
 			}
 		],
 		food:[
 			{
-				name: 'FRIED RICE',
+				name: 'Fried Rice',
 				price: 'GHS 20.00'
 			},
 			{
-				name: 'JOLLOF',
+				name: 'Jollof',
 				price: 'GHS 20.00',
 			}
 		]
@@ -78,21 +77,21 @@ const RestaurantMenu =[
 		image: require("../images/dinner.jpg"),
 		beverages:[
 			{
-				name: "COCKTAILS",
+				name: "Cocktail",
 				price: 'GHS 5.00'
 			},
 			{
-				name: 'SMOOTHIE',
+				name: 'Smoothie',
 				price: 'GHS 7.00',
 			}
 		],
 		food:[
 			{
-				name: 'FRIED RICE',
+				name: 'Fried Rice',
 				price: 'GHS 20.00'
 			},
 			{
-				name: 'JOLLOF',
+				name: 'Jollof',
 				price: 'GHS 20.00',
 			}
 		]
@@ -102,27 +101,27 @@ const RestaurantMenu =[
 		image: require("../images/dessert.jpg"),
 		food:[
 			{
-				name: 'ICE CREAM',
+				name: 'Ice Cream',
 				price: 'GHS 8.00'
 			},
 			{
-				name: 'APPLIE PIE',
+				name: 'Apple Pie',
 				price: 'GHS 15.00',
 			},
 			{
-				name: 'CUSTARD CAKE',
+				name: 'Custard Cake',
 				price: 'GHS 20.00',
 			},
 			{
-				name: 'CHEESECAKE',
+				name: 'Cheese Cake',
 				price: 'GHS 20.00',
 			},
 			{
-				name: 'SWISS ROLL',
+				name: 'Swiss Roll',
 				price: 'GHS 10.00',
 			},
 			{
-				name: 'ECLAIRS',
+				name: 'Eclairs',
 				price: 'GHS 12.00',
 			}
 		]
