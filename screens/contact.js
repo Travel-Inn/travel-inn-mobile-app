@@ -49,7 +49,7 @@ export default function Contact({navigation}){
 					<View>
 						<View style={styles.contact}><Icons name="linkedin" size = {25} /><Text onPress={()=> Linking.openURL(linkedin)}>{linkedin}</Text></View>
 						<View style={styles.contact}><Icons name="envelope" size = {25} /><Text onPress={()=> Linking.openURL('mailto:${email}')}>{email}</Text></View>
-						<View style={styles.contact}><Icons name="phone" size = {20} /><Text onPress={()=> Linking.openURL('tel:${phone}')}>{phone}</Text></View>
+						<View style={styles.contact}><Icons name="phone" size = {20} /><Text onPress={()=> Linking.openURL('tel:{phone}')}>{phone}</Text></View>
 					</View>
 				</ScrollView>
             </View>
