@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Text,TextInput,  View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import { Text,  View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
@@ -29,10 +29,11 @@ export default function LoginPage({navigation}){
       );
 	  // If successful move to home screen
 	  	emptyState();
-		navigation.navigate('Drawer');
+		navigation.navigate('BottomNav');
 	  //TODO: ADD A LOADING ICON
     }
   };
+
     return(
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
