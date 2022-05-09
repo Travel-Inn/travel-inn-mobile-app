@@ -4,7 +4,7 @@ import 'firebase/compat/auth';
 import {Alert} from "react-native";
 
 
-export async function registration(email, password, name) {
+export async function registration(email, password, name, phoneNum) {
   const db = firebase.firestore();
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -19,6 +19,9 @@ export async function registration(email, password, name) {
         checkIn: false,
         checkInDate: null,
         checkOutDate: null,
+        gender: null,
+        phoneNum: phoneNum,
+
       });
       console.log("User details have been stored successfully")
       return 1;
