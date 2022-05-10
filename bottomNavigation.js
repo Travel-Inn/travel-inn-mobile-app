@@ -9,7 +9,7 @@ export default function BottomTabs(){
     const Tab = createBottomTabNavigator();
     
     return(
-        <Tab.Navigator initialRouteName='Booking' screenOptions={{headerShown: false, tabBarShowLabel: false}}>
+        <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: false, tabBarShowLabel: false}}>
             <Tab.Screen name="Home" component={Home} options={{tabBarIcon: ()=>(
                 <Icon name="home" size={20} color = "black"/>
             )}}/>
