@@ -13,7 +13,7 @@ export default function Contact({navigation}){
     const [twitter, setTwitter] = useState('');
 
     useEffect(() => {
-        async function getContacts() {
+        const getContacts=async()=> {
             let contactValues = await firebase
             .firestore()
             .collection("Contacts")
@@ -29,7 +29,7 @@ export default function Contact({navigation}){
             setTwitter(contacts.twitter);
          }
          getContacts();
-    })
+    },[])
 
     return(
         <View style={styles.contactContent}>
