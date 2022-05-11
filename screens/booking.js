@@ -6,10 +6,11 @@ import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-export default function Booking({navigation}){
-	const [date, setDate] = useState('');
+export default function Booking(){
+	const [inDate, setInDate] = useState('');
+	const [outDate, setOutDate] = useState('');
 	const [min, setMin] = useState('');
-	const [max, setMax] = useState('');
+	const [maxx, setMax] = useState('');
 	const [name, setName] = useState('');
 
     return(
@@ -19,11 +20,12 @@ export default function Booking({navigation}){
 					<ImageBackground style={styles.pageImage} source={require("../images/home.jpg")}/>
 				</View>
 			</View>
-			<ScrollView contentContainerStyle={styles.content}>
+			<View style={styles.content}>
+				<ScrollView contentContainerStyle={{alignItems: 'center'}}>
 				<View style={styles.searchform}>
 					<View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
 						<DatePicker
-							date={date}
+							date={inDate}
 							mode="date"
 							placeholder="Check In"
 							format="DD-MM-YYYY"
@@ -32,14 +34,16 @@ export default function Booking({navigation}){
 							iconSource={null}
 							cancelBtnText="Cancel"
 							iconComponent={<Icon name="calendar-o" size={20} color="white" style={styles.dateIcon}/>}
-							onDateChange={()=>setDate(date)}
+							style={{marginLeft: 15}}
 							customStyles={{
 								dateInput:{
 									backgroundColor: 'black',
 									color: 'white',
-									border: "1px solid black",
+									borderColor: "black",
+									borderStyle: 'solid',
+									borderWidth: 1,
 									borderRadius: 10,
-									marginRight: 20
+									marginRight: 10
 								},
 								placeholderText:{
 									color: 'white',
@@ -48,7 +52,7 @@ export default function Booking({navigation}){
 						/>
 
 						<DatePicker
-							date={date}
+							date={outDate}
 							mode="date"
 							iconSource={null}
 							placeholder="Check Out"
@@ -57,12 +61,14 @@ export default function Booking({navigation}){
 							confirmBtnText="Confirm"
 							cancelBtnText="Cancel"
 							iconComponent={<Icon name="calendar-o" size={20} color="white" style={styles.dateIcon}/>}
-							onDateChange={()=>setDate(date)}
+							
 							customStyles={{
 								dateInput:{
 									backgroundColor: 'black',
 									color: 'white',
-									border: "1px solid black",
+									borderColor: "black",
+									borderStyle: 'solid',
+									borderWidth: 1,
 									borderRadius: 10,
 									marginRight: 10
 								},
@@ -81,42 +87,44 @@ export default function Booking({navigation}){
 						placeholderTextColor={"white"}
 						leftIcon={
 						<Icon name='users' size={20} color="white" 
-							style={{position: 'absolute', left: 15, top: 15, borderBottom: 'none'}}
+							style={{position: 'absolute', left: 15, top: 15}}
 						/>}
 						inputStyle = {{
 							color: "white", textAlign: 'center', borderRadius: 10,
 							backgroundColor: 'black', marginTop: 10
 						}}
-						inputContainerStyle={{borderBottom: 'none'}}
+						inputContainerStyle={{borderBottomWidth: 0}}
 					/>
-					<View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+					<View style={{flexDirection: 'row', justifyContent: 'space-between', 
+						marginLeft: "-30%", maxWidth: "50%", marginBottom: -20}}>
 						<Input
 							value={min}
-							textContentType="telephoneNumber"
+							textContentType="none"
 							keyboardType="numeric"
 							onChangeText={text => setMin(text)}
 							placeholder = "min"
 							placeholderTextColor={'white'}
 							inputStyle = {{
-											backgroundColor: "black", textAlign: 'center', width: 50, 
-											border: "1px solid black", borderRadius: 10, color: 'white'
+											backgroundColor: "black", textAlign: 'center',
+											borderColor: "black", borderRadius: 10, color: 'white',
+											borderStyle: "solid", borderWidth: 1,
 										}}
-							inputContainerStyle={{borderBottom: "none"}}
+							inputContainerStyle={{borderBottomWidth: 0,width: "60%"}}
 						/>
 						<Input
-							value={max}
-							textContentType="telephoneNumber"
+							value={maxx}
+							textContentType="none"
 							keyboardType="numeric"
 							onChangeText={text => setMax(text)}
 							placeholderTextColor={'white'}
 							placeholder = "max"
 							inputStyle = {{
 											backgroundColor: "black", 
-											textAlign: 'center', width: 50, 
-											border: "1px solid black", borderRadius: 10,
-											color: 'white'
+											textAlign: 'center',
+											borderColor: "black", borderRadius: 10,
+											color: 'white', borderStyle: "solid", borderWidth: 1
 										}}
-							inputContainerStyle={{borderBottom: "none"}}
+							inputContainerStyle={{borderBottomWidth: 0, width: "60%"}}
 						/>
 					</View>
 				</View>
@@ -128,7 +136,7 @@ export default function Booking({navigation}){
 						<Text style={{fontWeight: 'bold'}}>Search</Text>
 				</TouchableOpacity>
 				<View style={styles.room}>
-					<Image source={require('../images/menu.jpg')} style={{flex: 2}} />
+					<Image source={require('../images/menu.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>Single Room</Text>
 						<Text>Single Room with Single Bed</Text>
@@ -136,7 +144,7 @@ export default function Booking({navigation}){
 					</View>
 				</View>
 				<View style={styles.room}>
-					<Image source={require('../images/login.jpg')} style={{flex: 2}} />
+					<Image source={require('../images/login.jpg')} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>Twin-Bed Room</Text>
 						<Text>Single Room with Twin Beds</Text>
@@ -144,14 +152,15 @@ export default function Booking({navigation}){
 					</View>
 				</View>
 				<View style={styles.room}>
-					<Image source={require('../images/forgotten.jpg')} style={{flex: 2}} />
+					<Image source={require('../images/forgotten.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>Double Room</Text>
 						<Text>Single Room with Double Bed</Text>
 						<Text>GHC 350.00</Text>
 					</View>
 				</View>
-			</ScrollView>
+				</ScrollView>
+			</View>
 		</View>
 	);
 }
@@ -161,9 +170,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	imageContainer:{
-		flex: 2,
+		flex: 1,
 		borderBottomRightRadius: Dimensions.get('screen').width*(50/100),
 		minHeight: "35%",
+		maxHeight: "35%",
 		borderBottomLeftRadius: Dimensions.get('screen').width*(50/100),
 		transform: [{scaleX: 2}],
 		overflow: 'hidden',
@@ -185,7 +195,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white', 
 		width: Dimensions.get('screen').width*0.9,
 		padding: 10,
-		marginTop: Dimensions.get('screen').height*0.4,
+		marginTop: Dimensions.get('screen').height*0.1,
 		justifyContent: 'space-around',
 		alignItems: 'center',
 		borderRadius: 20
@@ -201,7 +211,6 @@ const styles = StyleSheet.create({
 		backgroundColor: 'black',
 		paddingLeft: 15,
 		paddingRight: 15,
-		overflow: 'scroll'
 	},
 	continue:{
 		padding: 12,
