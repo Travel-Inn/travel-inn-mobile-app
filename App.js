@@ -23,7 +23,7 @@ export default function App() {
 
 	return (
 		<NavigationContainer >
-		  <Stack.Navigator initialRouteName='BottomNav' screenOptions={{headerShown: false}}>
+		  <Stack.Navigator initialRouteName='BottomNav' backBehavior="history" screenOptions={{headerShown: false}}>
 			<Stack.Screen name="Signup" component={SignupPage}/>
 			<Stack.Screen name="Login" component={LoginPage} />
 			<Stack.Screen name="Forgotten Password" component={ForgottenPasswordPage}/>
