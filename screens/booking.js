@@ -1,27 +1,25 @@
 import React from 'react';
-import { useState } from 'react';
-import { Text, View, Image, StyleSheet, ImageBackground, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { NavigationContainer } from '@react-navigation/native';
+
+export default function Booking({navigation}) {
+	const [inDate, setInDate] = React.useState('');
+	const [outDate, setOutDate] = React.useState('');
+	const [min, setMin] = React.useState('');
+	const [maxx, setMax] = React.useState('');
+	const [name, setName] = React.useState('');
 
 
-export default function Booking(){
-	const [inDate, setInDate] = useState('');
-	const [outDate, setOutDate] = useState('');
-	const [min, setMin] = useState('');
-	const [maxx, setMax] = useState('');
-	const [name, setName] = useState('');
-
-    return(
-		<View style={styles.container}>
-			<View style = {styles.imageContainer}>
-				<View style={styles.imageBack}>
-					<ImageBackground style={styles.pageImage} source={require("../images/home.jpg")}/>
-				</View>
-			</View>
+  return(
+    <View style={styles.menuContent} >
+		<ScrollView>
+			<ImageBackground source={require("../images/booking-image.jpg")} resizeMode="cover" style={styles.pageImage}>
+				<Text style={styles.screenName}>Booking</Text>
+			</ImageBackground>
 			<View style={styles.content}>
-				<ScrollView contentContainerStyle={{alignItems: 'center'}}>
 				<View style={styles.searchform}>
 					<View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
 						<DatePicker
@@ -129,107 +127,141 @@ export default function Booking(){
 					</View>
 				</View>
 				<TouchableOpacity
-						onPress = {null}
-						color = "white"
-						style= {styles.continue}
-					>
-						<Text style={{fontWeight: 'bold'}}>Search</Text>
+					onPress = {null}
+					color = "white"
+					style= {styles.continue}
+				>
+					<Text style={{fontWeight: 'bold'}}>Search</Text>
 				</TouchableOpacity>
-				<View style={styles.room}>
-					<Image source={require('../images/menu.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
+				<TouchableOpacity style={styles.room} onPress={()=>navigation.navigate('Room')}>
+					<Image source={require('../images/booking-room1.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>Single Room</Text>
 						<Text>Single Room with Single Bed</Text>
 						<Text>GHC 200.00</Text>
 					</View>
-				</View>
-				<View style={styles.room}>
-					<Image source={require('../images/login.jpg')} style={{flex: 2, maxHeight: "100%"}} />
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.room}>
+					<Image source={require('../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>Twin-Bed Room</Text>
 						<Text>Single Room with Twin Beds</Text>
 						<Text>GHC 300.00</Text>
 					</View>
-				</View>
-				<View style={styles.room}>
-					<Image source={require('../images/forgotten.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.room}>
+					<Image source={require('../images/booking-room3.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>Double Room</Text>
 						<Text>Single Room with Double Bed</Text>
 						<Text>GHC 350.00</Text>
 					</View>
-				</View>
-				</ScrollView>
+				</TouchableOpacity>
 			</View>
-		</View>
-	);
+		</ScrollView>
+	</View>
+  );
 }
 
 const styles = StyleSheet.create({
-	container:{
-		flex: 1,
+	menuContent:{
+	 flex: 1,
+	 backgroundColor: 'black'
 	},
-	imageContainer:{
-		flex: 1,
-		borderBottomRightRadius: Dimensions.get('screen').width*(50/100),
-		minHeight: "35%",
-		maxHeight: "35%",
-		borderBottomLeftRadius: Dimensions.get('screen').width*(50/100),
-		transform: [{scaleX: 2}],
-		overflow: 'hidden',
-		marginBottom: -Dimensions.get('screen').height*0.05,
-		zIndex: 1
-	},
-	imageBack:{
-		flex: 1,
-		transform: [{scaleX: 0.5}],
-		justifyContent: 'center',
-		alignItems: 'center',
+	screenName:{
+		backgroundColor: 'rgba(0,0,0, 0.7)',
+		color: 'white',
+		width: 100,
+		textAlign: 'center',
+		borderRadius: 25,
 	},
 	pageImage: {
-		resizeMode: 'cover',
-		width: Dimensions.get('screen').width,
-		flex: 1,
-	},
-	searchform:{
-		backgroundColor: 'white', 
-		width: Dimensions.get('screen').width*0.9,
-		padding: 10,
-		marginTop: Dimensions.get('screen').height*0.1,
-		justifyContent: 'space-around',
-		alignItems: 'center',
-		borderRadius: 20
-	},
-	dateIcon:{
-		position: 'absolute',
-		left: 10,
-	},
-	content: {
-		flex: 4,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'black',
-		paddingLeft: 15,
-		paddingRight: 15,
-	},
-	continue:{
-		padding: 12,
+		textAlign: 'center',
+		color: 'white',
+		backgroundColor: 'rgba(0,0,0, 0.7)',
 		borderRadius: 25,
-		paddingLeft: 15,
-		paddingRight: 15,
-		marginTop: 20,
-		marginBottom: 20,
-		backgroundColor: 'white',
-		width: '40%',
+		justifyContent: 'center',
+		height: Dimensions.get('screen').height*0.35,
 		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	room:{
-		width: Dimensions.get('screen').width*0.85,
-		flexDirection: 'row',
-		backgroundColor: 'white',
-		borderRadius: 20,
-		height: Dimensions.get('screen').height*0.15,
-		marginBottom: 20
-	}
+		padding: 20,
+		marginBottom: 10,
+  },
+  content:{
+	backgroundColor: 'black',
+    padding: 10,
+	alignItems: 'center'
+  },
+  searchform:{
+	backgroundColor: 'white', 
+	width: Dimensions.get('screen').width*0.9,
+	padding: 10,
+	marginTop: Dimensions.get('screen').height*0.01,
+	justifyContent: 'space-around',
+	alignItems: 'center',
+	borderRadius: 20
+},
+continue:{
+	padding: 12,
+	borderRadius: 25,
+	paddingLeft: 15,
+	paddingRight: 15,
+	marginTop: 20,
+	marginBottom: 20,
+	backgroundColor: 'white',
+	width: '40%',
+	alignItems: 'center',
+	justifyContent: 'center'
+},
+room:{
+	width: Dimensions.get('screen').width*0.85,
+	flexDirection: 'row',
+	backgroundColor: 'white',
+	borderRadius: 20,
+	height: Dimensions.get('screen').height*0.15,
+	marginBottom: 20
+},
+  menuTabs:{
+    padding: 10,
+	flexDirection: 'row',
+	justifyContent: 'space-between',
+  },
+  menuTab:{
+	backgroundColor: 'transparent',
+	alignItems: 'center',
+	marginRight: 15,
+	borderStyle: 'solid',
+  },
+  menuTabView:{
+    borderRadius: 105,
+	width: 105,
+	height: 105,
+	borderColor: "red",
+	justifyContent: "center",
+	alignItems: "center",
+	elevation: 4,
+	shadowColor: 'green',
+	shadowOpacity: 1.8,
+},
+  menuTabImage:{
+    borderRadius: 100,
+	width: 100,
+	height: 100,
+	borderColor: 'transparent',
+  },
+  menuContainer:{
+    borderRadius: 25,
+    marginBottom: 20,
+    padding: 10,
+    height: 330,
+	justifyContent: 'space-around',
+  },
+  menuName:{
+    color: 'white',
+    backgroundColor: 'rgba(0,0,0, 0.7)',
+    borderRadius: 25,
+    padding: 3,
+	width: "80%",
+	marginLeft: 'auto',
+	marginRight: 'auto',
+  },
 });
