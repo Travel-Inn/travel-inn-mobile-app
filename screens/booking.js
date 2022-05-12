@@ -14,7 +14,7 @@ export default function Booking({navigation}) {
 
 
   return(
-    <View style={styles.menuContent} >
+    <View style={styles.container} >
 		<ScrollView>
 			<ImageBackground source={require("../images/booking-image.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>Booking</Text>
@@ -164,7 +164,7 @@ export default function Booking({navigation}) {
 }
 
 const styles = StyleSheet.create({
-	menuContent:{
+	container:{
 	 flex: 1,
 	 backgroundColor: 'black'
 	},
@@ -200,6 +200,10 @@ const styles = StyleSheet.create({
 	alignItems: 'center',
 	borderRadius: 20
 },
+dateIcon:{
+	position: 'absolute',
+	left: 10,
+},
 continue:{
 	padding: 12,
 	borderRadius: 25,
@@ -220,48 +224,4 @@ room:{
 	height: Dimensions.get('screen').height*0.15,
 	marginBottom: 20
 },
-  menuTabs:{
-    padding: 10,
-	flexDirection: 'row',
-	justifyContent: 'space-between',
-  },
-  menuTab:{
-	backgroundColor: 'transparent',
-	alignItems: 'center',
-	marginRight: 15,
-	borderStyle: 'solid',
-  },
-  menuTabView:{
-    borderRadius: 105,
-	width: 105,
-	height: 105,
-	borderColor: "red",
-	justifyContent: "center",
-	alignItems: "center",
-	elevation: 4,
-	shadowColor: 'green',
-	shadowOpacity: 1.8,
-},
-  menuTabImage:{
-    borderRadius: 100,
-	width: 100,
-	height: 100,
-	borderColor: 'transparent',
-  },
-  menuContainer:{
-    borderRadius: 25,
-    marginBottom: 20,
-    padding: 10,
-    height: 330,
-	justifyContent: 'space-around',
-  },
-  menuName:{
-    color: 'white',
-    backgroundColor: 'rgba(0,0,0, 0.7)',
-    borderRadius: 25,
-    padding: 3,
-	width: "80%",
-	marginLeft: 'auto',
-	marginRight: 'auto',
-  },
 });
