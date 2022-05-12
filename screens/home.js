@@ -8,7 +8,7 @@ export default function Home({navigation}){
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
 				<View style={styles.imageBack}>
-					<ImageBackground style={styles.pageImage} source={require("../images/home.jpg")}/>
+					<ImageBackground style={styles.pageImage} source={require("../images/home-welome.jpg")}/>
 				</View>
 			</View>
 			<View style={styles.form}>
@@ -35,7 +35,7 @@ export default function Home({navigation}){
                             for leisure. Take your mind off the day-to-day of home life and find a 
                             private paradise for yourself
                         </Text>
-                        <TouchableOpacity style={styles.explore}>
+                        <TouchableOpacity style={styles.explore} onPress={()=>navigation.navigate('Booking')}>
                             <Text style={styles.exploretext}>Explore</Text>
                         </TouchableOpacity>
                     </View>
@@ -50,12 +50,12 @@ export default function Home({navigation}){
                         the world to cater for the different tastes of our family. Lose yourself in the variety of dishes
                         available and try new dishes.
                         </Text>
-                        <TouchableOpacity style={styles.explore}>
+                        <TouchableOpacity style={styles.explore} onPress={()=>navigation.navigate('Menu')}>
                             <Text style={styles.exploretext}>Explore</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.infoImageContainer}>
-                        <ImageBackground source={require("../images/reset.jpg")} style={styles.infoImage}/>
+                        <ImageBackground source={require("../images/menu.jpg")} style={styles.infoImage}/>
                     </View>
                 </View>
             </View>
