@@ -7,19 +7,19 @@ import RestaurantMenu from './restaurantMenu.js';
 export default function Menu({navigation}) {
 	 const [ beverages, setBeverages ] = React.useState('');
   
-    React.useEffect(() => {
-        async function getBeverages() {
-            let beveragesValues = await firebase
-            .firestore()
-            .collection("Menu")
-            .doc("Beverages")
-            .get();
+    // React.useEffect(() => {
+    //     async function getBeverages() {
+    //         let beveragesValues = await firebase
+    //         .firestore()
+    //         .collection("Menu")
+    //         .doc("Beverages")
+    //         .get();
 
-            setBeverages(beveragesValues.data());
+    //         setBeverages(beveragesValues.data());
             
-         }
-         getBeverages();
-    })
+    //      }
+    //      getBeverages();
+    // })
 
 
 	const [ref, setRef] = React.useState(null);
@@ -67,7 +67,6 @@ export default function Menu({navigation}) {
   return (
     <View style={styles.menuContent} >
 		<ScrollView ref={(ref)=>{setRef(ref);}}>
-			<TopBtns touchAction={navigation.openDrawer}/>
 			<ImageBackground source={require("../images/menu.jpg")} resizeMode="cover" style={styles.menuPageInfo}>
 				<Text style={styles.tabName}>Menu</Text>
 			</ImageBackground>
