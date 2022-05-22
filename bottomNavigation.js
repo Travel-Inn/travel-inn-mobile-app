@@ -8,6 +8,7 @@ import Payment from './screens/payment';
 import Profile from './screens/profile';
 import Room from './screens/room';
 import UserDetails from './screens/userDetails';
+import Loader from './widgets/loading';
 
 export default function BottomTabs(){
     const Tab = createBottomTabNavigator();
