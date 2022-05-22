@@ -8,7 +8,6 @@ import Payment from './screens/payment';
 import Profile from './screens/profile';
 import Room from './screens/room';
 import UserDetails from './screens/userDetails';
-import Loader from './widgets/loading';
 
 export default function BottomTabs(){
     const Tab = createBottomTabNavigator();
@@ -24,12 +23,13 @@ export default function BottomTabs(){
             <Tab.Screen name="Booking" component={Booking} options={{tabBarIcon: ()=>(
                 <Icon name="briefcase" size={20} color = "black"/>
             )}}/>
-            <Tab.Screen name="Profile" component={Payment} options={{tabBarIcon: ()=>(
+            <Tab.Screen name="Profile" component={Profile} options={{tabBarIcon: ()=>(
                 <Icon name="user" size={20} color = "black"/>
             )}}/>
             <Tab.Screen name="Contact" component={Contact} options={{tabBarButton:()=>null, tabBarVisible: false}} />
             <Tab.Screen name="User" component={UserDetails} options={{tabBarButton:()=>null, tabBarVisible: false}} />
             <Tab.Screen name="Room" component={Room} options={{tabBarButton:()=>null, tabBarVisible: false}} />
+            <Tab.Screen name="payment" component={Payment} options={{tabBarButton:()=>null, tabBarVisible: false}} />
         </Tab.Navigator>
     )
 }
