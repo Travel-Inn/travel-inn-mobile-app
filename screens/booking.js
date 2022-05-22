@@ -18,19 +18,19 @@ export default function Booking({navigation}) {
 			name: 'Single Room',
 			description: 'Single Room With single Bed',
 			price: 250.00,
-			image: 'booking-room1.jpg'
+			image: require("../images/booking-room1.jpg")
 		},
 		{
 			name: 'Twin-Bed Room',
 			description: 'Single Room With Twin Beds',
 			price: 300.00,
-			image: 'booking-room2.jpg'
+			image: require("../images/booking-room2.jpg")
 		},
 		{
 			name: 'Double Room',
 			description: 'Single Room With Double Bed',
 			price: 350.00,
-			image: 'booking-room3.jpg'
+			image: require("../images/booking-room3.jpg")
 		},
 
 	]
@@ -162,7 +162,7 @@ export default function Booking({navigation}) {
 				{
 				rooms.map((room, index)=>{ 
 					return <TouchableOpacity key={index} style={styles.room} onPress={()=>navigation.navigate('Room')}>
-						<Image source={require('../images/'+ room.image)} style={{flex: 2,  maxHeight: "100%"}} />
+						<Image source={(room.image)} style={{flex: 2,  maxHeight: "100%"}} />
 						<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 							<Text>{room.name}</Text>
 							<Text>{room.description}</Text>
