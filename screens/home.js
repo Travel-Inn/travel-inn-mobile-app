@@ -9,10 +9,25 @@ export default function Home({navigation}){
 			<View style = {styles.imageContainer}>
 				<View style={styles.imageBack}>
 					<ImageBackground style={styles.pageImage} source={require("../images/home-welome.jpg")}/>
+                    <View style={{backgroundColor: "rgba(0,0,0, 0.3)", justifyContent: 'center', alignItems: 'center',
+                    position: 'absolute', zIndex: 2, textAlign: 'center', height: "100%", width: "100%"}}>
+                        <Text style={{color: 'white', fontSize: 20}}>WELCOME TO</Text>
+                        <Text style={{color: 'gold', fontSize:35, letterSpacing: 5, fontWeight: 'bold',
+                        fontFamily: 'Times New Roman'}}>
+                            Travel Inn
+                        </Text>
+                        <Text style={{color: 'gold', letterSpacing: 8, fontSize: 18,
+                        fontFamily: 'Times New Roman'}}>
+                            HOTEL
+                        </Text>
+                        <Text style={styles.welcomepar}>Book your stay and enjoy</Text>
+                        <Text style={styles.welcomepar}>Luxury redefined at the most</Text>
+                        <Text style={styles.welcomepar}>affordable rates</Text>
+                    </View>
 				</View>
 			</View>
 			<View style={styles.form}>
-				<View style = {styles.options}>
+				{/* <View style = {styles.options}>
 					<TouchableOpacity
 						onPress = {()=>navigation.navigate("Signup")}
 						color = "black"
@@ -27,7 +42,7 @@ export default function Home({navigation}){
 					>
 					<Text>Login</Text>
 					</TouchableOpacity>
-				</View>
+				</View> */}
                 <View style={styles.page}>
                     <View style={{flex: 1,padding: 10, justifyContent: 'space-between'}}>
                         <Text style={styles.info}>Luxury Redefined</Text>
@@ -69,7 +84,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	imageContainer:{
-		flex: 2,
+		flex: 3,
 		height: "80%",
 		transform: [{scaleX: 2}],
 	},
@@ -84,6 +99,12 @@ const styles = StyleSheet.create({
 		width: Dimensions.get('screen').width,
 		flex: 1,
 	},
+    welcomepar:{
+        color: 'white',
+        fontSize: 15,
+        fontWeight: 'bold',
+        paddingVertical: 2
+    },
 	options:{
 		flexDirection: 'row',
 		justifyContent: "center",
