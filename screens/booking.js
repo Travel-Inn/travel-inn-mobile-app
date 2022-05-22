@@ -3,14 +3,17 @@ import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, Scrol
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
+import { searchRoom } from '../config/firebase';
 import { NavigationContainer } from '@react-navigation/native';
 
 export default function Booking({navigation}) {
 	const [inDate, setInDate] = React.useState('');
 	const [outDate, setOutDate] = React.useState('');
-	const [min, setMin] = React.useState('');
-	const [maxx, setMax] = React.useState('');
-	const [name, setName] = React.useState('');
+	const [minPrice, setMinPrice] = React.useState('');
+	const [maxPrice, setMaxPrice] = React.useState('');
+	const [bedNum, setBedNum] = React.useState('');
+
+
 
 
   return(
@@ -78,10 +81,10 @@ export default function Booking({navigation}) {
 						/>
 					</View>
 					<Input
-						value={name}
+						value={bedNum}
 						textContentType="none"
 						keyboardType="numeric"
-						onChangeText={text => setName(text)}
+						onChangeText={text => setBedNum(text)}
 						placeholder = "Number of beds"
 						placeholderTextColor={"white"}
 						leftIcon={
@@ -97,10 +100,10 @@ export default function Booking({navigation}) {
 					<View style={{flexDirection: 'row', justifyContent: 'space-between', 
 						marginLeft: "-30%", maxWidth: "50%", marginBottom: -20}}>
 						<Input
-							value={min}
+							value={minPrice}
 							textContentType="none"
 							keyboardType="numeric"
-							onChangeText={text => setMin(text)}
+							onChangeText={text => setMinPrice(text)}
 							placeholder = "min"
 							placeholderTextColor={'white'}
 							inputStyle = {{
@@ -111,10 +114,10 @@ export default function Booking({navigation}) {
 							inputContainerStyle={{borderBottomWidth: 0,width: "60%"}}
 						/>
 						<Input
-							value={maxx}
+							value={maxPrice}
 							textContentType="none"
 							keyboardType="numeric"
-							onChangeText={text => setMax(text)}
+							onChangeText={text => setMaxPrice(text)}
 							placeholderTextColor={'white'}
 							placeholder = "max"
 							inputStyle = {{
@@ -128,18 +131,20 @@ export default function Booking({navigation}) {
 					</View>
 				</View>
 				<TouchableOpacity
-					onPress = {null}
+					onPress = {() => searchRoom(minPrice,maxPrice, bedNum)}
 					color = "white"
 					style= {styles.continue}
 				>
 					<Text style={{fontWeight: 'bold'}}>Search</Text>
 				</TouchableOpacity>
+
+
 				<TouchableOpacity style={styles.room} onPress={()=>navigation.navigate('Room')}>
 					<Image source={require('../images/booking-room1.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>Single Room</Text>
 						<Text>Single Room with Single Bed</Text>
-						<Text>GHC 200.00</Text>
+						<Text>GHC 250.00</Text>
 					</View>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.room}>
