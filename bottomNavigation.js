@@ -4,6 +4,7 @@ import Booking from './screens/booking';
 import Contact from './screens/contact';
 import Home from './screens/home';
 import Menu from './screens/menu';
+import Payment from './screens/payment';
 import Profile from './screens/profile';
 import Room from './screens/room';
 import UserDetails from './screens/userDetails';
@@ -22,7 +23,7 @@ export default function BottomTabs(){
             <Tab.Screen name="Booking" component={Booking} options={{tabBarIcon: ()=>(
                 <Icon name="briefcase" size={20} color = "black"/>
             )}}/>
-            <Tab.Screen name="Profile" component={Profile} options={{tabBarIcon: ()=>(
+            <Tab.Screen name="Profile" component={Payment} options={{tabBarIcon: ()=>(
                 <Icon name="user" size={20} color = "black"/>
             )}}/>
             <Tab.Screen name="Contact" component={Contact} options={{tabBarButton:()=>null, tabBarVisible: false}} />

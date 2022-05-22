@@ -1,8 +1,14 @@
 import React from 'react';
-import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import { BackHandler,Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Profile({navigation}) {
+    const [nav, setNav] = React.useState(["mainprofile"]);
+
+    React.useEffect(()=>{
+        BackHandler.addEventListener("hardwareBackPress", 
+        ()=>setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1)));
+    },[nav])
 
   return(
     <View style={styles.container} >
@@ -10,7 +16,7 @@ export default function Profile({navigation}) {
 			<ImageBackground source={require("../images/profile.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>PROFILE</Text>
 			</ImageBackground>
-			<View style={styles.content}>
+			{nav[nav.length-1]=="mainprofile"?<View style={styles.content}>
                 <View style={styles.user}>
                     <Image source={require('../images/profile.jpg')} style={styles.profileImage}/>
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -18,7 +24,7 @@ export default function Profile({navigation}) {
                         <Text style={{color: 'white'}}>samuel.nai@yahoo.com</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.options} onPress={()=>navigation.navigate('User')}>
+                <TouchableOpacity style={styles.options} onPress={()=>setNav([...nav,'profile'])}>
                     <Text>Manage Your Account</Text>
                     <Icon name="angle-right" size={25} color="black" />
                 </TouchableOpacity>
@@ -34,8 +40,39 @@ export default function Profile({navigation}) {
                     <Text>Sign Out</Text>
                     <Icon name="angle-right" size={25} color="black" />
                 </TouchableOpacity>
-				
+
 			</View>
+            : 
+            <View style={styles.content}>
+                <View style={styles.user}>
+                    <Image source={require('../images/profile.jpg')} style={styles.profileImage}/>
+                    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={{color: 'white'}}>Samuel Nai</Text>
+                        <Text style={{color: 'white'}}>samuel.nai@yahoo.com</Text>
+                    </View>
+                </View>
+                <View style={styles.options}>
+                    <Text>First Name</Text>
+                    <Text>Samuel</Text>
+                </View>
+                <View style={styles.options}>
+                    <Text>Last Name</Text>
+                    <Text>Nai</Text>
+                </View>
+                <View style={styles.options}>
+                    <Text>Email</Text>
+                    <Text>Samuel.nai@yahoo.com</Text>
+                </View>
+                <View style={styles.options}>
+                    <Text>Gender</Text>
+                    <Text>Male</Text>
+                </View>
+                <TouchableOpacity style={styles.options} onPress={()=>setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1))}>
+                    <Text>Number</Text>
+                    <Text>0551540686</Text>
+                </TouchableOpacity>
+				
+			</View>}
 		</ScrollView>
 	</View>
   );

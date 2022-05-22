@@ -33,6 +33,7 @@ export default function Booking({navigation}) {
 							minDate="14-06-2022"
 							confirmBtnText="Confirm"
 							iconSource={null}
+							onDateChange={null}
 							cancelBtnText="Cancel"
 							iconComponent={<Icon name="calendar-o" size={20} color="white" style={styles.dateIcon}/>}
 							style={{marginLeft: 15}}
