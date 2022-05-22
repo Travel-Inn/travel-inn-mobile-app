@@ -41,7 +41,7 @@ export default function Room({navigation}) {
                     <Text style={{color: 'white', paddingRight: 25}}>
                     <Icon name="car" color="#aa3300"/> Free Parking</Text>
                 </View>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('payment')}>
                     <Text>Select Room</Text>
                 </TouchableOpacity>
 				
