@@ -5,12 +5,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function Profile({navigation}) {
     const [nav, setNav] = React.useState(["mainprofile"]);
 
-    React.useEffect(()=>{
-        console.log(nav)
-        BackHandler.addEventListener("hardwareBackPress",()=>setNav(nav.filter((_,i)=> i!==nav.length-1)));
-        return()=> BackHandler.addEventListener("hardwareBackPress",()=>navigation.goBack());
-    },[nav])
-
   return(
     <View style={styles.container} >
 		<ScrollView>
