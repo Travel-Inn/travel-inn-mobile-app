@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, StyleSheet, TextInput} from 'react-native';
 
 export default function Payment(){
+	const [step, setStep] = React.useState('white');
 
     return (
         <View style={styles.container}>
@@ -9,7 +10,20 @@ export default function Payment(){
 			<ImageBackground source={require("../images/payment.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>PAYMENT</Text>
 			</ImageBackground>
-			<View style={{justifyContent: 'center', alignItems: 'center'}}>
+			<View style={{flexDirection: 'row', width: '90%', justifyContent: 'center', 
+			alignItems: 'center', alignSelf: 'center'}}>
+				<Text style={{ width: 30, height: 30, borderRadius: '100%', 
+				borderWidth: 1,  color: 'white', paddingLeft: 9, paddingVertical: 5,
+				backgroundColor: 'black'}}>1</Text>
+				<View style={{width: '80%', height: 4, backgroundColor: step,
+				borderTopWidth: 1, borderBottomWidth: 1}}>
+				</View>
+				<Text style={{ width: 30, height: 30, borderRadius: '100%', 
+				borderWidth: 1,  color: 'black', paddingLeft: 9, paddingVertical: 5,
+				backgroundColor: step}}>2</Text>
+			</View>
+			{step=="white"?
+				<View style={{justifyContent: 'center', alignItems: 'center'}}>
 				<Text style={{fontSize: 18, fontWeight: 'bold'}}>Contact Information</Text>
 				<TextInput
 				value="Samuel Nai"
@@ -26,7 +40,7 @@ export default function Payment(){
 				editable={false}
 				style={styles.contactInfo}
 				/>
-				<Text style={{fontSize: 18, fontWeight: 'bold'}}>Booking Details</Text>
+				<Text style={{fontSize: 18, fontWeight: 'bold', marginVertical: 15}}>Booking Details</Text>
 				<View style={{flexDirection: 'row', width: '80%', justifyContent: 'space-around', alignItems: 'center', marginVertical: 5}}>
 					<View style={{justifyContent: 'center', alignItems: 'center', padding: 5}}>
 						<Text style={{fontSize: '80%', fontWeight: 'bold'}}>Check In</Text>
@@ -62,11 +76,48 @@ export default function Payment(){
 					<Text>Total Amount</Text>
 					<Text>GHC 1,050</Text>
 				</View>
-				<TouchableOpacity style={styles.button}>
+				<TouchableOpacity style={styles.button} onPress={()=>setStep('black')}>
 					<Text style={{color: 'white'}}>Continue</Text>
 				</TouchableOpacity>
 
-			</View> 
+			</View>
+			:
+			<View style={{justifyContent: 'center', alignItems: 'center'}}>
+				<Text style={{width: '80%'}}>Card Number</Text>
+				<TextInput
+				value = "1234 1234 5678 5678"
+				editable={false}
+				style={styles.contactInfo}
+				/>
+				<Text style={{width: '80%'}}>Expiry Date</Text>
+				<TextInput
+				value = "MM/YY"
+				editable={false}
+				style={styles.contactInfo}
+				/>
+				<Text style={{width: '80%'}}>CVC</Text>
+				<TextInput
+				value = "123"
+				editable={false}
+				style={styles.contactInfo}
+				/>
+				<Text style={{width: '80%'}}>Name on Card</Text>
+				<TextInput
+				value ="Samuel Nai"
+				editable={false}
+				style={styles.contactInfo}
+				/>
+				<View style={{flexDirection: 'row', justifyContent: 'space-around',
+				width: '90%', marginVertical: 10}}>
+					<TouchableOpacity style={styles.button} onPress={()=>setStep('white')}>
+						<Text style={{color: 'white'}}>Previous</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.button} onPress={()=>setStep('black')}>
+						<Text style={{color: 'white'}}>Submit</Text>
+					</TouchableOpacity>
+				</View>
+			</View>
+		}
         </ScrollView>
         </View>
 
