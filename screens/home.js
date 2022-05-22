@@ -13,11 +13,11 @@ export default function Home({navigation}){
                     position: 'absolute', zIndex: 2, textAlign: 'center', height: "100%", width: "100%"}}>
                         <Text style={{color: 'white', fontSize: 20}}>WELCOME TO</Text>
                         <Text style={{color: 'gold', fontSize:35, letterSpacing: 5, fontWeight: 'bold',
-                        fontFamily: 'Times New Roman'}}>
+                        fontFamily: 'sans-serif'}}>
                             Travel Inn
                         </Text>
                         <Text style={{color: 'gold', letterSpacing: 8, fontSize: 18,
-                        fontFamily: 'Times New Roman'}}>
+                        fontFamily: 'sans-serif'}}>
                             HOTEL
                         </Text>
                         <Text style={styles.welcomepar}>Book your stay and enjoy</Text>
