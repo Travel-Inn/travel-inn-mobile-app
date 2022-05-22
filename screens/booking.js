@@ -13,7 +13,7 @@ export default function Booking({navigation}) {
 	const [maxPrice, setMaxPrice] = React.useState('');
 	const [bedNum, setBedNum] = React.useState('');
 
-	
+
 
 
   return(
@@ -136,6 +136,8 @@ export default function Booking({navigation}) {
 				>
 					<Text style={{fontWeight: 'bold'}}>Search</Text>
 				</TouchableOpacity>
+
+
 				<TouchableOpacity style={styles.room} onPress={()=>navigation.navigate('Room')}>
 					<Image source={require('../images/booking-room1.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>

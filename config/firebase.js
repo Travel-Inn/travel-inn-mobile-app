@@ -2,7 +2,7 @@ import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
 import 'firebase/compat/auth';
 import {Alert} from "react-native";
-import { min } from "react-native-reanimated";
+import { min, Value } from "react-native-reanimated";
 
 
 export async function registration(email, password, name, phoneNum) {
@@ -68,7 +68,9 @@ export async function searchRoom(minPrice, maxPrice, bedNum) {
   bedNum = Number(bedNum);
   minPrice = Number(minPrice);
   maxPrice = Number(maxPrice);
+  var roomList = [];
 
+  // Checks
   if (!minPrice){
     console.log("Minimum price cannot be empty.");
     return 1
@@ -91,12 +93,14 @@ export async function searchRoom(minPrice, maxPrice, bedNum) {
       .then((querySnapshot) => {
         if(querySnapshot.empty){
           console.log("No rooms available");
-          // Change to a return statement
+          // Change the above a return statement
         }
+
           querySnapshot.forEach((doc) => {
-              console.log(doc.id, " => ", doc.data());
-              console.log(doc.data().roomPrice);
+            roomList.push(doc.data());
           });
+          console.log(roomList);
+          return roomList;
       })
       .catch((error) => {
           console.log("Error getting documents: ", error);
