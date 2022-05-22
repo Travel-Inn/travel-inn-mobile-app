@@ -68,7 +68,7 @@ export default function Menu({navigation}) {
     <View style={styles.menuContent} >
 		<ScrollView ref={(ref)=>{setRef(ref);}}>
 			<ImageBackground source={require("../images/menu.jpg")} resizeMode="cover" style={styles.menuPageInfo}>
-				<Text style={styles.tabName}>Menu</Text>
+				<Text style={styles.tabName}>MENU</Text>
 			</ImageBackground>
 			<View style={styles.menuList}>
 				<ScrollView horizontal={true} contentContainerStyle={styles.menuTabs} showsHorizontalScrollIndicator={false}>
@@ -147,9 +147,10 @@ const styles = StyleSheet.create({
 	tabName:{
 		backgroundColor: 'rgba(0,0,0, 0.7)',
 		color: 'white',
-		width: 100,
+		width: 150,
 		textAlign: 'center',
-		borderRadius: 25,
+		borderRadius: 15,
+		padding: 10
 	},
 	menuPageInfo: {
 		textAlign: 'center',
