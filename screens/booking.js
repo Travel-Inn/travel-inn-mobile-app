@@ -13,6 +13,27 @@ export default function Booking({navigation}) {
 	const [maxPrice, setMaxPrice] = React.useState('');
 	const [bedNum, setBedNum] = React.useState('');
 
+	const rooms =[
+		{
+			name: 'Single Room',
+			description: 'Single Room With single Bed',
+			price: 250.00,
+			image: 'booking-room1.jpg'
+		},
+		{
+			name: 'Twin-Bed Room',
+			description: 'Single Room With Twin Beds',
+			price: 300.00,
+			image: 'booking-room2.jpg'
+		},
+		{
+			name: 'Double Room',
+			description: 'Single Room With Double Bed',
+			price: 350.00,
+			image: 'booking-room3.jpg'
+		},
+
+	]
 
 
 
@@ -138,16 +159,20 @@ export default function Booking({navigation}) {
 					<Text style={{fontWeight: 'bold'}}>Search</Text>
 				</TouchableOpacity>
 
+				{
+				rooms.map((room, index)=>{ 
+					return <TouchableOpacity key={index} style={styles.room} onPress={()=>navigation.navigate('Room')}>
+						<Image source={require('../images/'+ room.image)} style={{flex: 2,  maxHeight: "100%"}} />
+						<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
+							<Text>{room.name}</Text>
+							<Text>{room.description}</Text>
+							<Text>GHC {room.price}</Text>
+						</View>
+					</TouchableOpacity>
+				})
+				}
 
-				<TouchableOpacity style={styles.room} onPress={()=>navigation.navigate('Room')}>
-					<Image source={require('../images/booking-room1.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
-					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
-						<Text>Single Room</Text>
-						<Text>Single Room with Single Bed</Text>
-						<Text>GHC 250.00</Text>
-					</View>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.room}>
+				{/* <TouchableOpacity style={styles.room}>
 					<Image source={require('../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>Twin-Bed Room</Text>
@@ -162,7 +187,7 @@ export default function Booking({navigation}) {
 						<Text>Single Room with Double Bed</Text>
 						<Text>GHC 350.00</Text>
 					</View>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 		</ScrollView>
 	</View>
