@@ -1,7 +1,8 @@
 import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
+import  "firebase/compat/firestore";
 import 'firebase/compat/auth';
 import {Alert} from "react-native";
+import { min } from "react-native-reanimated";
 
 
 export async function registration(email, password, name, phoneNum) {
@@ -60,4 +61,44 @@ export async function loggingOut() {
   } catch (err) {
     console.log('There is something wrong!', err.message);
   }
+}
+
+export async function searchRoom(minPrice, maxPrice, bedNum) {
+  // Changing string-number to number and changes string-letters to empty values
+  bedNum = Number(bedNum);
+  minPrice = Number(minPrice);
+  maxPrice = Number(maxPrice);
+
+  if (!minPrice){
+    console.log("Minimum price cannot be empty.");
+    return 1
+  } else if (!maxPrice){
+      console.log("Maximum price cannot be empty.");
+      return 1
+    }
+    else if (!bedNum){
+      console.log("Bed number cannot be empty.");
+      return 1
+    }
+    else console.log("Passed all checks");
+  
+
+  const db = firebase.firestore();
+  db.collection("Rooms").where("isRoomAvailable", "==", true)
+  .where("bedNum", "==", bedNum).where("roomPrice", ">", minPrice)
+  .where("roomPrice", "<", maxPrice)
+      .get()
+      .then((querySnapshot) => {
+        if(querySnapshot.empty){
+          console.log("No rooms available");
+          // Change to a return statement
+        }
+          querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data());
+              console.log(doc.data().roomPrice);
+          });
+      })
+      .catch((error) => {
+          console.log("Error getting documents: ", error);
+      });
 }
