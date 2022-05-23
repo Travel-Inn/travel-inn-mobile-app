@@ -29,7 +29,7 @@ export default function LoginPage({navigation}){
       );
 	  // If successful move to home screen
 	  	emptyState();
-		navigation.navigate('BottomNav');
+		//navigation.navigate('BottomNav');
 	  //TODO: ADD A LOADING ICON
     }
   };

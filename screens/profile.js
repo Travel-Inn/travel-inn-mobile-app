@@ -1,6 +1,7 @@
 import React from 'react';
 import { BackHandler,Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { loggingOut } from '../config/firebase';
 
 export default function Profile({navigation}) {
     const [nav, setNav] = React.useState(["mainprofile"]);
@@ -31,7 +32,7 @@ export default function Profile({navigation}) {
                     <Text>History</Text>
                     <Icon name="angle-right" size={25} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.options}>
+                <TouchableOpacity onPress = {loggingOut} style={styles.options}>
                     <Text>Sign Out</Text>
                     <Icon name="angle-right" size={25} color="black" />
                 </TouchableOpacity>

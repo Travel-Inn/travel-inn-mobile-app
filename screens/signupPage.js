@@ -14,13 +14,15 @@ export default function SignupPage({navigation}){
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
-	//const [isLoading, setIsLoading] = useState(false);
+	const [phone, setPhone] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
 
 	const emptyState = () => {
 		setEmail('');
 		setPassword('');
 		setName('');
+		setPhone('');
   };
 
 	 const onHandleSignup = () => {
@@ -30,18 +32,20 @@ export default function SignupPage({navigation}){
       console.log('Password field is required.');
     } else if (!name) {
       console.log('Name field is required.');
+	} else if (!phone) {
+		console.log("Phone field is required");
     } else {
 		//setIsLoading(true);
 		//isLoading ? Loader : null
      registration(
         email,
         password,
-        name
+        name,
+		phone,
       );
 	  //setIsLoading(false);
 	  // if successful move to the next home screen 
 	  	emptyState();
-		navigation.navigate('Drawer');
 	  //TODO: ADD A LOADING ICON
     }
   };
@@ -57,7 +61,8 @@ export default function SignupPage({navigation}){
 				<Text style={styles.signupText}>Sign Up</Text>
 				<View style = {styles.signUpOptions}>
 					<TouchableOpacity
-						onPress = {()=>navigation.navigate("Drawer")}
+						//onPress = {()=>navigation.navigate("BottomNav")}
+						onPress={null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
@@ -98,6 +103,15 @@ export default function SignupPage({navigation}){
 					value={name}
 					onChangeText={text => setName(text)}
 					placeholder = "Full Name"
+					leftIcon = {<Icon name="user" size = {20} color = 'white' style={{paddingRight: 5}}/>}
+					inputStyle = {{color: "white"}}
+					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
+				/>
+				<Input
+					autoCapitalize="True"
+					value={phone}
+					onChangeText={text => setPhone(text)}
+					placeholder = "Phone Number"
 					leftIcon = {<Icon name="user" size = {20} color = 'white' style={{paddingRight: 5}}/>}
 					inputStyle = {{color: "white"}}
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
