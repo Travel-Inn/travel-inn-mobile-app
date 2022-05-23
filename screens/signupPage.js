@@ -7,12 +7,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
 import Firebase from '../config/firebase';
 import { registration } from '../config/firebase';
+import Loader from '../widgets/loading';
 
 
 export default function SignupPage({navigation}){
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
+	//const [isLoading, setIsLoading] = useState(false);
+
 
 	const emptyState = () => {
 		setEmail('');
@@ -28,11 +31,14 @@ export default function SignupPage({navigation}){
     } else if (!name) {
       console.log('Name field is required.');
     } else {
+		//setIsLoading(true);
+		//isLoading ? Loader : null
      registration(
         email,
         password,
         name
       );
+	  //setIsLoading(false);
 	  // if successful move to the next home screen 
 	  	emptyState();
 		navigation.navigate('Drawer');

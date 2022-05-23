@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions, SliderComponent} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
+import firebase from "firebase/compat/app";
 import DatePicker from 'react-native-datepicker';
 import { searchRoom } from '../config/firebase';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +13,21 @@ export default function Booking({navigation}) {
 	const [minPrice, setMinPrice] = React.useState('');
 	const [maxPrice, setMaxPrice] = React.useState('');
 	const [bedNum, setBedNum] = React.useState('');
+	const [values, setValues] = React.useState(['']);
+
+	// const onHandleSearch = async () => {
+	// 	const temp =await searchRoom(minPrice, maxPrice, bedNum);
+	// 	setValues(temp);
+	// 	//const values = await searchR(minPrice, maxPrice, bedNum)
+	// 	//setValues(searchRoom(minPrice, maxPrice, bedNum));
+	// 	await sleep(10000);
+	// 	console.log(temp);
+	// 	console.log(values);
+	// }
+
+	
+	
+	
 
 	const rooms =[
 		{
@@ -152,7 +168,7 @@ export default function Booking({navigation}) {
 					</View>
 				</View>
 				<TouchableOpacity
-					onPress = {() => searchRoom(minPrice,maxPrice, bedNum)}
+					onPress = {() => onHandleSearch()}
 					color = "white"
 					style= {styles.continue}
 				>
@@ -163,6 +179,7 @@ export default function Booking({navigation}) {
 				rooms.map((room, index)=>{ 
 					return <TouchableOpacity key={index} style={styles.room} onPress={()=>navigation.navigate('Room')}>
 						<Image source={(room.image)} style={{flex: 2,  maxHeight: "100%"}} />
+						
 						<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 							<Text>{room.name}</Text>
 							<Text>{room.description}</Text>

@@ -91,16 +91,17 @@ export async function searchRoom(minPrice, maxPrice, bedNum) {
   .where("roomPrice", "<", maxPrice)
       .get()
       .then((querySnapshot) => {
-        if(querySnapshot.empty){
-          console.log("No rooms available");
-          // Change the above a return statement
-        }
-
+        if(querySnapshot){
           querySnapshot.forEach((doc) => {
             roomList.push(doc.data());
           });
           console.log(roomList);
           return roomList;
+        }else if (querySnapshot.empty){
+          console.log("No rooms available");
+          return 1;      
+        }
+        else console.log("Unexpected error")
       })
       .catch((error) => {
           console.log("Error getting documents: ", error);
