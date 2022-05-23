@@ -8,7 +8,6 @@ import RestaurantMenu from './restaurantMenu.js';
 export default function Menu({navigation}) {
 	 const [ breakfastBeverages, setBreakfastBeverages ] = React.useState([]);
 	const [breakloop, setBreakloop] = React.useState(false);
-	const [image, setImage] = React.useState()
   
 	React.useEffect(()=>{
 		LogBox.ignoreLogs(['Setting a timer']);
@@ -31,6 +30,7 @@ export default function Menu({navigation}) {
 					})
 					firebase.storage().ref('menuImages/'+menuimage)
 					.getDownloadURL().then((url)=>{
+						// console.log(menuimage+""+url);
 						const object = {menuName: menuname, menuImage: url, beverages:barray, food: farray}
 						setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,object]);
 					});
