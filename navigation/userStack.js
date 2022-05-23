@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator();
 
 export default function UserStack() {
   return (
-    <Stack.Navigator headerMode='none'>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
 		<Stack.Screen name="BottomNav" component={BottomTabs}/>
     </Stack.Navigator>
   );
