@@ -1,6 +1,9 @@
 import React from 'react';
 import firebase from "firebase/compat/app";
 import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, StyleSheet, TextInput} from 'react-native';
+import DatePicker from 'react-native-datepicker';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 	const fullWidth = Dimensions.get('screen').width;
 	const ninety = Dimensions.get('screen').width*0.9;
@@ -9,6 +12,31 @@ export default function Payment(){
 	const [step, setStep] = React.useState('white');
 	const [roomPrice, setRoomPrice] = React.useState('');
 	const [roomType, setRoomType] = React.useState('');
+	const [inDate, setInDate] = React.useState('09-10-2021');
+	const [outDate, setOutDate] = React.useState('01-27-2022');
+	const [nights, setNights] = React.useState();
+
+		React.useEffect(() => {
+		const nightNum = (start,end) => {
+			const date1 = new Date(start);
+			const date2 = new Date(end);
+			console.log(date1);
+			console.log(date2);
+
+			// One day in milliseconds
+			const oneDay = 1000 * 60 * 60 * 24;
+
+			// Calculating the time difference between two dates
+			const diffInTime = date2.getTime() - date1.getTime();
+			console.log(diffInTime);
+			// Calculating the no. of days between two dates
+			const diffInDays = Math.round(diffInTime / oneDay);
+			console.log(diffInDays);
+
+			setNights(diffInDays);
+		}
+		nightNum(inDate, outDate);
+		},[inDate,outDate])
 
 	    React.useEffect(() => {
 			 const getRoom = async(roomID) => {
@@ -22,7 +50,7 @@ export default function Payment(){
             setRoomPrice(room.roomPrice);
 			setRoomType(room.roomType);
          }
-         getRoom("KOHqLKL1SRM9UAQRM4rx");
+         getRoom("KOHqLKL1SRM9UAQRM4rx"); // The room id will be passed from the previous screen.
     },[])
     return (
         <View style={styles.container}>
@@ -64,16 +92,66 @@ export default function Payment(){
 				<View style={{flexDirection: 'row', width: ninety, justifyContent: 'space-around', alignItems: 'center', marginVertical: 5}}>
 					<View style={{justifyContent: 'center', alignItems: 'center', padding: 5}}>
 						<Text style={{fontSize: 12, fontWeight: 'bold'}}>Check In</Text>
-						<Text style={{fontSize: 12}}>Fri, 25th March, 2022</Text>
-						<Text style={{fontSize: 12}}>12PM</Text>
+						<DatePicker
+							date={inDate}
+							mode="date"
+							placeholder="Check In"
+							format="MM-DD-YYYY"
+							minDate="06-14-2009"
+							confirmBtnText="Confirm"
+							iconSource={null}
+							onDateChange={(date) => {setInDate(date); setNights(outDate, inDate)}}
+							cancelBtnText="Cancel"
+							iconComponent={<Icon name="calendar-o" size={20} color="white" style={styles.dateIcon}/>}
+							style={{marginLeft: 15}}
+							customStyles={{
+								dateInput:{
+									backgroundColor: 'black',
+									color: 'white',
+									borderColor: "black",
+									borderStyle: 'solid',
+									borderWidth: 1,
+									borderRadius: 10,
+									marginRight: 10
+								},
+								placeholderText:{
+									color: 'white',
+								}
+							}}
+						/>
 					</View>
 					<View style={{justifyContent: 'center', alignItems: 'center', borderRightWidth: 1, borderLeftWidth: 1, padding: 5}}>
-						<Text style={{fontSize: 12}}>5 Nights</Text>
+						<Text style={{fontSize: 12}}>{nights} Nights</Text>
 					</View>
 					<View style={{justifyContent: 'center', alignItems: 'center', padding: 5}}>
 						<Text style={{fontSize: 12, fontWeight: 'bold'}}>Check Out</Text>
-						<Text style={{fontSize: 12}}>Wed, 30th March, 2022</Text>
-						<Text style={{fontSize: 12}}>12PM</Text>
+						<DatePicker
+							date={outDate}
+							mode="date"
+							placeholder="Check In"
+							format="MM-DD-YYYY"
+							minDate="06-14-2009"
+							confirmBtnText="Confirm"
+							iconSource={null}
+							onDateChange={(date) => {setOutDate(date);}}
+							cancelBtnText="Cancel"
+							iconComponent={<Icon name="calendar-o" size={20} color="white" style={styles.dateIcon}/>}
+							style={{marginLeft: 15}}
+							customStyles={{
+								dateInput:{
+									backgroundColor: 'black',
+									color: 'white',
+									borderColor: "black",
+									borderStyle: 'solid',
+									borderWidth: 1,
+									borderRadius: 10,
+									marginRight: 10
+								},
+								placeholderText:{
+									color: 'white',
+								}
+							}}
+						/>
 					</View>
 				</View>
 				<Text style={{width: fullWidth,paddingHorizontal: 20, borderTopWidth: 1, borderBottomWidth: 1, padding: 10}}>
@@ -85,7 +163,7 @@ export default function Payment(){
 				</View>
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: eighty, marginVertical: 5}}>
 					<Text>Number of Nights</Text>
-					<Text>5</Text>
+					<Text>{nights}</Text>
 				</View>
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: eighty, marginVertical: 5}}>
 					<Text>Taxes and Fees</Text>
@@ -94,7 +172,7 @@ export default function Payment(){
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: fullWidth,paddingHorizontal: 20, 
 				padding: 10, borderTopWidth: 1, borderBottomWidth: 1, marginVertical: 5}}>
 					<Text>Total Amount</Text>
-					<Text>GHC {(roomPrice * 5) + 50}</Text>
+					<Text>GHC {(roomPrice * nights) + 50}</Text>
 				</View>
 				<TouchableOpacity style={styles.button} onPress={()=>setStep('black')}>
 					<Text style={{color: 'white', textAlign: 'center'}}>Continue</Text>
