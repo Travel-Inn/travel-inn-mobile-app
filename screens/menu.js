@@ -1,32 +1,46 @@
 import React from 'react';
 import firebase from "firebase/compat/app";
-import { Text, View, ImageBackground, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions} from 'react-native';
-import TopBtns from './topBar.js';
+import  "firebase/compat/firestore";
+import { Text, View, ImageBackground, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions, LogBox} from 'react-native';
 import RestaurantMenu from './restaurantMenu.js';
 
 export default function Menu({navigation}) {
-	 const [ beverages, setBeverages ] = React.useState('');
+	 const [ breakfastBeverages, setBreakfastBeverages ] = React.useState([]);
+	const [breakloop, setBreakloop] = React.useState(false);
   
-    // React.useEffect(() => {
-    //     async function getBeverages() {
-    //         let beveragesValues = await firebase
-    //         .firestore()
-    //         .collection("Menu")
-    //         .doc("Beverages")
-    //         .get();
-
-    //         setBeverages(beveragesValues.data());
-            
-    //      }
-    //      getBeverages();
-    // })
-
+	React.useEffect(()=>{
+		LogBox.ignoreLogs(['Setting a timer']);
+		const db = firebase.firestore();
+		db.collection('menu').get().then((querysnapshot)=>{
+			querysnapshot.forEach(snapshot=>{
+				const barray=[];
+				const farray=[];
+				const menuname= snapshot.data().menuName;
+				// setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,snapshot.data()]);
+				db.collection('menu').doc(snapshot.data().menuName).collection('beverages').get().then((querysnapshot)=>{
+					querysnapshot.forEach(snapshot=>{
+						barray.push(snapshot.data())
+					})
+				});
+				db.collection('menu').doc(snapshot.data().menuName).collection('food').get().then((querysnapshot)=>{
+					querysnapshot.forEach(snapshot=>{
+						farray.push(snapshot.data())
+					})
+					
+				const object = {menuName: menuname, beverages:barray, food: farray}
+				setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,object]);
+				console.log(breakfastBeverages)
+				});
+			})
+			
+		})
+	},[breakloop]) 
 
 	const [ref, setRef] = React.useState(null);
 	const [loc, setLoc] = React.useState(0);
 	const [locs, setLocs] = React.useState([]);
 	const scrollHandler=(yloc)=>{
-		ref.scrollTo({
+		ref.scrollTo({ 
 			x: 0, 
 			y: yloc,
 			animated: true,
@@ -82,7 +96,7 @@ export default function Menu({navigation}) {
 					}
 				</ScrollView>
 				{
-					RestaurantMenu.map((item, index)=>(
+					breakfastBeverages.map((item, index)=>(
 						<ImageBackground  key={index} 
 						// onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
 							source={item.image} 
@@ -100,7 +114,7 @@ export default function Menu({navigation}) {
 									</View>
 									<View style={{width: "45%", borderLeftWidth: 1, borderColor: "white"}}>
 										{item.beverages.map((beverageItem, index)=>(
-										<Text key={index} style={styles.whiteText}>{beverages.Tea}</Text>
+										<Text key={index} style={styles.whiteText}>{beverageItem.price}</Text>
 										))}
 									</View>
 								</ScrollView>
