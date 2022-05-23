@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions, SliderComponent} from 'react-native';
+import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, 
+	Dimensions, SliderComponent, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 import firebase from "firebase/compat/app";
+import  "firebase/compat/firestore";
 import DatePicker from 'react-native-datepicker';
 import { searchRoom } from '../config/firebase';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,18 +15,56 @@ export default function Booking({navigation}) {
 	const [minPrice, setMinPrice] = React.useState('');
 	const [maxPrice, setMaxPrice] = React.useState('');
 	const [bedNum, setBedNum] = React.useState('');
-	const [values, setValues] = React.useState(['']);
+	const [values, setValues] = React.useState([]);
+	const [search, setSearch] = React.useState(false);
+	const db = firebase.firestore();
+	const onHandleSearch = () => {
+		setValues([]);
+		setSearch(true);
+		const bednum = Number(bedNum);
+		const minprice = Number(minPrice);
+		const maxprice = Number(maxPrice);
+		const roomList = [];
+		// Checks
+		if (!minprice){
+		  console.log("Minimum price cannot be empty.");
+		  return 1
+		} else if (!maxprice){
+			console.log("Maximum price cannot be empty.");
+			return 1
+		  }
+		  else if (!bednum){
+			console.log("Bed number cannot be empty.");
+			return 1
+		  }
+		  else console.log("Passed all checks");
+		
+	  
+		db.collection("Rooms").where("isRoomAvailable", "==", true)
+		.where("bedNum", "==", bednum).where("roomPrice", ">", minprice)
+		.where("roomPrice", "<", maxprice)
+			.get()
+			.then((querySnapshot) => {
+			  if(querySnapshot.empty){
+				console.log("No rooms available");
+				return 1;
+			  }else{         
+				 querySnapshot.forEach((doc) => {
+				  roomList.push(doc.data());
+				  setValues(values=>[...values,doc.data()]);
+				});
+				return roomList;    
+			  }
+			})
+			.catch((error) => {
+				console.log("Error getting documents: ", error);
+			});
+		
+	}
 
-	// const onHandleSearch = async () => {
-	// 	const temp =await searchRoom(minPrice, maxPrice, bedNum);
-	// 	setValues(temp);
-	// 	//const values = await searchR(minPrice, maxPrice, bedNum)
-	// 	//setValues(searchRoom(minPrice, maxPrice, bedNum));
-	// 	await sleep(10000);
-	// 	console.log(temp);
-	// 	console.log(values);
-	// }
-
+	React.useEffect(()=>{
+		console.log(values);
+	},[values])
 	
 	
 	
@@ -176,6 +216,7 @@ export default function Booking({navigation}) {
 				</TouchableOpacity>
 
 				{
+					!search?
 				rooms.map((room, index)=>{ 
 					return <TouchableOpacity key={index} style={styles.room} onPress={()=>navigation.navigate('Room')}>
 						<Image source={(room.image)} style={{flex: 2,  maxHeight: "100%"}} />
@@ -187,24 +228,17 @@ export default function Booking({navigation}) {
 						</View>
 					</TouchableOpacity>
 				})
-				}
+				: values.length ==0? <ActivityIndicator size={50} animating={true} color="white"/>:
 
-				{/* <TouchableOpacity style={styles.room}>
+					values.map((item,index)=>{
+					return <TouchableOpacity key={index} style={styles.room}>
 					<Image source={require('../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
-						<Text>Twin-Bed Room</Text>
+						<Text>{item.roomType}</Text>
 						<Text>Single Room with Twin Beds</Text>
 						<Text>GHC 300.00</Text>
 					</View>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.room}>
-					<Image source={require('../images/booking-room3.jpg')} style={{flex: 2,  maxHeight: "100%"}} />
-					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
-						<Text>Double Room</Text>
-						<Text>Single Room with Double Bed</Text>
-						<Text>GHC 350.00</Text>
-					</View>
-				</TouchableOpacity> */}
+				</TouchableOpacity>})}
 			</View>
 		</ScrollView>
 	</View>
