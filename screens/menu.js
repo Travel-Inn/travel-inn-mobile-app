@@ -1,12 +1,14 @@
 import React from 'react';
 import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
+import "firebase/compat/storage";
 import { Text, View, ImageBackground, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions, LogBox} from 'react-native';
 import RestaurantMenu from './restaurantMenu.js';
 
 export default function Menu({navigation}) {
 	 const [ breakfastBeverages, setBreakfastBeverages ] = React.useState([]);
 	const [breakloop, setBreakloop] = React.useState(false);
+	const [image, setImage] = React.useState()
   
 	React.useEffect(()=>{
 		LogBox.ignoreLogs(['Setting a timer']);
@@ -16,20 +18,22 @@ export default function Menu({navigation}) {
 				const barray=[];
 				const farray=[];
 				const menuname= snapshot.data().menuName;
+				const menuimage= snapshot.data().menuImage;
 				// setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,snapshot.data()]);
 				db.collection('menu').doc(snapshot.data().menuName).collection('beverages').get().then((querysnapshot)=>{
 					querysnapshot.forEach(snapshot=>{
 						barray.push(snapshot.data())
-					})
+					}) 
 				});
 				db.collection('menu').doc(snapshot.data().menuName).collection('food').get().then((querysnapshot)=>{
 					querysnapshot.forEach(snapshot=>{
 						farray.push(snapshot.data())
 					})
-					
-				const object = {menuName: menuname, beverages:barray, food: farray}
-				setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,object]);
-				console.log(breakfastBeverages)
+					firebase.storage().ref('menuImages/'+menuimage)
+					.getDownloadURL().then((url)=>{
+						const object = {menuName: menuname, menuImage: url, beverages:barray, food: farray}
+						setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,object]);
+					});
 				});
 			})
 			
@@ -99,7 +103,7 @@ export default function Menu({navigation}) {
 					breakfastBeverages.map((item, index)=>(
 						<ImageBackground  key={index} 
 						// onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
-							source={item.image} 
+							source={{uri:item.menuImage}} 
 							style={styles.menuContainer} resizeMode="cover" >
 							<View style={styles.menuName}>
 								<Text style={styles.submenu}>{item.menuName}</Text>
