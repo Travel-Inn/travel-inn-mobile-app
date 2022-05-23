@@ -24,7 +24,7 @@ const RestaurantMenu =[
 			}
 		]
 	},
-	{
+	{ 
 		menuName: "Brunch",
 		image: require("../images/brunch.jpg"),
 		beverages:[
