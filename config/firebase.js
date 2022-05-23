@@ -105,4 +105,5 @@ export async function searchRoom(minPrice, maxPrice, bedNum) {
       .catch((error) => {
           console.log("Error getting documents: ", error);
       });
+  
 }
