@@ -20,18 +20,14 @@ export default function Payment(){
 		const nightNum = (start,end) => {
 			const date1 = new Date(start);
 			const date2 = new Date(end);
-			console.log(date1);
-			console.log(date2);
 
 			// One day in milliseconds
 			const oneDay = 1000 * 60 * 60 * 24;
 
 			// Calculating the time difference between two dates
 			const diffInTime = date2.getTime() - date1.getTime();
-			console.log(diffInTime);
 			// Calculating the no. of days between two dates
 			const diffInDays = Math.round(diffInTime / oneDay);
-			console.log(diffInDays);
 
 			setNights(diffInDays);
 		}
@@ -100,7 +96,7 @@ export default function Payment(){
 							minDate="06-14-2009"
 							confirmBtnText="Confirm"
 							iconSource={null}
-							onDateChange={(date) => {setInDate(date); setNights(outDate, inDate)}}
+							onDateChange={(date) => {setInDate(date);}}
 							cancelBtnText="Cancel"
 							iconComponent={<Icon name="calendar-o" size={20} color="white" style={styles.dateIcon}/>}
 							style={{marginLeft: 15}}
