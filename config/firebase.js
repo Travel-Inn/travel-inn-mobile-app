@@ -1,9 +1,16 @@
 import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
 import 'firebase/compat/auth';
-import {Alert} from "react-native";
-import { min, Value } from "react-native-reanimated";
+import apiKeys from './keys'
 
+
+let Firebase;
+
+if (firebase.apps.length === 0) {
+  Firebase = firebase.initializeApp(apiKeys.firebaseConfig);
+}
+
+export default Firebase;
 
 export async function registration(email, password, name, phoneNum) {
   const db = firebase.firestore();
@@ -56,7 +63,6 @@ export async function passwordReset(email) {
 export async function loggingOut() {
   try {
     await firebase.auth().signOut();
-    navigation.navigate('Login');
     console.log("User has been signed out")
   } catch (err) {
     console.log('There is something wrong!', err.message);
