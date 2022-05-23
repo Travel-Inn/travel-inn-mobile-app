@@ -74,7 +74,7 @@ export async function searchRoom(minPrice, maxPrice, bedNum) {
   bedNum = Number(bedNum);
   minPrice = Number(minPrice);
   maxPrice = Number(maxPrice);
-  var roomList = [];
+  const roomList = [];
 
   // Checks
   if (!minPrice){
@@ -103,6 +103,7 @@ export async function searchRoom(minPrice, maxPrice, bedNum) {
         }else{         
            querySnapshot.forEach((doc) => {
             roomList.push(doc.data());
+            console.log(doc.data());
           });
           console.log(roomList);
           return roomList;    
