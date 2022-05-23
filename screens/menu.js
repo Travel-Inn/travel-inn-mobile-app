@@ -8,37 +8,59 @@ import RestaurantMenu from './restaurantMenu.js';
 export default function Menu({navigation}) {
 	 const [ breakfastBeverages, setBreakfastBeverages ] = React.useState([]);
 	const [breakloop, setBreakloop] = React.useState(false);
+	const [image, setImage] = React.useState([]);
+	const [firsthalf, setfirst] = React.useState([]);
+	const [secondhalf, setsecond] = React.useState([]);
   
 	React.useEffect(()=>{
 		LogBox.ignoreLogs(['Setting a timer']);
 		const db = firebase.firestore();
+		
 		db.collection('menu').get().then((querysnapshot)=>{
 			querysnapshot.forEach(snapshot=>{
 				const barray=[];
 				const farray=[];
 				const menuname= snapshot.data().menuName;
-				const menuimage= snapshot.data().menuImage;
+				
 				// setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,snapshot.data()]);
-				db.collection('menu').doc(snapshot.data().menuName).collection('beverages').get().then((querysnapshot)=>{
-					querysnapshot.forEach(snapshot=>{
-						barray.push(snapshot.data())
-					}) 
-				});
+				if(menuname!="Dessert"){
+					db.collection('menu').doc(snapshot.data().menuName).collection('beverages').get().then((querysnapshot)=>{
+						querysnapshot.forEach( snapshot=>{
+							barray.push(snapshot.data())
+						}) 
+					});
+				}
 				db.collection('menu').doc(snapshot.data().menuName).collection('food').get().then((querysnapshot)=>{
 					querysnapshot.forEach(snapshot=>{
-						farray.push(snapshot.data())
+						farray.push(snapshot.data());
 					})
-					firebase.storage().ref('menuImages/'+menuimage)
-					.getDownloadURL().then((url)=>{
-						// console.log(menuimage+""+url);
-						const object = {menuName: menuname, menuImage: url, beverages:barray, food: farray}
+						const object = {menuName: menuname, beverages:barray, food: farray}
 						setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,object]);
-					});
 				});
 			})
-			
 		})
-	},[breakloop]) 
+
+		firebase.storage().ref('menuImages/breakfast-foods.jpg').getDownloadURL()
+		.then(url=>{
+			setfirst(firsthalf=>[...firsthalf,url]);
+		})
+		firebase.storage().ref('menuImages/brunch.jpg').getDownloadURL()
+		.then((url)=>{
+			setfirst(firsthalf=>[...firsthalf,url]);
+			console.log(firsthalf);
+		})
+		firebase.storage().ref('menuImages/dessert.jpg').getDownloadURL()
+		.then((url)=>{
+			setsecond(secondhalf=>[...secondhalf,url]);
+		})
+		setfirst(firsthalf.sort());
+		setsecond(secondhalf.sort());
+		setsecond(secondhalf.reverse());
+	},[breakloop])
+
+	React.useEffect(()=>{
+		setImage(firsthalf.concat(secondhalf));
+	},[firsthalf,secondhalf])
 
 	const [ref, setRef] = React.useState(null);
 	const [loc, setLoc] = React.useState(0);
@@ -61,7 +83,7 @@ export default function Menu({navigation}) {
             id: "brunch",
             image: require('../images/brunch.jpg'),
             name: "Brunch",
-			loc: locs[1]
+			loc: locs[1] 
         }, 
         {
             id: "lunch",
@@ -103,12 +125,12 @@ export default function Menu({navigation}) {
 					breakfastBeverages.map((item, index)=>(
 						<ImageBackground  key={index} 
 						// onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
-							source={{uri:item.menuImage}} 
+							source={{uri:image[index]}} 
 							style={styles.menuContainer} resizeMode="cover" >
 							<View style={styles.menuName}>
 								<Text style={styles.submenu}>{item.menuName}</Text>
 							</View>
-							{item.menuName != "DESSERT"? <View style={styles.menuItems}>
+							{item.menuName != "Dessert"? <View style={styles.menuItems}>
 								<Text style={styles.whiteText}>BEVERAGES</Text>
 								<ScrollView contentContainerStyle={styles.menuTable}>
 									<View style={{width: "45%"}}>
