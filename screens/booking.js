@@ -17,10 +17,14 @@ export default function Booking({navigation}) {
 	const [bedNum, setBedNum] = React.useState('');
 	const [values, setValues] = React.useState([]);
 	const [search, setSearch] = React.useState(false);
+	const [loading, setLoading] = React.useState(true);
+	const [feedback, setFeedback] =React.useState('');
 	const db = firebase.firestore();
 	const onHandleSearch = () => {
 		setValues([]);
 		setSearch(true);
+		setLoading(true);
+		setFeedback('');
 		const bednum = Number(bedNum);
 		const minprice = Number(minPrice);
 		const maxprice = Number(maxPrice);
@@ -47,13 +51,15 @@ export default function Booking({navigation}) {
 			.then((querySnapshot) => {
 			  if(querySnapshot.empty){
 				console.log("No rooms available");
+				setFeedback("No rooms Available");
+				setLoading(false);
 				return 1;
 			  }else{         
 				 querySnapshot.forEach((doc) => {
 				  roomList.push(doc.data());
 				  setValues(values=>[...values,doc.data()]);
 				});
-				return roomList;    
+				setLoading(false);    
 			  }
 			})
 			.catch((error) => {
@@ -64,7 +70,8 @@ export default function Booking({navigation}) {
 
 	React.useEffect(()=>{
 		console.log(values);
-	},[values])
+		console.log(feedback)
+	},[values, feedback])
 	
 	
 	
@@ -228,17 +235,19 @@ export default function Booking({navigation}) {
 						</View>
 					</TouchableOpacity>
 				})
-				: values.length ==0? <ActivityIndicator size={50} animating={true} color="white"/>:
-
+				: loading==true? <ActivityIndicator size={50} animating={true} color="white"/>:
+					feedback==''?
 					values.map((item,index)=>{
-					return <TouchableOpacity key={index} style={styles.room}>
+					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room')}>
 					<Image source={require('../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>{item.roomType}</Text>
 						<Text>Single Room with Twin Beds</Text>
 						<Text>GHC 300.00</Text>
 					</View>
-				</TouchableOpacity>})}
+				</TouchableOpacity>}):
+				<Text style={{color: 'white'}}>{feedback}</Text>
+				}
 			</View>
 		</ScrollView>
 	</View>
