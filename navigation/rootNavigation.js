@@ -3,11 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { View, ActivityIndicator } from 'react-native';
 import HomeStack from "./userStack";
 import AuthStack from './authStack';
-import Firebase from '../config/firebase';
+import Firebase from '../config/firebase'; 
 import { AuthenticatedUserContext } from './AuthenticatedUserProvider';
 
 
+//const auth = firebase.auth();
 const auth = Firebase.auth();
+
 
 export default function RootNavigator() {
   const { user, setUser } = useContext(AuthenticatedUserContext);

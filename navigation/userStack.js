@@ -4,12 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import BottomTabs from './bottomNavigation.js';
 const Stack = createNativeStackNavigator();
 
-export default function AuthStack() {
+export default function UserStack() {
   return (
-      <NavigationContainer >
     <Stack.Navigator headerMode='none'>
 		<Stack.Screen name="BottomNav" component={BottomTabs}/>
     </Stack.Navigator>
-      </NavigationContainer>
   );
 }
