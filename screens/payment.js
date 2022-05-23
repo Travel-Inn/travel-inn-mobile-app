@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from "firebase/compat/app";
 import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, StyleSheet, TextInput} from 'react-native';
 
 	const fullWidth = Dimensions.get('screen').width;
@@ -6,8 +7,23 @@ import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, S
 	const eighty = Dimensions.get('screen').width*0.8;
 export default function Payment(){
 	const [step, setStep] = React.useState('white');
-	
+	const [roomPrice, setRoomPrice] = React.useState('');
+	const [roomType, setRoomType] = React.useState('');
 
+	    React.useEffect(() => {
+			 const getRoom = async(roomID) => {
+				let roomDetails = await firebase
+				.firestore()
+				.collection("Rooms")
+				.doc(roomID)
+				.get();
+
+            let room = roomDetails.data();
+            setRoomPrice(room.roomPrice);
+			setRoomType(room.roomType);
+         }
+         getRoom("KOHqLKL1SRM9UAQRM4rx");
+    },[])
     return (
         <View style={styles.container}>
 		<ScrollView>
@@ -64,8 +80,8 @@ export default function Payment(){
 					Price Summary
 				</Text>
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: eighty, marginVertical: 5}}>
-					<Text>Single Room</Text>
-					<Text>GHC 200</Text>
+					<Text>{roomType}</Text>
+					<Text>GHC {roomPrice}</Text>
 				</View>
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: eighty, marginVertical: 5}}>
 					<Text>Number of Nights</Text>
@@ -78,7 +94,7 @@ export default function Payment(){
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: fullWidth,paddingHorizontal: 20, 
 				padding: 10, borderTopWidth: 1, borderBottomWidth: 1, marginVertical: 5}}>
 					<Text>Total Amount</Text>
-					<Text>GHC 1,050</Text>
+					<Text>GHC {(roomPrice * 5) + 50}</Text>
 				</View>
 				<TouchableOpacity style={styles.button} onPress={()=>setStep('black')}>
 					<Text style={{color: 'white', textAlign: 'center'}}>Continue</Text>
