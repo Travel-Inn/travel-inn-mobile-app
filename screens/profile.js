@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackHandler,Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { loggingOut } from '../config/firebase';
 
@@ -63,10 +63,13 @@ export default function Profile({navigation}) {
                     <Text>Gender</Text>
                     <Text>Male</Text>
                 </View>
-                <TouchableOpacity style={styles.options} onPress={()=>setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1))}>
+                <TouchableOpacity style={styles.options} >
                     <Text>Number</Text>
                     <Text>0551540686</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.backbtn} onPress={()=>setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1))}>
+				    <Text>Done</Text>
+			    </TouchableOpacity>
 				
 			</View>}
 		</ScrollView>
@@ -126,5 +129,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: 15,
         marginBottom: 30
-    }
+    },
+    backbtn:{
+		backgroundColor: 'white',
+		width: Dimensions.get('screen').width*0.4,
+		borderRadius: 15,
+		padding: 8,
+		textAlign: 'center',
+		alignSelf: 'center'
+	},
 });
