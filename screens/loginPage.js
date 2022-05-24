@@ -11,28 +11,23 @@ import Loader from '../widgets/loading';
 export default function LoginPage({navigation}){
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [name, setName] = useState('');
 	const [loading, setLoading] = useState(false);
 
 	const emptyState = () => {
 		setEmail('');
 		setPassword('');
-		setName('');
   };
 
-
   const onHandleLogin = async () => {
-	  setLoading(true);
+	setLoading(true);
     if (!email) { //TODO: Add email checks
 		setLoading(false);
       console.log('Email is required');
     } else if (!password) {
 		setLoading(false);
       console.log('Password is required.');
-    } else if (await signIn(email,password) == 1) {
-		  setLoading(false);
+    } else if (await signIn(email,password) == 0) {
 	  }else{
-		  emptyState();
 		  setLoading(false);
 	  } 
   };
