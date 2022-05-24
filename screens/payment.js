@@ -1,21 +1,74 @@
 import React from 'react';
 import firebase from "firebase/compat/app";
-import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, StyleSheet, TextInput} from 'react-native';
+import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, StyleSheet, TextInput,ActivityIndicator} from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getUserData } from '../config/firebase';
-
+import { bookRoom } from '../config/firebase';
 
 	const fullWidth = Dimensions.get('screen').width;
 	const ninety = Dimensions.get('screen').width*0.9;
 	const eighty = Dimensions.get('screen').width*0.8;
-export default function Payment({route, navigation}){
-	const { roomPrice, roomType, userInfo } = route.params;
 
+export default function Payment({route, navigation}){
+	const { roomPrice, roomType, roomName, roomID, userInfo } = route.params;
+	
+	const currDate = new Date();
+	const  tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
 	const [step, setStep] = React.useState('white');
-	const [inDate, setInDate] = React.useState('04-15-2022');
-	const [outDate, setOutDate] = React.useState('04-16-2022');
-	const [nights, setNights] = React.useState();
+	const [inDate, setInDate] = React.useState(currDate);
+	const [outDate, setOutDate] = React.useState(tomorrow);
+	const [nights, setNights] = React.useState('');
+	const [cardNo, setCardNo] = React.useState('');
+	const [expiryDate, setExpiryDate] = React.useState('');
+	const [CVC, setCVC] = React.useState('');
+	const [cardName, setCardName] = React.useState('');
+
+	const [loading, setLoading] = React.useState(false);
+	const onHandleSubmit = async () => {
+		// check for text
+		setLoading(true);
+		const date1 = new Date(inDate).getDate();
+		const date2 = new Date(outDate).getDate();
+		const currDate1 = currDate.getDate();
+		console.log(date1);
+		console.log(currDate1);
+		console.log(roomID);
+		
+		if (date2 < currDate1){
+			setLoading(false);
+			console.log("CheckOut date cannot be less than current date.");
+		} else if (date1 < currDate1){
+			setLoading(false);
+			console.log("CheckIn date cannot be less than current date.")
+		}else if (date2 < date1){
+			setLoading(false);
+			console.log("CheckIn date cannot be greater than checkOut date.");
+		} else if (nights.length<=0){
+			setLoading(false);
+			console.log("Number of nights should be greater than 0.");
+		} else if (cardNo.length != 16) {
+			setLoading(false);
+			console.log("Card number should be 16 digits.")
+		} else if (!expiryDate) {
+			setLoading(false);
+			console.log("Expiry date shouldn't be empty.")
+		} else if (CVC.length != 3) {
+			setLoading(false);
+			console.log("CVC should be 3 digits.")
+		} else if(!cardName) {
+			setLoading(false);
+			console.log("Card name shouldn't be empty.");
+		}  else if (await bookRoom(nights, roomID, roomName, inDate, outDate) ==0 ){
+			setLoading(false);
+			console.log("Room has been booked successfully.");
+			//Navigate to next page.
+		} else {
+			setLoading(false);
+			console.log("There was an error.");
+		}
+	}
 
 		React.useEffect(() => {
 		const nightNum = (start,end) => {
@@ -57,7 +110,7 @@ export default function Payment({route, navigation}){
 				<View style={{justifyContent: 'center', alignItems: 'center'}}>
 				<Text style={{fontSize: 18, fontWeight: 'bold'}}>Contact Information</Text>
 				<TextInput
-				value={userInfo.name}
+				value={userInfo.firstName+ " " + userInfo.lastName}
 				editable={false}
 				style={styles.contactInfo}
 				/>
@@ -80,7 +133,8 @@ export default function Payment({route, navigation}){
 							mode="date"
 							placeholder="Check In"
 							format="MM-DD-YYYY"
-							minDate="06-14-2009"
+							minDate={currDate}
+							maxDate={outDate}
 							confirmBtnText="Confirm"
 							iconSource={null}
 							onDateChange={(date) => {setInDate(date);}}
@@ -113,7 +167,7 @@ export default function Payment({route, navigation}){
 							mode="date"
 							placeholder="Check In"
 							format="MM-DD-YYYY"
-							minDate="06-14-2009"
+							minDate={inDate}
 							confirmBtnText="Confirm"
 							iconSource={null}
 							onDateChange={(date) => {setOutDate(date);}}
@@ -162,30 +216,42 @@ export default function Payment({route, navigation}){
 				</TouchableOpacity>
 
 			</View>
+			: loading ?
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+			<ActivityIndicator size='large' />
+			</View>
 			:
 			<View style={{justifyContent: 'center', alignItems: 'center'}}>
 				<Text style={{width: eighty}}>Card Number</Text>
-				<TextInput
-				value = "1234 1234 5678 5678"
-				editable={false}
+				<Input
+				placeholder = "1234 1234 5678 5678"
+				keyboardType='numeric'
+				value={cardNo}
+				onChangeText={text => setCardNo(text)}
 				style={styles.contactInfo}
+				maxLength={16}
 				/>
 				<Text style={{width: eighty}}>Expiry Date</Text>
-				<TextInput
-				value = "MM/YY"
-				editable={false}
+				<Input
+				placeholder = "MM/YY"
+				value={expiryDate}
+				onChangeText={text => setExpiryDate(text)}
 				style={styles.contactInfo}
 				/>
 				<Text style={{width: eighty}}>CVC</Text>
-				<TextInput
-				value = "123"
-				editable={false}
+				<Input
+				placeholder = "123"
+				keyboardType='numeric'
+				value={CVC}
+				onChangeText={text => setCVC(text)}
 				style={styles.contactInfo}
+				maxLength={3}
 				/>
 				<Text style={{width: eighty}}>Name on Card</Text>
-				<TextInput
-				value ="Samuel Nai"
-				editable={false}
+				<Input
+				placeholder="John Doe"
+				value ={cardName}
+				onChangeText={text => setCardName(text)}
 				style={styles.contactInfo}
 				/>
 				<View style={{flexDirection: 'row', justifyContent: 'space-around',
@@ -193,7 +259,7 @@ export default function Payment({route, navigation}){
 					<TouchableOpacity style={styles.button} onPress={()=>setStep('white')}>
 						<Text style={{color: 'white'}}>Previous</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.button} onPress={()=>setStep('black')}>
+					<TouchableOpacity style={styles.button} onPress={onHandleSubmit}>
 						<Text style={{color: 'white'}}>Submit</Text>
 					</TouchableOpacity>
 				</View>
