@@ -1,9 +1,32 @@
 import React from 'react';
 import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import firebase from "firebase/compat/app";
+
 
 export default function UserDetails() {
+    const [userDetails, setUserDetails] = React.useState([]);
 
+    React.useEffect(() =>{
+            const db = firebase.firestore();
+            const user = firebase.auth().currentUser;
+            db.collection("Users").doc(user.uid)
+            .get()
+            .then((doc) => {
+                if (doc.exists){
+                console.log("User data has been extracted.");
+                setUserDetails(doc.data());
+                setName(userDetails.name);
+                } else {
+                console.log("No such user exists.");
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+
+
+
+        },[])
   return(
     <View style={styles.container} >
 		<ScrollView>
@@ -14,21 +37,21 @@ export default function UserDetails() {
                 <View style={styles.user}>
                     <Image source={require('../images/profile.jpg')} style={styles.profileImage}/>
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={{color: 'white'}}>Samuel Nai</Text>
-                        <Text style={{color: 'white'}}>samuel.nai@yahoo.com</Text>
+                        <Text style={{color: 'white'}}>{userDetails.firstName} {userDetails.lastName}</Text>
+                        <Text style={{color: 'white'}}>{userDetails.email}</Text>
                     </View>
                 </View>
                 <View style={styles.options}>
                     <Text>First Name</Text>
-                    <Text>Samuel</Text>
+                    <Text>{userDetails.firstName}</Text>
                 </View>
                 <View style={styles.options}>
                     <Text>Last Name</Text>
-                    <Text>Nai</Text>
+                    <Text>{userDetails.lastName}</Text>
                 </View>
                 <View style={styles.options}>
                     <Text>Email</Text>
-                    <Text>Samuel.nai@yahoo.com</Text>
+                    <Text>{userDetails.email}</Text>
                 </View>
                 <View style={styles.options}>
                     <Text>Gender</Text>
@@ -36,7 +59,7 @@ export default function UserDetails() {
                 </View>
                 <View style={styles.options}>
                     <Text>Number</Text>
-                    <Text>0551540686</Text>
+                    <Text>{userDetails.phoneNum}</Text>
                 </View>
 				
 			</View>
