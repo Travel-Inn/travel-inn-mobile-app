@@ -8,10 +8,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 	const fullWidth = Dimensions.get('screen').width;
 	const ninety = Dimensions.get('screen').width*0.9;
 	const eighty = Dimensions.get('screen').width*0.8;
-export default function Payment(){
+export default function Payment({route, navigation}){
+	const { roomPrice, roomType } = route.params;
+
 	const [step, setStep] = React.useState('white');
-	const [roomPrice, setRoomPrice] = React.useState('');
-	const [roomType, setRoomType] = React.useState('');
 	const [inDate, setInDate] = React.useState('09-10-2021');
 	const [outDate, setOutDate] = React.useState('01-27-2022');
 	const [nights, setNights] = React.useState();
@@ -34,20 +34,6 @@ export default function Payment(){
 		nightNum(inDate, outDate);
 		},[inDate,outDate])
 
-	    React.useEffect(() => {
-			 const getRoom = async(roomID) => {
-				let roomDetails = await firebase
-				.firestore()
-				.collection("Rooms")
-				.doc(roomID)
-				.get();
-
-            let room = roomDetails.data();
-            setRoomPrice(room.roomPrice);
-			setRoomType(room.roomType);
-         }
-         getRoom("KOHqLKL1SRM9UAQRM4rx"); // The room id will be passed from the previous screen.
-    },[])
     return (
         <View style={styles.container}>
 		<ScrollView>
