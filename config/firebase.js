@@ -14,6 +14,9 @@ export default Firebase;
 
 export async function registration(email, password, name, phoneNum) {
   const db = firebase.firestore();
+  const firstName = name.split(' ').slice(0, -1).join(' ');
+  const lastName = name.split(' ').slice(-1).join(' ');
+
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
     const currentUser = firebase.auth().currentUser;
@@ -23,13 +26,15 @@ export async function registration(email, password, name, phoneNum) {
       .doc(currentUser.uid)
       .set({
         email: currentUser.email,
-        name: name,
+        firstName: firstName,
+        lastName: lastName,
         checkIn: false,
-        checkInDate: null,
-        checkOutDate: null,
+        roomName: "",
+        numberOfNights: 0,
         phoneNum: phoneNum,
         uid: currentUser.uid,
-
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
       console.log("User details have been stored successfully")
       return 0;
@@ -72,18 +77,29 @@ export async function loggingOut() {
   }
 }
 
-// export async function getRoomDetails(roomID){
-//   const db = firebase.firestore();
-//   db.collections("Rooms").doc(roomID)
-//   .get()
-//   .then((doc) => {
-//     if (doc.exists){
-//       console.log("Document data: ", doc.data());
-//       return doc.data();
-//     } else {
-//       console.log("No such document exists.");
-//     }
-//   }).catch((error) => {
-//     console.log("Error getting document:", error);
-// });
-// }
+export async function bookRoom(nights,roomID, roomName, inDate, outDate){
+    const db = firebase.firestore();
+    const currentUser = firebase.auth().currentUser;
+
+  try {
+    db.collection("Users")
+    .doc(currentUser.uid)
+    .update({
+      checkIn: true,
+      numberOfNights: nights,
+      roomName: roomName
+    });
+    db.collection("Rooms")
+    .doc(roomID)
+    .update({
+      checkInDate:inDate,
+      checkOutDate:outDate,
+      isRoomAvailable: false,
+    })
+    console.log("User and Room Details have been updated successfully.")
+    return 0;
+  } catch(err){
+    console.log("Unexpected error.", err.message);
+    return 1;
+  }
+}
