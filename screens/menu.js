@@ -13,42 +13,40 @@ export default function Menu({navigation}) {
 	const [secondhalf, setsecond] = React.useState([]);
   
 
-	React.useEffect(()=>{
-		setfirst([]);
-		setsecond([]);
-		setImage([]);
-		firebase.storage().ref('menuImages/breakfast-foods.jpg').getDownloadURL()
-		.then(url=>{
-			setfirst(firsthalf=>[...firsthalf,url]);
-		})
-		firebase.storage().ref('menuImages/brunch.jpg').getDownloadURL()
-		.then((url)=>{
-			setfirst(firsthalf=>[...firsthalf,url]);
-			console.log(firsthalf);
-		})
-		firebase.storage().ref('menuImages/lunch.png').getDownloadURL()
-		.then((url)=>{
-			setfirst(firsthalf=>[...firsthalf,url]);
-			console.log(firsthalf);
-		})
-		firebase.storage().ref('menuImages/dinner.jpg').getDownloadURL()
-		.then((url)=>{
-			setsecond(secondhalf=>[...secondhalf,url]);
-			console.log(firsthalf);
-		})
-		firebase.storage().ref('menuImages/dessert.jpg').getDownloadURL()
-		.then((url)=>{
-			setsecond(secondhalf=>[...secondhalf,url]);
-		})
-		setfirst(firsthalf.sort());
-		console.log(firsthalf);
-		setsecond(secondhalf.sort()); 
-		setsecond(secondhalf.reverse());
-	},[])
+	// React.useEffect(()=>{
+	// 	firebase.storage().ref('menuImages/breakfast-foods.jpg').getDownloadURL()
+	// 	.then(url=>{
+	// 		setfirst(firsthalf=>[...firsthalf,url]);
+	// 	})
+	// 	firebase.storage().ref('menuImages/brunch.jpg').getDownloadURL()
+	// 	.then((url)=>{
+	// 		setfirst(firsthalf=>[...firsthalf,url]);
+	// 		console.log(firsthalf);
+	// 	})
+	// 	firebase.storage().ref('menuImages/lunch.png').getDownloadURL()
+	// 	.then((url)=>{
+	// 		setfirst(firsthalf=>[...firsthalf,url]);
+	// 		console.log(firsthalf);
+	// 	})
+	// 	firebase.storage().ref('menuImages/dinner.jpg').getDownloadURL()
+	// 	.then((url)=>{
+	// 		setsecond(secondhalf=>[...secondhalf,url]);
+	// 		console.log(firsthalf);
+	// 	})
+	// 	firebase.storage().ref('menuImages/dessert.jpg').getDownloadURL()
+	// 	.then((url)=>{
+	// 		setsecond(secondhalf=>[...secondhalf,url]);
+	// 	})
+	// 	setfirst(firsthalf.sort());
+	// 	console.log(firsthalf);
+	// 	setsecond(secondhalf.sort()); 
+	// 	setsecond(secondhalf.reverse());
+	// },[])
 
-	React.useEffect(()=>{
-		setImage(firsthalf.concat(secondhalf));
-	},[firsthalf,secondhalf])
+	// React.useEffect(()=>{
+	// 	setImage(firsthalf.concat(secondhalf));
+	// 	console.log(image);
+	// },[firsthalf,secondhalf])
 
 
 	React.useEffect(()=>{
@@ -60,6 +58,7 @@ export default function Menu({navigation}) {
 				const barray=[];
 				const farray=[];
 				const menuname= snapshot.data().menuName;
+				const menutype= snapshot.data().menuType;
 				
 				// setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,snapshot.data()]);
 				if(menuname!="Dessert"){
@@ -73,7 +72,7 @@ export default function Menu({navigation}) {
 					querysnapshot.forEach(snapshot=>{
 						farray.push(snapshot.data());
 					})
-						const object = {menuName: menuname, beverages:barray, food: farray}
+						const object = {menuName: menutype, beverages:barray, food: farray}
 						setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,object]);
 				});
 			})
@@ -144,8 +143,8 @@ export default function Menu({navigation}) {
 				{
 					breakfastBeverages.map((item, index)=>(
 						<ImageBackground  key={index} 
-						// onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
-							source={{uri:image[index]}} 
+						onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
+							source={menuTabs[index].image} 
 							style={styles.menuContainer} resizeMode="cover" >
 							<View style={styles.menuName}>
 								<Text style={styles.submenu}>{item.menuName}</Text>
