@@ -70,7 +70,8 @@ export default function Booking({navigation}) {
 	React.useEffect(() =>{
 		const db = firebase.firestore();
 		const user = firebase.auth().currentUser;
-		db.collection("Users").doc(user.uid)
+		db.collection("Users")
+		.doc(user.uid)
 		.get()
 		.then((doc) => {
 			if (doc.exists){
@@ -90,31 +91,7 @@ export default function Booking({navigation}) {
 		console.log("These are the values" +values);
 		console.log("This is the user data" + userDetails);
 	},[values, userDetails])
-	
-	
-	
 
-	const rooms =[
-		{
-			name: 'Single Room',
-			description: 'Single Room With single Bed',
-			price: 250.00,
-			image: require("../images/booking-room1.jpg")
-		},
-		{
-			name: 'Twin-Bed Room',
-			description: 'Single Room With Twin Beds',
-			price: 300.00,
-			image: require("../images/booking-room2.jpg")
-		},
-		{
-			name: 'Double Room',
-			description: 'Single Room With Double Bed',
-			price: 350.00,
-			image: require("../images/booking-room3.jpg")
-		},
-
-	]
 
 
 
