@@ -40,12 +40,24 @@ export default function Contact({navigation}){
             </ImageBackground>
             <View style={styles.contacts}>
 				<ScrollView contentContainerStyle={styles.contactGrid}>
-                    <View style={styles.contact}><Icons name="facebook" size = {25} color="white" /><Text onPress={()=> Linking.openURL(facebook)}>{facebook}</Text></View>
-                    <View style={styles.contact}><Icons name="twitter" size = {25} color="white"/><Text onPress={()=> Linking.openURL(twitter)}>{twitter}</Text></View>
-                    <View style={styles.contact}><Icons name="instagram" size = {25} color="white"/><Text onPress={()=> Linking.openURL(instagram)}>{instagram}</Text></View>
-                    <View style={styles.contact}><Icons name="linkedin" size = {25} color="white"/><Text onPress={()=> Linking.openURL(linkedin)}>{linkedin}</Text></View>
-                    <View style={styles.contact}><Icons name="envelope" size = {25} color="white"/><Text onPress={()=> Linking.openURL('mailto:${email}')}>{email}</Text></View>
-                    <View style={styles.contact}><Icons name="phone" size = {20} color="white"/><Text onPress={()=> Linking.openURL('tel:{phone}')}>{phone}</Text></View>
+                    <View style={styles.contact}><Icons name="facebook" size = {25} color="white" />
+                        <Text style={{color: 'white', paddingLeft: 10}} onPress={()=> Linking.openURL(facebook)}>{facebook}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="twitter" size = {25} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL(twitter)}>{twitter}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="instagram" size = {25} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL(instagram)}>{instagram}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="linkedin" size = {25} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL(linkedin)}>{linkedin}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="envelope" size = {25} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL('mailto:${email}')}>{email}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="phone" size = {20} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL('tel:{phone}')}>{phone}</Text>
+                    </View>
 				</ScrollView>
             </View>
         </View>
@@ -89,6 +101,5 @@ const styles = StyleSheet.create({
 		padding: 5,
 		flexDirection: 'row',
 		alignItems: 'center',
-        color: 'white'
 	}
 });
