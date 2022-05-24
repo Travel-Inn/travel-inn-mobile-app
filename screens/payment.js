@@ -32,8 +32,6 @@ export default function Payment({route, navigation}){
 		const date1 = new Date(inDate).getDate();
 		const date2 = new Date(outDate).getDate();
 		const currDate1 = currDate.getDate();
-
-		console.log("This is the room ID"+roomID);
 		
 		if (date2 < currDate1){
 			setLoading(false);
