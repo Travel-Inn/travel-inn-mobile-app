@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import firebase from "firebase/compat/app";
-import { Text,Linking, View, StyleSheet, Dimensions, ImageBackground, ScrollView } from 'react-native';
-import TopBtns from './topBar.js';
+import { Text,Linking, View, StyleSheet, Dimensions, ImageBackground, ScrollView, LogBox} from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 
 export default function Contact({navigation}){
@@ -13,6 +12,7 @@ export default function Contact({navigation}){
     const [twitter, setTwitter] = useState('');
 
     useEffect(() => {
+        LogBox.ignoreLogs(['Setting a timer']);
         const getContacts=async()=> {
             let contactValues = await firebase
             .firestore()
@@ -33,24 +33,31 @@ export default function Contact({navigation}){
 
     return(
         <View style={styles.contactContent}>
-			<TopBtns touchAction={navigation.openDrawer}/>
             <ImageBackground source={require("../images/contact.jpg")} resizeMode="cover" style={styles.backgroundImage}>
                 <View style={styles.contactPageInfo}>
-                    <Text style={styles.whiteText}>Contact</Text>
+                    <Text style={styles.whiteText}>CONTACT INFO</Text>
                 </View>
             </ImageBackground>
             <View style={styles.contacts}>
 				<ScrollView contentContainerStyle={styles.contactGrid}>
-					<View>
-						<View style={styles.contact}><Icons name="facebook" size = {25} /><Text onPress={()=> Linking.openURL(facebook)}>{facebook}</Text></View>
-						<View style={styles.contact}><Icons name="twitter" size = {25} /><Text onPress={()=> Linking.openURL(twitter)}>{twitter}</Text></View>
-						<View style={styles.contact}><Icons name="instagram" size = {25} /><Text onPress={()=> Linking.openURL(instagram)}>{instagram}</Text></View>
-					</View>
-					<View>
-						<View style={styles.contact}><Icons name="linkedin" size = {25} /><Text onPress={()=> Linking.openURL(linkedin)}>{linkedin}</Text></View>
-						<View style={styles.contact}><Icons name="envelope" size = {25} /><Text onPress={()=> Linking.openURL('mailto:${email}')}>{email}</Text></View>
-						<View style={styles.contact}><Icons name="phone" size = {20} /><Text onPress={()=> Linking.openURL('tel:{phone}')}>{phone}</Text></View>
-					</View>
+                    <View style={styles.contact}><Icons name="facebook" size = {25} color="white" />
+                        <Text style={{color: 'white', paddingLeft: 10}} onPress={()=> Linking.openURL(facebook)}>{facebook}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="twitter" size = {25} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL(twitter)}>{twitter}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="instagram" size = {25} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL(instagram)}>{instagram}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="linkedin" size = {25} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL(linkedin)}>{linkedin}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="envelope" size = {25} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL('mailto:${email}')}>{email}</Text>
+                    </View>
+                    <View style={styles.contact}><Icons name="phone" size = {20} color="white"/>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL('tel:{phone}')}>{phone}</Text>
+                    </View>
 				</ScrollView>
             </View>
         </View>
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
         flex: 1,
       },
     backgroundImage:{
-        flex: 3,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -71,26 +78,28 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0, 0.7)',
         borderRadius: 25,
         width: Dimensions.get('window').width*(70/100),
-        padding: 20,
+        padding: 15,
     },
     whiteText:{
         color: 'white',
         marginBottom: 10,
-		textAlign: 'center'
+		textAlign: 'center',
+        fontSize: 20
       },
     contacts:{
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#000000",
+        paddingLeft: 10
     },
 	contactGrid:{
-		flexDirection: 'row',
 		justifyContent: 'space-around',
 		marginTop: 15,
+        flex: 1,
 	},
 	contact:{
 		fontSize: 15,
 		padding: 5,
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
 	}
 });

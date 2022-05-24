@@ -1,7 +1,9 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Booking from '../screens/booking';
+import Congratulation from '../screens/congrats';
 import Contact from '../screens/contact';
+import HistoryScreen from '../screens/history';
 import Home from '../screens/home';
 import Menu from '../screens/menu';
 import Payment from '../screens/payment';
@@ -30,6 +32,8 @@ export default function BottomTabs(){
             <Tab.Screen name="User" component={UserDetails} options={{tabBarButton:()=>null, tabBarVisible: false}} />
             <Tab.Screen name="Room" component={Room} options={{tabBarButton:()=>null, tabBarVisible: false}} />
             <Tab.Screen name="Payment" component={Payment} options={{tabBarButton:()=>null, tabBarVisible: false}} />
+            <Tab.Screen name="History" component={HistoryScreen} options={{tabBarButton:()=>null, tabBarVisible: false}} />
+            <Tab.Screen name="Congrats" component={Congratulation} options={{tabBarButton:()=>null, tabBarVisible: false}} />
         </Tab.Navigator>
     )
 }
