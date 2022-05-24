@@ -42,8 +42,11 @@ export default function Room({route, navigation}) {
                     <Text style={{color: 'white', paddingRight: 25}}>
                     <Icon name="car" color="#aa3300"/> Free Parking</Text>
                 </View>
-                <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('Payment', { roomPrice: roomDetails.roomPrice, roomType: roomDetails.roomType, userInfo: userData})}>
-                    <Text>Book Room?</Text>
+                <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('Payment', {
+                 roomPrice: roomDetails.roomPrice, roomType: roomDetails.roomType,
+                 roomName: roomDetails.roomName, roomID: roomDetails.id,
+                 userInfo: userData})}>
+                    <Text>Book Room</Text>
                 </TouchableOpacity>
 				
 			</View>
