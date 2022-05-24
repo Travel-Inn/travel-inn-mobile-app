@@ -5,7 +5,7 @@ import ShowSnackBar from './snackbar';
 const Loader=()=>(
     <View style={styles.container}>
         <ActivityIndicator size={90} animating={true} color="blue"/>
-        <ShowSnackBar />
+        {/* <ShowSnackBar /> */}
     </View>
 );
 export default Loader;
