@@ -3,17 +3,18 @@ import firebase from "firebase/compat/app";
 import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, StyleSheet, TextInput} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { getUserData } from '../config/firebase';
 
 
 	const fullWidth = Dimensions.get('screen').width;
 	const ninety = Dimensions.get('screen').width*0.9;
 	const eighty = Dimensions.get('screen').width*0.8;
 export default function Payment({route, navigation}){
-	const { roomPrice, roomType } = route.params;
+	const { roomPrice, roomType, userInfo } = route.params;
 
 	const [step, setStep] = React.useState('white');
-	const [inDate, setInDate] = React.useState('09-10-2021');
-	const [outDate, setOutDate] = React.useState('01-27-2022');
+	const [inDate, setInDate] = React.useState('04-15-2022');
+	const [outDate, setOutDate] = React.useState('04-16-2022');
 	const [nights, setNights] = React.useState();
 
 		React.useEffect(() => {
@@ -56,17 +57,17 @@ export default function Payment({route, navigation}){
 				<View style={{justifyContent: 'center', alignItems: 'center'}}>
 				<Text style={{fontSize: 18, fontWeight: 'bold'}}>Contact Information</Text>
 				<TextInput
-				value="Samuel Nai"
+				value={userInfo.name}
 				editable={false}
 				style={styles.contactInfo}
 				/>
 				<TextInput
-				value="samuel.nai@yahoo.com"
+				value={userInfo.email}
 				editable={false}
 				style={styles.contactInfo}
 				/>
 				<TextInput
-				value="055 154 0686"
+				value={userInfo.phoneNum}
 				editable={false}
 				style={styles.contactInfo}
 				/>

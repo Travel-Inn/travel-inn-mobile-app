@@ -3,8 +3,7 @@ import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, Scrol
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Room({route, navigation}) {
-  const { roomDetails } = route.params;
-  const roomPrice = roomDetails.roomPrice;
+  const { roomDetails, userData } = route.params;
 
   return(
     <View style={styles.container} >
@@ -43,7 +42,7 @@ export default function Room({route, navigation}) {
                     <Text style={{color: 'white', paddingRight: 25}}>
                     <Icon name="car" color="#aa3300"/> Free Parking</Text>
                 </View>
-                <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('Payment', { roomPrice: roomDetails.roomPrice, roomType: roomDetails.roomType})}>
+                <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('Payment', { roomPrice: roomDetails.roomPrice, roomType: roomDetails.roomType, userInfo: userData})}>
                     <Text>Book Room?</Text>
                 </TouchableOpacity>
 				
