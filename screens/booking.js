@@ -10,19 +10,15 @@ import { searchRoom } from '../config/firebase';
 import { NavigationContainer } from '@react-navigation/native';
 
 export default function Booking({navigation}) {
-	const [inDate, setInDate] = React.useState('');
-	const [outDate, setOutDate] = React.useState('');
 	const [minPrice, setMinPrice] = React.useState('');
 	const [maxPrice, setMaxPrice] = React.useState('');
 	const [bedNum, setBedNum] = React.useState('');
 	const [values, setValues] = React.useState([]);
-	const [search, setSearch] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
 	const [feedback, setFeedback] =React.useState('');
 	const db = firebase.firestore();
 	const onHandleSearch = () => {
 		setValues([]);
-		setSearch(true);
 		setLoading(true);
 		setFeedback('');
 		const newBedNum = Number(bedNum);
@@ -74,10 +70,8 @@ export default function Booking({navigation}) {
 	}
 
 	React.useEffect(()=>{
-		console.log(values);
-		console.log(feedback);
-		console.log("Myjddj");
-	},[values, feedback])
+		console.log("These are the values" +values);
+	},[values])
 	
 	
 	
@@ -114,62 +108,6 @@ export default function Booking({navigation}) {
 			</ImageBackground>
 			<View style={styles.content}>
 				<View style={styles.searchform}>
-					<View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-						<DatePicker
-							date={inDate}
-							mode="date"
-							placeholder="Check In"
-							format="DD-MM-YYYY"
-							minDate="14-06-2022"
-							confirmBtnText="Confirm"
-							iconSource={null}
-							onDateChange={null}
-							cancelBtnText="Cancel"
-							iconComponent={<Icon name="calendar-o" size={20} color="white" style={styles.dateIcon}/>}
-							style={{marginLeft: 15}}
-							customStyles={{
-								dateInput:{
-									backgroundColor: 'black',
-									color: 'white',
-									borderColor: "black",
-									borderStyle: 'solid',
-									borderWidth: 1,
-									borderRadius: 10,
-									marginRight: 10
-								},
-								placeholderText:{
-									color: 'white',
-								}
-							}}
-						/>
-
-						<DatePicker
-							date={outDate}
-							mode="date"
-							iconSource={null}
-							placeholder="Check Out"
-							format="DD-MM-YYYY"
-							minDate="14-06-2022"
-							confirmBtnText="Confirm"
-							cancelBtnText="Cancel"
-							iconComponent={<Icon name="calendar-o" size={20} color="white" style={styles.dateIcon}/>}
-							
-							customStyles={{
-								dateInput:{
-									backgroundColor: 'black',
-									color: 'white',
-									borderColor: "black",
-									borderStyle: 'solid',
-									borderWidth: 1,
-									borderRadius: 10,
-									marginRight: 10
-								},
-								placeholderText:{
-									color: 'white',
-								}
-							}}
-						/>
-					</View>
 					<Input
 						value={bedNum}
 						textContentType="none"
@@ -232,7 +170,7 @@ export default function Booking({navigation}) {
 					loading? <ActivityIndicator size={50} animating={true} color="white"/>:
 					values?
 					values.map((item,index)=>{
-					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room')}>
+					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room',{roomDetails: item})}>
 					<Image source={require('../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>{item.roomType}</Text>
