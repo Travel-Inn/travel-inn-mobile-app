@@ -49,13 +49,22 @@ export default function Menu({navigation}) {
 			setfirst(firsthalf=>[...firsthalf,url]);
 			console.log(firsthalf);
 		})
+		firebase.storage().ref('menuImages/lunch.png').getDownloadURL()
+		.then((url)=>{
+			setfirst(firsthalf=>[...firsthalf,url]);
+			console.log(firsthalf);
+		})
+		firebase.storage().ref('menuImages/dinner.jpg').getDownloadURL()
+		.then((url)=>{
+			setsecond(secondhalf=>[...secondhalf,url]);
+			console.log(firsthalf);
+		})
 		firebase.storage().ref('menuImages/dessert.jpg').getDownloadURL()
 		.then((url)=>{
 			setsecond(secondhalf=>[...secondhalf,url]);
 		})
 		setfirst(firsthalf.sort());
 		setsecond(secondhalf.sort());
-		setsecond(secondhalf.reverse());
 	},[breakloop])
 
 	React.useEffect(()=>{
@@ -140,7 +149,7 @@ export default function Menu({navigation}) {
 									</View>
 									<View style={{width: "45%", borderLeftWidth: 1, borderColor: "white"}}>
 										{item.beverages.map((beverageItem, index)=>(
-										<Text key={index} style={styles.whiteText}>{beverageItem.price}</Text>
+										<Text key={index} style={styles.whiteText}>GHC {Number(beverageItem.price).toFixed(2)}</Text>
 										))}
 									</View>
 								</ScrollView>
@@ -154,7 +163,7 @@ export default function Menu({navigation}) {
 									</View>
 									<View style={{width: "45%", borderLeftWidth: 1, borderColor: "white"}}>
 										{item.food.map((foodItem, index)=>(
-										<Text key={index} style={styles.whiteText}>{foodItem.price}</Text>
+										<Text key={index} style={styles.whiteText}>GHC {Number(foodItem.price).toFixed(2)}</Text>
 										))}
 									</View>
 								</ScrollView></View>:
@@ -167,7 +176,7 @@ export default function Menu({navigation}) {
 									</View>
 									<View style={{width: "45%", borderLeftWidth: 1, borderColor: "white"}}>
 										{item.food.map((foodItem, index)=>(
-										<Text key={index} style={styles.whiteText}>{foodItem.price}</Text>
+										<Text key={index} style={styles.whiteText}>GHC {Number(foodItem.price).toFixed(2)}</Text>
 										))}
 									</View>
 							</ScrollView></View>}
