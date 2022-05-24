@@ -28,7 +28,7 @@ export default function Profile({navigation}) {
                     <Text>Contact Us</Text>
                     <Icon name="angle-right" size={25} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.options}>
+                <TouchableOpacity style={styles.options} onPress={()=>navigation.navigate('History')}>
                     <Text>History</Text>
                     <Icon name="angle-right" size={25} color="black" />
                 </TouchableOpacity>
