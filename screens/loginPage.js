@@ -1,40 +1,47 @@
 import React from 'react';
 import { useState } from 'react';
-import { Text,  View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import { Text,  View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator} from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
 import { signIn } from '../config/firebase';
+import Loader from '../widgets/loading';
 
 
 export default function LoginPage({navigation}){
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	const emptyState = () => {
 		setEmail('');
 		setPassword('');
 		setName('');
   };
-  const onHandleLogin = () => {
-    if (!email) {
+
+
+  const onHandleLogin = async () => {
+	  setLoading(true);
+    if (!email) { //TODO: Add email checks
+		setLoading(false);
       console.log('Email is required');
     } else if (!password) {
+		setLoading(false);
       console.log('Password is required.');
-    } else {
-      signIn(
-        email,
-        password,
-      );
-	  // If successful move to home screen
-	  	emptyState();
-		//navigation.navigate('BottomNav');
-	  //TODO: ADD A LOADING ICON
-    }
+    } else if (await signIn(email,password) == 1) {
+		  setLoading(false);
+	  }else{
+		  emptyState();
+		  setLoading(false);
+	  } 
   };
 
     return(
+		loading ? 
+		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' />
+      </View>:
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
 				<View style={styles.imageBack}>
