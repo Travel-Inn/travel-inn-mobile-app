@@ -50,7 +50,6 @@ export default function Booking({navigation}) {
 			.then((querySnapshot) => {
 			  if(querySnapshot.empty){
 				console.log("No rooms available");
-				setFeedback("No rooms Available");
 				setLoading(false);
 				return 1;
 			  }else{         
