@@ -4,7 +4,7 @@ import ShowSnackBar from './snackbar';
 
 const Loader=()=>(
     <View style={styles.container}>
-        <ActivityIndicator size={90} animating={true} color="blue"/>
+        <ActivityIndicator size={90} animating={true} color="blue" />
         {/* <ShowSnackBar /> */}
     </View>
 );
@@ -15,5 +15,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        opacity: 0.5,
     }
 })
