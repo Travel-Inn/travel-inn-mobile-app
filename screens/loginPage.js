@@ -5,7 +5,6 @@ import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
 import { signIn } from '../config/firebase';
-import Loader from '../widgets/loading';
 
 
 export default function LoginPage({navigation}){

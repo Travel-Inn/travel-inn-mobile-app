@@ -1,13 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { useState } from 'react';
-import { Text, Alert, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, Alert, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
-import Firebase from '../config/firebase';
 import { registration } from '../config/firebase';
-import Loader from '../widgets/loading';
 
 
 export default function SignupPage({navigation}){
@@ -15,7 +13,7 @@ export default function SignupPage({navigation}){
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
 	const [phone, setPhone] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 
 	const emptyState = () => {
@@ -25,32 +23,32 @@ export default function SignupPage({navigation}){
 		setPhone('');
   };
 
-	 const onHandleSignup = () => {
-    if (!email) {
-      console.log('Email is required');
-    } else if (!password) {
-      console.log('Password field is required.');
-    } else if (!name) {
-      console.log('Name field is required.');
-	} else if (!phone) {
-		console.log("Phone field is required");
-    } else {
-		//setIsLoading(true);
-		//isLoading ? Loader : null
-     registration(
-        email,
-        password,
-        name,
-		phone,
-      );
-	  //setIsLoading(false);
-	  // if successful move to the next home screen 
-	  	emptyState();
-	  //TODO: ADD A LOADING ICON
-    }
+	 const onHandleSignup = async () => {
+		setLoading(true);
+		if (!email) {
+			setLoading(false);
+		console.log('Email is required');
+		} else if (!password) {
+			setLoading(false);
+		console.log('Password field is required.');
+		} else if (!name) {
+			setLoading(false);
+		console.log('Name field is required.');
+		} else if (!phone) {
+			setLoading(false);
+			console.log("Phone field is required");
+		} else if (await registration(email,password,name,phone) == 0 ) {
+		}else{
+			setLoading(false);
+		}
+	  
   };
 
     return(
+		loading ? 
+		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' />
+      </View>:
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
 				<View style={styles.imageBack}>

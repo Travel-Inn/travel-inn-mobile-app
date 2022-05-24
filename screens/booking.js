@@ -63,6 +63,7 @@ export default function Booking({navigation}) {
 			  }
 			})
 			.catch((error) => {
+				setLoading(false);
 				console.log("Error getting documents: ", error);
 			});
 		
