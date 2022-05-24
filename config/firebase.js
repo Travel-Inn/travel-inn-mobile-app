@@ -1,8 +1,7 @@
 import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
 import 'firebase/compat/auth';
-import apiKeys from './keys'
-
+import apiKeys from './keys';
 
 let Firebase;
 
@@ -32,9 +31,10 @@ export async function registration(email, password, name, phoneNum) {
 
       });
       console.log("User details have been stored successfully")
-      return 1;
+      return 0;
   } catch (err) {
     console.log("There is something wrong!!!!", err.message);
+      return 1;
   }
 }
 
@@ -44,8 +44,10 @@ export async function signIn(email, password) {
       .auth()
       .signInWithEmailAndPassword(email, password);
       console.log("User has been signed in")
+      return 0;
   } catch (err) {
     console.log("There is something wrong!", err.message);
+    return 1;
   }
 }
 
