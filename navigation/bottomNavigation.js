@@ -29,7 +29,7 @@ export default function BottomTabs(){
             <Tab.Screen name="Contact" component={Contact} options={{tabBarButton:()=>null, tabBarVisible: false}} />
             <Tab.Screen name="User" component={UserDetails} options={{tabBarButton:()=>null, tabBarVisible: false}} />
             <Tab.Screen name="Room" component={Room} options={{tabBarButton:()=>null, tabBarVisible: false}} />
-            <Tab.Screen name="payment" component={Payment} options={{tabBarButton:()=>null, tabBarVisible: false}} />
+            <Tab.Screen name="Payment" component={Payment} options={{tabBarButton:()=>null, tabBarVisible: false}} />
         </Tab.Navigator>
     )
 }
