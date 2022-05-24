@@ -33,7 +33,7 @@ export default function Payment({route, navigation}){
 		const date2 = new Date(outDate).getDate();
 		const currDate1 = currDate.getDate();
 
-		console.log(roomID);
+		console.log("This is the room ID"+roomID);
 		
 		if (date2 < currDate1){
 			setLoading(false);
