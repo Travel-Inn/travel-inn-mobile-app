@@ -12,34 +12,11 @@ export default function Menu({navigation}) {
 	const [firsthalf, setfirst] = React.useState([]);
 	const [secondhalf, setsecond] = React.useState([]);
   
-	React.useEffect(()=>{
-		LogBox.ignoreLogs(['Setting a timer']);
-		const db = firebase.firestore();
-		
-		db.collection('menu').get().then((querysnapshot)=>{
-			querysnapshot.forEach(snapshot=>{
-				const barray=[];
-				const farray=[];
-				const menuname= snapshot.data().menuName;
-				
-				// setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,snapshot.data()]);
-				if(menuname!="Dessert"){
-					db.collection('menu').doc(snapshot.data().menuName).collection('beverages').get().then((querysnapshot)=>{
-						querysnapshot.forEach( snapshot=>{
-							barray.push(snapshot.data())
-						}) 
-					});
-				}
-				db.collection('menu').doc(snapshot.data().menuName).collection('food').get().then((querysnapshot)=>{
-					querysnapshot.forEach(snapshot=>{
-						farray.push(snapshot.data());
-					})
-						const object = {menuName: menuname, beverages:barray, food: farray}
-						setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,object]);
-				});
-			})
-		})
 
+	React.useEffect(()=>{
+		setfirst([]);
+		setsecond([]);
+		setImage([]);
 		firebase.storage().ref('menuImages/breakfast-foods.jpg').getDownloadURL()
 		.then(url=>{
 			setfirst(firsthalf=>[...firsthalf,url]);
@@ -64,12 +41,46 @@ export default function Menu({navigation}) {
 			setsecond(secondhalf=>[...secondhalf,url]);
 		})
 		setfirst(firsthalf.sort());
-		setsecond(secondhalf.sort());
-	},[breakloop])
+		console.log(firsthalf);
+		setsecond(secondhalf.sort()); 
+		setsecond(secondhalf.reverse());
+	},[])
 
 	React.useEffect(()=>{
 		setImage(firsthalf.concat(secondhalf));
 	},[firsthalf,secondhalf])
+
+
+	React.useEffect(()=>{
+		LogBox.ignoreLogs(['Setting a timer']);
+		const db = firebase.firestore(); 
+		
+		db.collection('menu').get().then((querysnapshot)=>{
+			querysnapshot.forEach(snapshot=>{
+				const barray=[];
+				const farray=[];
+				const menuname= snapshot.data().menuName;
+				
+				// setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,snapshot.data()]);
+				if(menuname!="Dessert"){
+					db.collection('menu').doc(snapshot.data().menuName).collection('beverages').get().then((querysnapshot)=>{
+						querysnapshot.forEach( snapshot=>{
+							barray.push(snapshot.data())
+						}) 
+					});
+				}
+				db.collection('menu').doc(snapshot.data().menuName).collection('food').get().then((querysnapshot)=>{
+					querysnapshot.forEach(snapshot=>{
+						farray.push(snapshot.data());
+					})
+						const object = {menuName: menuname, beverages:barray, food: farray}
+						setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,object]);
+				});
+			})
+		})
+		
+	},[breakloop])
+
 
 	const [ref, setRef] = React.useState(null);
 	const [loc, setLoc] = React.useState(0);
