@@ -13,14 +13,13 @@ export default function Booking({navigation}) {
 	const [minPrice, setMinPrice] = React.useState('');
 	const [maxPrice, setMaxPrice] = React.useState('');
 	const [bedNum, setBedNum] = React.useState('');
+	const [userDetails, setUserDetails] = React.useState([]);
 	const [values, setValues] = React.useState([]);
 	const [loading, setLoading] = React.useState(false);
-	const [feedback, setFeedback] =React.useState('');
 	const db = firebase.firestore();
 	const onHandleSearch = () => {
 		setValues([]);
 		setLoading(true);
-		setFeedback('');
 		const newBedNum = Number(bedNum);
 		const newMinPrice = Number(minPrice);
 		const newMaxPrice = Number(maxPrice);
@@ -69,9 +68,29 @@ export default function Booking({navigation}) {
 		
 	}
 
+	React.useEffect(() =>{
+		const db = firebase.firestore();
+		const user = firebase.auth().currentUser;
+		db.collection("Users").doc(user.uid)
+		.get()
+		.then((doc) => {
+			if (doc.exists){
+			console.log("User data has been extracted.");
+			setUserDetails(doc.data());
+			} else {
+			console.log("No such user exists.");
+			}
+		}).catch((error) => {
+			console.log("Error getting document:", error);
+		});
+
+
+	},[])
+
 	React.useEffect(()=>{
 		console.log("These are the values" +values);
-	},[values])
+		console.log("This is the user data" + userDetails);
+	},[values, userDetails])
 	
 	
 	
@@ -170,7 +189,7 @@ export default function Booking({navigation}) {
 					loading? <ActivityIndicator size={50} animating={true} color="white"/>:
 					values?
 					values.map((item,index)=>{
-					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room',{roomDetails: item})}>
+					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room',{roomDetails: item, userData: userDetails})}>
 					<Image source={require('../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>{item.roomType}</Text>
