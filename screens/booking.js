@@ -17,7 +17,7 @@ export default function Booking({navigation}) {
 	const [bedNum, setBedNum] = React.useState('');
 	const [values, setValues] = React.useState([]);
 	const [search, setSearch] = React.useState(false);
-	const [loading, setLoading] = React.useState(true);
+	const [loading, setLoading] = React.useState(false);
 	const [feedback, setFeedback] =React.useState('');
 	const db = firebase.firestore();
 	const onHandleSearch = () => {
@@ -25,19 +25,23 @@ export default function Booking({navigation}) {
 		setSearch(true);
 		setLoading(true);
 		setFeedback('');
-		const bednum = Number(bedNum);
-		const minprice = Number(minPrice);
-		const maxprice = Number(maxPrice);
+		const newBedNum = Number(bedNum);
+		const newMinPrice = Number(minPrice);
+		const newMaxPrice = Number(maxPrice);
 		const roomList = [];
 		// Checks
-		if (!minprice){
+		if (!newMinPrice){
+		  setLoading(false);
 		  console.log("Minimum price cannot be empty.");
+		  console.log(newMinPrice);
 		  return 1
-		} else if (!maxprice){
+		} else if (!newMaxPrice){
+			setLoading(false);
 			console.log("Maximum price cannot be empty.");
 			return 1
 		  }
-		  else if (!bednum){
+		  else if (!newBedNum){
+			setLoading(false);
 			console.log("Bed number cannot be empty.");
 			return 1
 		  }
@@ -45,8 +49,8 @@ export default function Booking({navigation}) {
 		
 	  
 		db.collection("Rooms").where("isRoomAvailable", "==", true)
-		.where("bedNum", "==", bednum).where("roomPrice", ">", minprice)
-		.where("roomPrice", "<", maxprice)
+		.where("bedNum", "==", newBedNum).where("roomPrice", ">", newMinPrice)
+		.where("roomPrice", "<", newMaxPrice)
 			.get()
 			.then((querySnapshot) => {
 			  if(querySnapshot.empty){
@@ -71,7 +75,8 @@ export default function Booking({navigation}) {
 
 	React.useEffect(()=>{
 		console.log(values);
-		console.log(feedback)
+		console.log(feedback);
+		console.log("Myjddj");
 	},[values, feedback])
 	
 	
@@ -224,30 +229,18 @@ export default function Booking({navigation}) {
 				</TouchableOpacity>
 
 				{
-					!search?
-				rooms.map((room, index)=>{ 
-					return <TouchableOpacity key={index} style={styles.room} onPress={()=>navigation.navigate('Room')}>
-						<Image source={(room.image)} style={{flex: 2,  maxHeight: "100%"}} />
-						
-						<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
-							<Text>{room.name}</Text>
-							<Text>{room.description}</Text>
-							<Text>GHC {room.price}</Text>
-						</View>
-					</TouchableOpacity>
-				})
-				: loading==true? <ActivityIndicator size={50} animating={true} color="white"/>:
-					feedback==''?
+					loading? <ActivityIndicator size={50} animating={true} color="white"/>:
+					values?
 					values.map((item,index)=>{
 					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room')}>
 					<Image source={require('../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>{item.roomType}</Text>
-						<Text>Single Room with Twin Beds</Text>
-						<Text>GHC 300.00</Text>
+						<Text>{item.roomDesc}</Text>
+						<Text>{item.roomPrice}</Text>
 					</View>
 				</TouchableOpacity>}):
-				<Text style={{color: 'white'}}>{feedback}</Text>
+				<Text style={{color: 'white'}}>No rooms match your specification</Text>
 				}
 			</View>
 		</ScrollView>
