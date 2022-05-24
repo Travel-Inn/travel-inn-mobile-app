@@ -2,7 +2,9 @@ import React from 'react';
 import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function Room({navigation}) {
+export default function Room({route, navigation}) {
+  const { roomDetails } = route.params;
+  const roomPrice = roomDetails.roomPrice;
 
   return(
     <View style={styles.container} >
@@ -12,21 +14,21 @@ export default function Room({navigation}) {
 			</ImageBackground>
 			<View style={styles.content}>
                 <View style={styles.roomTitle}>
-                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 15}}>Single Room - Room no.A312</Text>
+                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 15}}>{roomDetails.roomType} - Room No.{roomDetails.roomName}</Text>
                 </View>
                 <View style={styles.roomInfo}>
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={{color: 'white', borderRightWidth: 1, borderRightColor: 'white',
+                        {/* <Text style={{color: 'white', borderRightWidth: 1, borderRightColor: 'white',
                             paddingRight: 3}}>
-                            2 Rooms</Text>
-                        <Text style={{color: 'white', paddingLeft: 3}}>5 Nights</Text>
+                            1 Rooms</Text> */}
+                        <Text style={{color: 'white', paddingLeft: 3}}>1 Night</Text>
                     </View>
-                    <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>GHC 200</Text>
+                    <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>GHC {roomDetails.roomPrice}</Text>
                 </View>
                 <View style={{borderBottomColor: 'white', borderBottomWidth: 1, marginBottom: 20}}>
                     <Image source={require('../images/room-detail.jpg')} style={styles.roomImage}/>
                 </View>
-                <Text>Amennities Included with booking</Text>
+                <Text>Amenities Included with booking</Text>
                 <View style={styles.amenities}>
                     <Text style={{color: 'white', paddingBottom: 5}}>
                         <Icon name="wifi" color="#aa3300"/> Wifi</Text>
@@ -37,12 +39,12 @@ export default function Room({navigation}) {
                     <Text style={{color: 'white', paddingRight: 25}}>
                     <Icon name="cutlery" color="#aa3300"/> Free Meals</Text>
                     <Text style={{color: 'white', paddingRight: 25}}>
-                    <Icon name="bed" color="#aa3300"/> 2 Beds</Text>
+                    <Icon name="bed" color="#aa3300"/> {roomDetails.bedNum} Beds</Text>
                     <Text style={{color: 'white', paddingRight: 25}}>
                     <Icon name="car" color="#aa3300"/> Free Parking</Text>
                 </View>
-                <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('payment')}>
-                    <Text>Select Room</Text>
+                <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('Payment', { roomPrice: roomDetails.roomPrice, roomType: roomDetails.roomType})}>
+                    <Text>Book Room?</Text>
                 </TouchableOpacity>
 				
 			</View>
