@@ -32,8 +32,7 @@ export default function Payment({route, navigation}){
 		const date1 = new Date(inDate).getDate();
 		const date2 = new Date(outDate).getDate();
 		const currDate1 = currDate.getDate();
-		console.log(date1);
-		console.log(currDate1);
+
 		console.log(roomID);
 		
 		if (date2 < currDate1){
