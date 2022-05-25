@@ -63,8 +63,9 @@ export async function passwordReset(email) {
     .auth()
     .sendPasswordResetEmail(email);
     console.log("Password reset link has been sent")
+    return 0;
   } catch(err) {
-    console.log("There is something wrong", error.message);
+    console.log("There is something wrong", err.message);
   }
 }
 
