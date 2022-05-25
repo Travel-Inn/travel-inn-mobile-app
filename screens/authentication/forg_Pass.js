@@ -1,34 +1,47 @@
 import React from 'react';
-import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { Input } from 'react-native-elements';
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { passwordReset } from '../config/firebase';
+import { passwordReset } from '../../config/firebase';
+import { validateEmail } from '../../utils/inputValidator';
 
 export default function ForgottenPasswordPage({navigation}){
+	// Initializing stateful variables. 
 	const [email, setEmail] = useState('');
+	const [loading, setLoading] = useState('');
 
+	// Cleaning up stateful variables.
 	const emptyState = () => {
 		setEmail('');
   };
-  const onHandlePasswordReset = () => {
-    if (!email) {
-      console.log('Email is required');
+
+  const onHandlePasswordReset = async () => {
+	  setLoading(true);
+	  // Routine input check.
+    if (!validateEmail(email)) {
+		setLoading(false);
+    } else if (await passwordReset(email) == 0){ // If password was successful.
+	  	setLoading(false);
+		emptyState();
+		navigation.navigate('Login') // Move to login page.
     } else {
-      passwordReset(
-        email,
-      );
-	  // If successful move to home screen
-	  	emptyState();
-		navigation.navigate('Login')
-	  //TODO: ADD A LOADING ICON
-    }
-  };
+		setLoading(false);
+		console.log("Unexpected error.");
+  }
+  }
+
+
     return(
+		loading ? 
+		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' />
+      </View>
+		: 
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
 				<View style={styles.imageBack}>
-					<ImageBackground style={styles.pageImage} source={require("../images/forgotten.jpg")}/>
+					<ImageBackground style={styles.pageImage} source={require("../../images/forgotten.jpg")}/>
 				</View>
 			</View>
 			<View style={styles.form}>

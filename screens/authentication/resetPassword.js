@@ -8,7 +8,7 @@ export default function ResetPasswordPage({navigation}){
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
 				<View style={styles.imageBack}>
-					<ImageBackground style={styles.pageImage} source={require("../images/reset.jpg")}/>
+					<ImageBackground style={styles.pageImage} source={require("../../images/reset.jpg")}/>
 				</View>
 			</View>
 			<View style={styles.form}>

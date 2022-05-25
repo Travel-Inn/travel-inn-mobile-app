@@ -4,14 +4,17 @@ import { Text,  View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions,
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
-import { signIn } from '../config/firebase';
+import { signIn } from '../../config/firebase';
+import { validateEmail, validatePassword } from '../../utils/inputValidator';
 
 
 export default function LoginPage({navigation}){
+	// Initializing stateful variables.
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 
+	// Cleaning up variables.
 	const emptyState = () => {
 		setEmail('');
 		setPassword('');
@@ -19,12 +22,11 @@ export default function LoginPage({navigation}){
 
   const onHandleLogin = async () => {
 	setLoading(true);
-    if (!email) { //TODO: Add email checks
+	// Routine input checks.
+    if (!validateEmail(email)) { 
 		setLoading(false);
-      console.log('Email is required');
-    } else if (!password) {
+    } else if (!validatePassword(password)) {
 		setLoading(false);
-      console.log('Password is required.');
     } else if (await signIn(email,password) == 0) {
 	  }else{
 		  setLoading(false);
@@ -39,7 +41,7 @@ export default function LoginPage({navigation}){
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
 				<View style={styles.imageBack}>
-					<ImageBackground style={styles.pageImage} source={require("../images/login.jpg")}/>
+					<ImageBackground style={styles.pageImage} source={require("../../images/login.jpg")}/>
 				</View>
 			</View>
 			<View style={styles.form}>

@@ -1,14 +1,15 @@
-import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { useState } from 'react';
-import { Text, Alert, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
-import { registration } from '../config/firebase';
+import { registration } from '../../config/firebase';
+import { validateEmail, validatePassword, validatePhone, validateText }from '../../utils/inputValidator';
 
 
 export default function SignupPage({navigation}){
+	// Setting variable states
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
@@ -16,6 +17,7 @@ export default function SignupPage({navigation}){
 	const [loading, setLoading] = useState(false);
 
 
+	// For cleaning up the variables. 
 	const emptyState = () => {
 		setEmail('');
 		setPassword('');
@@ -25,21 +27,19 @@ export default function SignupPage({navigation}){
 
 	 const onHandleSignup = async () => {
 		setLoading(true);
-		if (!email) {
+		// Routine input checks.
+		if (!validateEmail(email)) {
 			setLoading(false);
-		console.log('Email is required');
-		} else if (!password) {
+		} else if (!validatePassword(password)) {
 			setLoading(false);
-		console.log('Password field is required.');
-		} else if (!name) {
+		} else if (!validateText(name)) {
 			setLoading(false);
-		console.log('Name field is required.');
-		} else if (!phone) {
+		} else if (!validatePhone(phone)) {
 			setLoading(false);
-			console.log("Phone field is required");
-		} else if (await registration(email,password,name,phone) == 0 ) {
+		} else if (await registration(email,password,name,phone) == 0 ) { // Returns 0 when successful
 		}else{
 			setLoading(false);
+			console.log("Unexpected error occurred.")
 		}
 	  
   };
@@ -52,14 +52,13 @@ export default function SignupPage({navigation}){
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
 				<View style={styles.imageBack}>
-					<ImageBackground style={styles.pageImage} source={require("../images/home.jpg")}/>
+					<ImageBackground style={styles.pageImage} source={require("../../images/home.jpg")}/>
 				</View>
 			</View>
 			<View style={styles.form}>
 				<Text style={styles.signupText}>Sign Up</Text>
 				<View style = {styles.signUpOptions}>
 					<TouchableOpacity
-						//onPress = {()=>navigation.navigate("BottomNav")}
 						onPress={null}
 						color = "black"
 						style= {styles.signUpOption}
