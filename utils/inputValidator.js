@@ -14,6 +14,7 @@ export function validateEmail(email) {
     }
 }
 
+
 export function validatePassword(password){
     // Password shouldn't be empty.
     if (!(password.trim())) {
@@ -55,17 +56,16 @@ export function validateText(name)
     }
 }
 
-
-export function validatePhone(phone)
+export function validateNumber(phone, length)
 {
     // Phone shouldn't be empty.
     if (!(phone.trim())){
-        console.log("Phone should not be empty.");
+        console.log("Number Field should not be empty.");
         return false;
     }
     // Phone should be 10 digits.
-    if (phone.trim().length != 10){
-        console.log("Phone should be 10 characters.");
+    if (phone.trim().length != length){
+        console.log("Number Field should be " + {length} +" characters.");
         return false;
     }
     // Regex for matching phone. Phone should be a number.
@@ -73,41 +73,37 @@ export function validatePhone(phone)
     if (validRegex.test(phone)){
         return true;
     }else {
-        console.log("Phone field should be a number. Only Ghanaian numbers are supported. eg:0547642811");
+        console.log("Number Field should be a number. ");
         return false;
     }
 }
 
-
 export function validatePrices(minPrice, maxPrice){
-    // Converts string-number('2) to a number type and string-text('temp') to an empty number.
-    const newMinPrice = Number(minPrice.trim());
-    const newMaxPrice = Number(maxPrice.trim());
 
     // Min price shouldn't be empty.
-     if (!newMinPrice) {
+     if (!minPrice) {
         console.log("Minimum price shouldn't be empty.");
         return false;
     }
     // Min price shouldn't be less than 1.
-    if (newMinPrice <= 0) {
+    if (minPrice <= 0) {
         console.log("Minimum price should start from 1.");
         return false;
     }
 
     // Max price shouldn't be empty.
-     if (!newMaxPrice) {
+     if (!maxPrice) {
         console.log("Maximum price shouldn't be empty.");
         return false;
     }
     // Max price shouldn't be less than zero.
-    if (newMaxPrice <= 0) {
+    if (maxPrice <= 0) {
         console.log("Maximum price should start from 1.");
         return false;
     }
 
     // Min price shouldn't be greater than max price. 
-    if (newMinPrice > newMaxPrice) {
+    if (minPrice > maxPrice) {
         console.log("Minimum price shouldn't be greater than Maximum Price.");
         return false
     }
@@ -116,18 +112,46 @@ export function validatePrices(minPrice, maxPrice){
 }
 
 export function validateBedNum(bedNum){
-    const newBedNum = Number(bedNum);
 
     // Bed num shouldn't be empty.
-    if (!newBedNum){
+    if (!bedNum){
         console.log("Number of beds shouldn't be empty.");
         return false;
     }
     // Bed num shouldn't be less than zero.
-    if (newBedNum <= 0){
+    if (bedNum <= 0){
         console.log("Number of beds should start from 1.");
         return false;
     }
     // All checks passed. 
     return true;
+}
+
+export function validateDates(currDate1, date1, date2){
+    // Validate dates.
+    if (date2 < currDate1){
+		console.log("CheckOut date cannot be less than current date.");
+        return true;
+		} else if (date1 < currDate1){
+		console.log("CheckIn date cannot be less than current date.")
+        return true;
+		}else if (date2 < date1){
+		console.log("CheckIn date cannot be greater than checkOut date.");
+        return true;
+        }
+        else return false;
+}
+
+export function validateCreditCard(cardNo, expiryDate, CVC, cardName) {
+    // Validate credit card details.
+     if (!validateNumber(cardNo, 16)) {
+            return true;
+		} else if (!expiryDate) { 
+			console.log("Expiry date shouldn't be empty.");
+            return true;
+		} else if (!validateNumber(CVC, 3)) {
+            return true;
+		} else if(!validateText(cardName)) {
+            return true;
+        } else return false;
 }
