@@ -77,3 +77,57 @@ export function validatePhone(phone)
         return false;
     }
 }
+
+
+export function validatePrices(minPrice, maxPrice){
+    // Converts string-number('2) to a number type and string-text('temp') to an empty number.
+    const newMinPrice = Number(minPrice.trim());
+    const newMaxPrice = Number(maxPrice.trim());
+
+    // Min price shouldn't be empty.
+     if (!newMinPrice) {
+        console.log("Minimum price shouldn't be empty.");
+        return false;
+    }
+    // Min price shouldn't be less than 1.
+    if (newMinPrice <= 0) {
+        console.log("Minimum price should start from 1.");
+        return false;
+    }
+
+    // Max price shouldn't be empty.
+     if (!newMaxPrice) {
+        console.log("Maximum price shouldn't be empty.");
+        return false;
+    }
+    // Max price shouldn't be less than zero.
+    if (newMaxPrice <= 0) {
+        console.log("Maximum price should start from 1.");
+        return false;
+    }
+
+    // Min price shouldn't be greater than max price. 
+    if (newMinPrice > newMaxPrice) {
+        console.log("Minimum price shouldn't be greater than Maximum Price.");
+        return false
+    }
+    // All checks passed.
+    return true;
+}
+
+export function validateBedNum(bedNum){
+    const newBedNum = Number(bedNum);
+
+    // Bed num shouldn't be empty.
+    if (!newBedNum){
+        console.log("Number of beds shouldn't be empty.");
+        return false;
+    }
+    // Bed num shouldn't be less than zero.
+    if (newBedNum <= 0){
+        console.log("Number of beds should start from 1.");
+        return false;
+    }
+    // All checks passed. 
+    return true;
+}
