@@ -28,7 +28,8 @@ export default function Payment({route, navigation}){
 	const [loading, setLoading] = React.useState(false);
 	const onHandleSubmit = async () => {
 		// check for text
-		setLoading(true);
+		navigation.navigate('Congrats');
+		//setLoading(true);
 		const date1 = new Date(inDate).getDate();
 		const date2 = new Date(outDate).getDate();
 		const currDate1 = currDate.getDate();
@@ -60,7 +61,7 @@ export default function Payment({route, navigation}){
 		}  else if (await bookRoom(nights, roomID, roomName, inDate, outDate) ==0 ){
 			setLoading(false);
 			console.log("Room has been booked successfully.");
-			//Navigate to next page.
+			navigation.navigate('Congrats');
 		} else {
 			setLoading(false);
 			console.log("There was an error.");
