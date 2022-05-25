@@ -1,14 +1,20 @@
 import React from 'react';
 import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {pluralChecker} from '../../utils/pluralCheck.js';
 
 export default function Room({route, navigation}) {
+    // Room details and user details parameters
   const { roomDetails, userData } = route.params;
-
-  return(
+  // Add an s depending on the number of beds.
+   const plural = pluralChecker(roomDetails.bedNum);
+  
+   
+   
+   return(
     <View style={styles.container} >
 		<ScrollView>
-			<ImageBackground source={require("../images/room-screen.jpg")} resizeMode="cover" style={styles.pageImage}>
+			<ImageBackground source={require("../../images/room-screen.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>ROOM</Text>
 			</ImageBackground>
 			<View style={styles.content}>
@@ -17,15 +23,12 @@ export default function Room({route, navigation}) {
                 </View>
                 <View style={styles.roomInfo}>
                     <View style={{flexDirection: 'row'}}>
-                        {/* <Text style={{color: 'white', borderRightWidth: 1, borderRightColor: 'white',
-                            paddingRight: 3}}>
-                            1 Rooms</Text> */}
                         <Text style={{color: 'white', paddingLeft: 3}}>1 Night</Text>
                     </View>
                     <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>GHC {roomDetails.roomPrice}</Text>
                 </View>
                 <View style={{borderBottomColor: 'white', borderBottomWidth: 1, marginBottom: 20}}>
-                    <Image source={require('../images/room-detail.jpg')} style={styles.roomImage}/>
+                    <Image source={require('../../images/room-detail.jpg')} style={styles.roomImage}/>
                 </View>
                 <Text>Amenities Included with booking</Text>
                 <View style={styles.amenities}>
@@ -38,7 +41,7 @@ export default function Room({route, navigation}) {
                     <Text style={{color: 'white', paddingRight: 25}}>
                     <Icon name="cutlery" color="#aa3300"/> Free Meals</Text>
                     <Text style={{color: 'white', paddingRight: 25}}>
-                    <Icon name="bed" color="#aa3300"/> {roomDetails.bedNum} Beds</Text>
+                    <Icon name="bed" color="#aa3300"/> {roomDetails.bedNum} Bed{plural}</Text>
                     <Text style={{color: 'white', paddingRight: 25}}>
                     <Icon name="car" color="#aa3300"/> Free Parking</Text>
                 </View>
