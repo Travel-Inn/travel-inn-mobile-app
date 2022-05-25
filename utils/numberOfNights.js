@@ -1,4 +1,5 @@
-function getNumberOfDays(start, end) {
+export function getNumberOfNights(start, end) {
+    // Function to calculate the number of nights between two dates. 
     const date1 = new Date(start);
     const date2 = new Date(end);
 
