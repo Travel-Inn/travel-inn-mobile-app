@@ -12,15 +12,53 @@ export default function Menu({navigation}) {
 	const [firsthalf, setfirst] = React.useState([]);
 	const [secondhalf, setsecond] = React.useState([]);
   
+
+	// React.useEffect(()=>{
+	// 	firebase.storage().ref('menuImages/breakfast-foods.jpg').getDownloadURL()
+	// 	.then(url=>{
+	// 		setfirst(firsthalf=>[...firsthalf,url]);
+	// 	})
+	// 	firebase.storage().ref('menuImages/brunch.jpg').getDownloadURL()
+	// 	.then((url)=>{
+	// 		setfirst(firsthalf=>[...firsthalf,url]);
+	// 		console.log(firsthalf);
+	// 	})
+	// 	firebase.storage().ref('menuImages/lunch.png').getDownloadURL()
+	// 	.then((url)=>{
+	// 		setfirst(firsthalf=>[...firsthalf,url]);
+	// 		console.log(firsthalf);
+	// 	})
+	// 	firebase.storage().ref('menuImages/dinner.jpg').getDownloadURL()
+	// 	.then((url)=>{
+	// 		setsecond(secondhalf=>[...secondhalf,url]);
+	// 		console.log(firsthalf);
+	// 	})
+	// 	firebase.storage().ref('menuImages/dessert.jpg').getDownloadURL()
+	// 	.then((url)=>{
+	// 		setsecond(secondhalf=>[...secondhalf,url]);
+	// 	})
+	// 	setfirst(firsthalf.sort());
+	// 	console.log(firsthalf);
+	// 	setsecond(secondhalf.sort()); 
+	// 	setsecond(secondhalf.reverse());
+	// },[])
+
+	// React.useEffect(()=>{
+	// 	setImage(firsthalf.concat(secondhalf));
+	// 	console.log(image);
+	// },[firsthalf,secondhalf])
+
+
 	React.useEffect(()=>{
 		LogBox.ignoreLogs(['Setting a timer']);
-		const db = firebase.firestore();
+		const db = firebase.firestore(); 
 		
 		db.collection('menu').get().then((querysnapshot)=>{
 			querysnapshot.forEach(snapshot=>{
 				const barray=[];
 				const farray=[];
 				const menuname= snapshot.data().menuName;
+				const menutype= snapshot.data().menuType;
 				
 				// setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,snapshot.data()]);
 				if(menuname!="Dessert"){
@@ -34,33 +72,14 @@ export default function Menu({navigation}) {
 					querysnapshot.forEach(snapshot=>{
 						farray.push(snapshot.data());
 					})
-						const object = {menuName: menuname, beverages:barray, food: farray}
+						const object = {menuName: menutype, beverages:barray, food: farray}
 						setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,object]);
 				});
 			})
 		})
-
-		firebase.storage().ref('menuImages/breakfast-foods.jpg').getDownloadURL()
-		.then(url=>{
-			setfirst(firsthalf=>[...firsthalf,url]);
-		})
-		firebase.storage().ref('menuImages/brunch.jpg').getDownloadURL()
-		.then((url)=>{
-			setfirst(firsthalf=>[...firsthalf,url]);
-			console.log(firsthalf);
-		})
-		firebase.storage().ref('menuImages/dessert.jpg').getDownloadURL()
-		.then((url)=>{
-			setsecond(secondhalf=>[...secondhalf,url]);
-		})
-		setfirst(firsthalf.sort());
-		setsecond(secondhalf.sort());
-		setsecond(secondhalf.reverse());
+		
 	},[breakloop])
 
-	React.useEffect(()=>{
-		setImage(firsthalf.concat(secondhalf));
-	},[firsthalf,secondhalf])
 
 	const [ref, setRef] = React.useState(null);
 	const [loc, setLoc] = React.useState(0);
@@ -124,8 +143,8 @@ export default function Menu({navigation}) {
 				{
 					breakfastBeverages.map((item, index)=>(
 						<ImageBackground  key={index} 
-						// onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
-							source={{uri:image[index]}} 
+						onLayout={(event) =>{event.target.measure((x,y,width,height,pageX,pageY)=>{setLocs(locs=>[...locs,pageY])})}}
+							source={menuTabs[index].image} 
 							style={styles.menuContainer} resizeMode="cover" >
 							<View style={styles.menuName}>
 								<Text style={styles.submenu}>{item.menuName}</Text>
@@ -140,7 +159,7 @@ export default function Menu({navigation}) {
 									</View>
 									<View style={{width: "45%", borderLeftWidth: 1, borderColor: "white"}}>
 										{item.beverages.map((beverageItem, index)=>(
-										<Text key={index} style={styles.whiteText}>{beverageItem.price}</Text>
+										<Text key={index} style={styles.whiteText}>GHC {Number(beverageItem.price).toFixed(2)}</Text>
 										))}
 									</View>
 								</ScrollView>
@@ -154,7 +173,7 @@ export default function Menu({navigation}) {
 									</View>
 									<View style={{width: "45%", borderLeftWidth: 1, borderColor: "white"}}>
 										{item.food.map((foodItem, index)=>(
-										<Text key={index} style={styles.whiteText}>{foodItem.price}</Text>
+										<Text key={index} style={styles.whiteText}>GHC {Number(foodItem.price).toFixed(2)}</Text>
 										))}
 									</View>
 								</ScrollView></View>:
@@ -167,7 +186,7 @@ export default function Menu({navigation}) {
 									</View>
 									<View style={{width: "45%", borderLeftWidth: 1, borderColor: "white"}}>
 										{item.food.map((foodItem, index)=>(
-										<Text key={index} style={styles.whiteText}>{foodItem.price}</Text>
+										<Text key={index} style={styles.whiteText}>GHC {Number(foodItem.price).toFixed(2)}</Text>
 										))}
 									</View>
 							</ScrollView></View>}
