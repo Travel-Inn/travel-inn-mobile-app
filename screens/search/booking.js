@@ -6,10 +6,12 @@ import { Input } from 'react-native-elements';
 import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
 import DatePicker from 'react-native-datepicker';
-import { searchRoom } from '../config/firebase';
+import { searchRoom } from '../../config/firebase';
 import { NavigationContainer } from '@react-navigation/native';
+import { validateBedNum, validatePrices } from '../../utils/inputValidator';
 
 export default function Booking({navigation}) {
+	// Initializing input variables.
 	const [minPrice, setMinPrice] = React.useState('');
 	const [maxPrice, setMaxPrice] = React.useState('');
 	const [bedNum, setBedNum] = React.useState('');
@@ -17,57 +19,50 @@ export default function Booking({navigation}) {
 	const [values, setValues] = React.useState([]);
 	const [loading, setLoading] = React.useState(false);
 	const db = firebase.firestore();
+
 	const onHandleSearch = () => {
-		setValues([]);
-		setLoading(true);
-		const newBedNum = Number(bedNum);
-		const newMinPrice = Number(minPrice);
-		const newMaxPrice = Number(maxPrice);
-		const roomList = [];
+		setValues([]); // room details
+		setLoading(true); 
+		// Converts string-number('2) to a number type and string-text('temp') to an empty number.
+		const newMinPrice = Number(minPrice.trim());
+    	const newMaxPrice = Number(maxPrice.trim());
+		const newBedNum = Number(bedNum.trim());
+
 		// Checks
-		if (!newMinPrice){
+		if (!validatePrices(newMinPrice, newMaxPrice)){
 		  setLoading(false);
-		  console.log("Minimum price cannot be empty.");
-		  console.log(newMinPrice);
-		  return 1
-		} else if (!newMaxPrice){
+		} 
+		  else if (!validateBedNum(newBedNum)){
 			setLoading(false);
-			console.log("Maximum price cannot be empty.");
-			return 1
 		  }
-		  else if (!newBedNum){
-			setLoading(false);
-			console.log("Bed number cannot be empty.");
-			return 1
-		  }
-		  else console.log("Passed all checks");
-		
-	  
-		db.collection("Rooms").where("isRoomAvailable", "==", true)
-		.where("bedNum", "==", newBedNum).where("roomPrice", ">", newMinPrice)
-		.where("roomPrice", "<", newMaxPrice)
-			.get()
-			.then((querySnapshot) => {
-			  if(querySnapshot.empty){
-				console.log("No rooms available");
-				setLoading(false);
-				return 1;
-			  }else{         
-				 querySnapshot.forEach((doc) => {
-				  roomList.push(doc.data());
-				  setValues(values=>[...values,doc.data()]);
+		  else {
+		// If checks passed, search for rooms.
+		  console.log("Passed all checks");  
+			db.collection("Rooms").where("isRoomAvailable", "==", true)
+			.where("bedNum", "==", newBedNum).where("roomPrice", ">", newMinPrice)
+			.where("roomPrice", "<", newMaxPrice)
+				.get()
+				.then((querySnapshot) => {
+				if(querySnapshot.empty){
+					setValues("empty"); // If there are no rooms, update values with empty
+					setLoading(false);
+				}else{         
+					querySnapshot.forEach((doc) => {
+					setValues(values=>[...values,doc.data()]); // If there's a match, update values with the rooms.
+					});
+					setLoading(false);    
+				}
+				})
+				.catch((error) => {
+					setValues("Error");
+					setLoading(false); // If there was an error, update values with the error.
+					console.log("Error getting documents: ", error);
 				});
-				setLoading(false);    
-			  }
-			})
-			.catch((error) => {
-				setLoading(false);
-				console.log("Error getting documents: ", error);
-			});
-		
+			}	
 	}
 
 	React.useEffect(() =>{
+		// Retrieve user data.
 		const db = firebase.firestore();
 		const user = firebase.auth().currentUser;
 		db.collection("Users")
@@ -76,29 +71,22 @@ export default function Booking({navigation}) {
 		.then((doc) => {
 			if (doc.exists){
 			console.log("User data has been extracted.");
-			setUserDetails(doc.data());
+			setUserDetails(doc.data()); // If there's a match, update user details var with user data.
 			} else {
-			console.log("No such user exists.");
-			}
+			console.log("No such user exists."); 
+			setUserDetails("empty"); // If there's no match, update user details with empty.
+		}
 		}).catch((error) => {
-			console.log("Error getting document:", error);
+			setUserDetails("error"); // If there's a match, update user details with error.
+			console.log("Error getting document:", error); //TODO: Remove this print statement.
 		});
-
-
 	},[])
-
-	React.useEffect(()=>{
-		console.log("These are the values" +values);
-		console.log("This is the user data" + userDetails);
-	},[values, userDetails])
-
-
 
 
   return(
     <View style={styles.container} >
 		<ScrollView>
-			<ImageBackground source={require("../images/booking-image.jpg")} resizeMode="cover" style={styles.pageImage}>
+			<ImageBackground source={require("../../images/booking-image.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>Booking</Text>
 			</ImageBackground>
 			<View style={styles.content}>
@@ -162,18 +150,28 @@ export default function Booking({navigation}) {
 				</TouchableOpacity>
 
 				{
-					loading? <ActivityIndicator size={50} animating={true} color="white"/>:
-					values?
+					// Checks the current state and variables. 
+					loading ? 
+					<ActivityIndicator size={50} animating={true} color="white"/>:
+					userDetails === "empty" ?
+					<Text style={{color: 'white'}}>Authentication error. Log out and log in again.</Text> :
+					userDetails === "error" ?
+					<Text style={{color: 'white'}}>Error extracting user details. Restart app.</Text> :	
+					values === "empty" ?
+					<Text style={{color: 'white'}}>No room matched your specification</Text> :
+					values === "error" ?
+					<Text style={{color: 'white'}}>There was an error retrieving the rooms. Try Again.</Text> :
+					Array.isArray(values) ?
 					values.map((item,index)=>{
 					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room',{roomDetails: item, userData: userDetails})}>
-					<Image source={require('../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
+					<Image source={require('../../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>{item.roomType}</Text>
 						<Text>{item.roomDesc}</Text>
 						<Text>{item.roomPrice}</Text>
 					</View>
-				</TouchableOpacity>}):
-				<Text style={{color: 'white'}}>No rooms match your specification</Text>
+				</TouchableOpacity>}) :
+				<Text style={{color: 'white'}}></Text>
 				}
 			</View>
 		</ScrollView>
