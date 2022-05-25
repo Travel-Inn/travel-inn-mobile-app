@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Alert, View, StyleSheet, ImageBackground, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, Image, TouchableOpacity, Dimensions } from 'react-native';
 
 
 export default function Home({navigation}){
@@ -8,7 +8,7 @@ export default function Home({navigation}){
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>
 				<View style={styles.imageBack}>
-					<ImageBackground style={styles.pageImage} source={require("../images/home-welome.jpg")}/>
+					<ImageBackground style={styles.pageImage} source={require("../../images/home-welome.jpg")}/>
                     <View style={{backgroundColor: "rgba(0,0,0, 0.3)", justifyContent: 'center', alignItems: 'center',
                     position: 'absolute', zIndex: 2, textAlign: 'center', height: "100%", width: "100%"}}>
                         <Text style={{color: 'white', fontSize: 20}}>WELCOME TO</Text>
@@ -27,22 +27,6 @@ export default function Home({navigation}){
 				</View>
 			</View>
 			<View style={styles.form}>
-				{/* <View style = {styles.options}>
-					<TouchableOpacity
-						onPress = {()=>navigation.navigate("Signup")}
-						color = "black"
-						style= {styles.loginorsignup}
-					>
-					<Text>Sign Up</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress = {()=>navigation.navigate("Login")}
-						color = "black"
-						style= {styles.loginorsignup}
-					>
-					<Text>Login</Text>
-					</TouchableOpacity>
-				</View> */}
                 <View style={styles.page}>
                     <View style={{flex: 1,padding: 10, justifyContent: 'space-between'}}>
                         <Text style={styles.info}>Luxury Redefined</Text>
@@ -55,7 +39,7 @@ export default function Home({navigation}){
                         </TouchableOpacity>
                     </View>
                     <View style={styles.infoImageContainer}>
-                        <ImageBackground source={require("../images/reset.jpg")} style={styles.infoImage}/>
+                        <ImageBackground source={require("../../images/reset.jpg")} style={styles.infoImage}/>
                     </View>
                 </View>
                 <View style={styles.page}>
@@ -70,7 +54,7 @@ export default function Home({navigation}){
                         </TouchableOpacity>
                     </View>
                     <View style={styles.infoImageContainer}>
-                        <ImageBackground source={require("../images/menu.jpg")} style={styles.infoImage}/>
+                        <ImageBackground source={require("../../images/menu.jpg")} style={styles.infoImage}/>
                     </View>
                 </View>
             </View>

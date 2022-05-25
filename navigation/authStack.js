@@ -1,8 +1,8 @@
 import React from 'react';
-import SignupPage from '../screens/signupPage.js';
-import LoginPage from '../screens/loginPage.js';
-import ForgottenPasswordPage from '../screens/forg_Pass.js';
-import ResetPasswordPage from '../screens/resetPassword.js';
+import SignupPage from '../screens/authentication/signupPage.js';
+import LoginPage from '../screens/authentication/loginPage.js';
+import ForgottenPasswordPage from '../screens/authentication/forg_Pass.js';
+import ResetPasswordPage from '../screens/authentication/resetPassword.js';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
