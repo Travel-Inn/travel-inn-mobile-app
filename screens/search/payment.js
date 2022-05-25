@@ -6,7 +6,7 @@ import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bookRoom } from '../../config/firebase';
 import { validateCreditCard, validateDates } from '../../utils/inputValidator';
-import { getNumberOfNights } from '../../utils/numberOfDays';
+import { getNumberOfNights } from '../../utils/numberOfNights';
 import { pluralChecker } from '../../utils/pluralCheck';
 
 	const fullWidth = Dimensions.get('screen').width;

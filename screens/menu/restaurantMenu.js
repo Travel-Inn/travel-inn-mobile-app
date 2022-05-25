@@ -2,7 +2,7 @@
 const RestaurantMenu =[
 	{
 		menuName: "Breakfast",
-		image: require("../images/breakfast-foods.jpg"),
+		image: require("../../images/breakfast-foods.jpg"),
 		beverages:[
 			{
 				name: "Tea",
@@ -26,7 +26,7 @@ const RestaurantMenu =[
 	},
 	{ 
 		menuName: "Brunch",
-		image: require("../images/brunch.jpg"),
+		image: require("../../images/brunch.jpg"),
 		beverages:[
 			{
 				name: "Orange Juice",
@@ -50,7 +50,7 @@ const RestaurantMenu =[
 	},
 	{
 		menuName: "LUNCH",
-		image: require("../images/lunch.png"),
+		image: require("../../images/lunch.png"),
 		beverages:[
 			{
 				name: "Cocktail",
@@ -74,7 +74,7 @@ const RestaurantMenu =[
 	},
 	{
 		menuName: "DINNER",
-		image: require("../images/dinner.jpg"),
+		image: require("../../images/dinner.jpg"),
 		beverages:[
 			{
 				name: "Cocktail",
@@ -98,7 +98,7 @@ const RestaurantMenu =[
 	},
 	{
 		menuName: "DESSERT",
-		image: require("../images/dessert.jpg"),
+		image: require("../../images/dessert.jpg"),
 		food:[
 			{
 				name: 'Ice Cream',

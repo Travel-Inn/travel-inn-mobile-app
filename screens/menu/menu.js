@@ -94,31 +94,31 @@ export default function Menu({navigation}) {
      const menuTabs = [
         {
             id: "breakfast",
-            image: require('../images/breakfast-foods.jpg'),
+            image: require('../../images/breakfast-foods.jpg'),
             name: "Breakfast",
 			loc: locs[0]
         }, 
         {
             id: "brunch",
-            image: require('../images/brunch.jpg'),
+            image: require('../../images/brunch.jpg'),
             name: "Brunch",
 			loc: locs[1] 
         }, 
         {
             id: "lunch",
-            image: require('../images/lunch.png'),
+            image: require('../../images/lunch.png'),
             name: "Lunch",
 			loc: locs[2]
         }, 
         {
             id: "dinner",
-            image: require('../images/dinner.jpg'),
+            image: require('../../images/dinner.jpg'),
             name: "Dinner",
 			loc: locs[3]
         }, 
         {
             id: "dessert",
-            image: require('../images/dessert.jpg'),
+            image: require('../../images/dessert.jpg'),
             name: "Dessert",
 			loc: locs[4]
         }
@@ -126,7 +126,7 @@ export default function Menu({navigation}) {
   return (
     <View style={styles.menuContent} >
 		<ScrollView ref={(ref)=>{setRef(ref);}}>
-			<ImageBackground source={require("../images/menu.jpg")} resizeMode="cover" style={styles.menuPageInfo}>
+			<ImageBackground source={require("../../images/menu.jpg")} resizeMode="cover" style={styles.menuPageInfo}>
 				<Text style={styles.tabName}>MENU</Text>
 			</ImageBackground>
 			<View style={styles.menuList}>

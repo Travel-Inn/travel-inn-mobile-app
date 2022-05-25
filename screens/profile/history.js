@@ -2,7 +2,7 @@ import React from 'react';
 import { BackHandler,Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import style from 'react-native-datepicker/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { loggingOut } from '../config/firebase';
+import { loggingOut } from '../../config/firebase';
 
 export default function HistoryScreen({navigation}) {
 
@@ -13,7 +13,7 @@ export default function HistoryScreen({navigation}) {
 			booked: "23 May 2022",
 			description: 'Single Room With single Bed',
 			price: 250.00,
-			image: require("../images/booking-room1.jpg")
+			image: require("../../images/booking-room1.jpg")
 		},
 		{
 			name: 'Twin-Bed Room',
@@ -21,7 +21,7 @@ export default function HistoryScreen({navigation}) {
 			booked: "24 May 2022",
 			description: 'Single Room With Twin Beds',
 			price: 300.00,
-			image: require("../images/booking-room2.jpg")
+			image: require("../../images/booking-room2.jpg")
 		},
 		{
 			name: 'Double Room',
@@ -29,7 +29,7 @@ export default function HistoryScreen({navigation}) {
 			booked: "25 May 2022",
 			description: 'Single Room With Double Bed',
 			price: 350.00,
-			image: require("../images/booking-room3.jpg")
+			image: require("../../images/booking-room3.jpg")
 		},
 
 	]
@@ -37,7 +37,7 @@ export default function HistoryScreen({navigation}) {
   return(
     <View style={styles.container} >
 		<ScrollView>
-			<ImageBackground source={require("../images/contact.jpg")} resizeMode="cover" style={styles.pageImage}>
+			<ImageBackground source={require("../../images/contact.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>HISTORY</Text>
 			</ImageBackground>
 			<View style={styles.content}>

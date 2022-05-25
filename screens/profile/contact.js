@@ -33,7 +33,7 @@ export default function Contact({navigation}){
 
     return(
         <View style={styles.contactContent}>
-            <ImageBackground source={require("../images/contact.jpg")} resizeMode="cover" style={styles.backgroundImage}>
+            <ImageBackground source={require("../../images/contact.jpg")} resizeMode="cover" style={styles.backgroundImage}>
                 <View style={styles.contactPageInfo}>
                     <Text style={styles.whiteText}>CONTACT INFO</Text>
                 </View>

@@ -30,12 +30,12 @@ export default function UserDetails() {
   return(
     <View style={styles.container} >
 		<ScrollView>
-			<ImageBackground source={require("../images/profile.jpg")} resizeMode="cover" style={styles.pageImage}>
+			<ImageBackground source={require("../../images/profile.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>PROFILE</Text>
 			</ImageBackground>
 			<View style={styles.content}>
                 <View style={styles.user}>
-                    <Image source={require('../images/profile.jpg')} style={styles.profileImage}/>
+                    <Image source={require('../../images/profile.jpg')} style={styles.profileImage}/>
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{color: 'white'}}>{userDetails.firstName} {userDetails.lastName}</Text>
                         <Text style={{color: 'white'}}>{userDetails.email}</Text>

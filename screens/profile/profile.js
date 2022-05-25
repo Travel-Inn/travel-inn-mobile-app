@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { loggingOut } from '../config/firebase';
+import { loggingOut } from '../../config/firebase';
 
 export default function Profile({navigation}) {
     const [nav, setNav] = React.useState(["mainprofile"]);
@@ -9,12 +9,12 @@ export default function Profile({navigation}) {
   return(
     <View style={styles.container} >
 		<ScrollView>
-			<ImageBackground source={require("../images/profile.jpg")} resizeMode="cover" style={styles.pageImage}>
+			<ImageBackground source={require("../../images/profile.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>PROFILE</Text>
 			</ImageBackground>
 			{nav[nav.length-1]=="mainprofile"?<View style={styles.content}>
                 <View style={styles.user}>
-                    <Image source={require('../images/profile.jpg')} style={styles.profileImage}/>
+                    <Image source={require('../../images/profile.jpg')} style={styles.profileImage}/>
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{color: 'white'}}>Samuel Nai</Text>
                         <Text style={{color: 'white'}}>samuel.nai@yahoo.com</Text>
@@ -41,7 +41,7 @@ export default function Profile({navigation}) {
             : 
             <View style={styles.content}>
                 <View style={styles.user}>
-                    <Image source={require('../images/profile.jpg')} style={styles.profileImage}/>
+                    <Image source={require('../../images/profile.jpg')} style={styles.profileImage}/>
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{color: 'white'}}>Samuel Nai</Text>
                         <Text style={{color: 'white'}}>samuel.nai@yahoo.com</Text>
