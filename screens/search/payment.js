@@ -4,92 +4,71 @@ import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, S
 import DatePicker from 'react-native-datepicker';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { bookRoom } from '../config/firebase';
+import { bookRoom } from '../../config/firebase';
+import { validateCreditCard, validateDates } from '../../utils/inputValidator';
+import { getNumberOfNights } from '../../utils/numberOfDays';
+import { pluralChecker } from '../../utils/pluralCheck';
 
 	const fullWidth = Dimensions.get('screen').width;
 	const ninety = Dimensions.get('screen').width*0.9;
 	const eighty = Dimensions.get('screen').width*0.8;
 
 export default function Payment({route, navigation}){
+	// Room and user details.
 	const { roomPrice, roomType, roomName, roomID, userInfo } = route.params;
 	
-	const currDate = new Date();
+	const currDate = new Date(); // Current date
 	const  tomorrow = new Date();
-	tomorrow.setDate(tomorrow.getDate() + 1);
+	tomorrow.setDate(tomorrow.getDate() + 1); // Tomorrow's date
 	const [step, setStep] = React.useState('white');
-	const [inDate, setInDate] = React.useState(currDate);
-	const [outDate, setOutDate] = React.useState(tomorrow);
-	const [nights, setNights] = React.useState('');
+	const [inDate, setInDate] = React.useState(currDate); // Checkin Date
+	const [outDate, setOutDate] = React.useState(tomorrow); // Checkout Date
+	const [nights, setNights] = React.useState(''); // Number of nights
+	const [plural, setPlural] = React.useState(''); // Plural checker
 	const [cardNo, setCardNo] = React.useState('');
 	const [expiryDate, setExpiryDate] = React.useState('');
 	const [CVC, setCVC] = React.useState('');
 	const [cardName, setCardName] = React.useState('');
-
 	const [loading, setLoading] = React.useState(false);
+
 	const onHandleSubmit = async () => {
-		// check for text
-		navigation.navigate('Congrats');
-		//setLoading(true);
+	
+		setLoading(true);
 		const date1 = new Date(inDate).getDate();
 		const date2 = new Date(outDate).getDate();
 		const currDate1 = currDate.getDate();
 		
-		if (date2 < currDate1){
+		if (validateDates(currDate1, date1, date2)){ // Checks for dates.
 			setLoading(false);
-			console.log("CheckOut date cannot be less than current date.");
-		} else if (date1 < currDate1){
-			setLoading(false);
-			console.log("CheckIn date cannot be less than current date.")
-		}else if (date2 < date1){
-			setLoading(false);
-			console.log("CheckIn date cannot be greater than checkOut date.");
-		} else if (nights.length<=0){
+		} else if (nights.length<=0){ // Check for nights.
 			setLoading(false);
 			console.log("Number of nights should be greater than 0.");
-		} else if (cardNo.length != 16) {
+		} else if (validateCreditCard(cardNo, expiryDate, CVC, cardName)){ // Validate CC details
 			setLoading(false);
-			console.log("Card number should be 16 digits.")
-		} else if (!expiryDate) {
-			setLoading(false);
-			console.log("Expiry date shouldn't be empty.")
-		} else if (CVC.length != 3) {
-			setLoading(false);
-			console.log("CVC should be 3 digits.")
-		} else if(!cardName) {
-			setLoading(false);
-			console.log("Card name shouldn't be empty.");
-		}  else if (await bookRoom(nights, roomID, roomName, inDate, outDate) ==0 ){
+		}  else if (await bookRoom(nights, roomID, roomName, inDate, outDate) ==0 ){ // Room book was successful.
 			setLoading(false);
 			console.log("Room has been booked successfully.");
-			navigation.navigate('Congrats');
+			navigation.navigate('Congrats'); //Move to congrats page.
 		} else {
 			setLoading(false);
 			console.log("There was an error.");
 		}
 	}
 
+
 		React.useEffect(() => {
-		const nightNum = (start,end) => {
-			const date1 = new Date(start);
-			const date2 = new Date(end);
-
-			// One day in milliseconds
-			const oneDay = 1000 * 60 * 60 * 24;
-
-			// Calculating the time difference between two dates
-			const diffInTime = date2.getTime() - date1.getTime();
-			// Calculating the no. of days between two dates
-			const diffInDays = Math.round(diffInTime / oneDay);
-
-			setNights(diffInDays);
-		}
-		nightNum(inDate, outDate);
-		},[inDate,outDate])
+		// Runs whenever use changes the checkIn and checkOut date.
+		// Gets the number of nights and checks the 'plurality'.
+		const temp =getNumberOfNights(inDate, outDate);
+		const temp1 = pluralChecker(temp);
+		setNights(temp);
+		setPlural(temp1);
+	},[inDate,outDate])
 
     return (
         <View style={styles.container}>
 		<ScrollView>
-			<ImageBackground source={require("../images/payment.jpg")} resizeMode="cover" style={styles.pageImage}>
+			<ImageBackground source={require("../../images/payment.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>PAYMENT</Text>
 			</ImageBackground>
 			<View style={{flexDirection: 'row', width: ninety, justifyContent: 'center', 
@@ -108,17 +87,17 @@ export default function Payment({route, navigation}){
 				<View style={{justifyContent: 'center', alignItems: 'center'}}>
 				<Text style={{fontSize: 18, fontWeight: 'bold'}}>Contact Information</Text>
 				<TextInput
-				value={userInfo.firstName+ " " + userInfo.lastName}
+				value={userInfo.firstName+ " " + userInfo.lastName} // User's Full name
 				editable={false}
 				style={styles.contactInfo}
 				/>
 				<TextInput
-				value={userInfo.email}
+				value={userInfo.email} // User's email
 				editable={false}
 				style={styles.contactInfo}
 				/>
 				<TextInput
-				value={userInfo.phoneNum}
+				value={userInfo.phoneNum} // User's phone number
 				editable={false}
 				style={styles.contactInfo}
 				/>
@@ -131,8 +110,8 @@ export default function Payment({route, navigation}){
 							mode="date"
 							placeholder="Check In"
 							format="MM-DD-YYYY"
-							minDate={currDate}
-							maxDate={outDate}
+							minDate={currDate} // Minimum date shouldn't be lower than current date.
+							maxDate={outDate} // Maximum date shouldn't be greater than check out date.
 							confirmBtnText="Confirm"
 							iconSource={null}
 							onDateChange={(date) => {setInDate(date);}}
@@ -156,7 +135,7 @@ export default function Payment({route, navigation}){
 						/>
 					</View>
 					<View style={{justifyContent: 'center', alignItems: 'center', borderRightWidth: 1, borderLeftWidth: 1, padding: 5}}>
-						<Text style={{fontSize: 12}}>{nights} Nights</Text>
+						<Text style={{fontSize: 12}}>{nights} Night{plural}</Text>
 					</View>
 					<View style={{justifyContent: 'center', alignItems: 'center', padding: 5}}>
 						<Text style={{fontSize: 12, fontWeight: 'bold'}}>Check Out</Text>
@@ -165,7 +144,7 @@ export default function Payment({route, navigation}){
 							mode="date"
 							placeholder="Check In"
 							format="MM-DD-YYYY"
-							minDate={inDate}
+							minDate={inDate} // Minimum date shouldn't be lower than checkIn Date.
 							confirmBtnText="Confirm"
 							iconSource={null}
 							onDateChange={(date) => {setOutDate(date);}}
@@ -230,6 +209,7 @@ export default function Payment({route, navigation}){
 				maxLength={16}
 				/>
 				<Text style={{width: eighty}}>Expiry Date</Text>
+				{/*  TODO: CHANGE TO MONTH(DATEPICKER) */}
 				<Input
 				placeholder = "MM/YY"
 				value={expiryDate}

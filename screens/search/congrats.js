@@ -5,7 +5,7 @@ export default function Congratulation({navigation}){
     return(
         <View style={styles.container}>
         <TouchableOpacity onPress ={()=>navigation.navigate('Home')}>
-            <ImageBackground source={require("../images/congrat.jpg")} style ={styles.screenImage}>
+            <ImageBackground source={require("../../images/congrat.jpg")} style ={styles.screenImage}>
                 <View style={styles.congratView}>
                     <Text style={styles.congratText}>CONGRATULATIONS</Text>
                     <Text style={styles.info}>YOUR BOOKING WAS SUCCESSFULLY COMPLETED</Text>

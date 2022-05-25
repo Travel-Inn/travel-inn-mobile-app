@@ -154,9 +154,9 @@ export default function Booking({navigation}) {
 					loading ? 
 					<ActivityIndicator size={50} animating={true} color="white"/>:
 					userDetails === "empty" ?
-					<Text style={{color: 'white'}}>Authentication error. Log out and log in again.</Text> :
+					<Text style={{color: 'white'}}>Authentication error. Log out and log in again.</Text> : //TODO: Force log out.
 					userDetails === "error" ?
-					<Text style={{color: 'white'}}>Error extracting user details. Restart app.</Text> :	
+					<Text style={{color: 'white'}}>Error extracting user details. Restart app.</Text> :	 //TODO: Force restart app.
 					values === "empty" ?
 					<Text style={{color: 'white'}}>No room matched your specification</Text> :
 					values === "error" ?
