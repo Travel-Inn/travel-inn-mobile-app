@@ -19,7 +19,6 @@ export default function Profile({navigation}) {
     React.useEffect(() =>{
 		LogBox.ignoreLogs(['Setting a timer']);
         // Retrieving user data.
-        console.log(nav[nav.length-1])
             const db = firebase.firestore();
             const user = firebase.auth().currentUser;
             db.collection("Users").doc(user.uid)
@@ -45,9 +44,10 @@ export default function Profile({navigation}) {
         },[nav])
 
     const onHandleSave = async () => {
+        console.log("Save has been clicked");
 	setLoading(true);
 	// Routine input checks.
-    if (!validateText(fName)) {
+    if (!validateText(fName)) {  
     setLoading(false);
     } else if (!validateText(lName)){
     setLoading(false);
@@ -57,7 +57,7 @@ export default function Profile({navigation}) {
         setLoading(false);
     } else if (!validateGender(gender)){
         setLoading(false);
-    }else if (await updateUserData(fName.trim(), lName.trim(), email.trim(),phone.trim(), gender) == 0) {
+    }else if (await updateUserData(fName.trim(), lName.trim(), email.trim(),phone.trim(), gender.trim()) == 0) {
         setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1));
 	}else{
 	 setLoading(false);
