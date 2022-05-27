@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, 
-	Dimensions, SliderComponent, ActivityIndicator} from 'react-native';
+	Dimensions, SliderComponent, KeyboardAvoidingView, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 import firebase from "firebase/compat/app";
@@ -86,6 +86,7 @@ export default function Booking({navigation}) {
   return(
     <View style={styles.container} >
 		<ScrollView>
+			<KeyboardAvoidingView>
 			<ImageBackground source={require("../../images/booking-image.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>Booking</Text>
 			</ImageBackground>
@@ -97,7 +98,7 @@ export default function Booking({navigation}) {
 						keyboardType="numeric"
 						onChangeText={text => setBedNum(text)}
 						placeholder = "Number of beds"
-						placeholderTextColor={"white"}
+						placeholderTextColor={"grey"}
 						leftIcon={
 						<Icon name='users' size={20} color="white" 
 							style={{position: 'absolute', left: 15, top: 15}}
@@ -116,7 +117,7 @@ export default function Booking({navigation}) {
 							keyboardType="numeric"
 							onChangeText={text => setMinPrice(text)}
 							placeholder = "min"
-							placeholderTextColor={'white'}
+							placeholderTextColor={'grey'}
 							inputStyle = {{
 											backgroundColor: "black", textAlign: 'center',
 											borderColor: "black", borderRadius: 10, color: 'white',
@@ -129,7 +130,7 @@ export default function Booking({navigation}) {
 							textContentType="none"
 							keyboardType="numeric"
 							onChangeText={text => setMaxPrice(text)}
-							placeholderTextColor={'white'}
+							placeholderTextColor={'grey'}
 							placeholder = "max"
 							inputStyle = {{
 											backgroundColor: "black", 
@@ -174,6 +175,7 @@ export default function Booking({navigation}) {
 				<Text style={{color: 'white'}}></Text>
 				}
 			</View>
+			</KeyboardAvoidingView>
 		</ScrollView>
 	</View>
   );
