@@ -159,10 +159,13 @@ export function validateCreditCard(cardNo, expiryDate, CVC, cardName) {
 export function validateGender(gender){
     gender = gender.trim().toLowerCase();
     // Validate gender
-    if (gender != "male"){
+    if (gender == "male"){
         return true;
-    } else if (gender != "female"){
+    } else if (gender == "female"){
         return true;
     }
-    else return false;
+    else{
+        console.log("Invalid input for Gender");
+     return false;
+    }
 }
