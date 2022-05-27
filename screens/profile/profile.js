@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {Text, View, ImageBackground, TouchableOpacity, Image, TextInput, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import firebase from "firebase/compat/app";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
@@ -27,6 +27,11 @@ export default function Profile({navigation}) {
                 if (doc.exists){
                 console.log("User data has been extracted.");
                 setUserDetails(doc.data());
+                setEmail(doc.data().email)
+                setFName(doc.data().firstName)
+                setLName(doc.data().lastName)
+                setGender(doc.data().gender)
+                setPhone(doc.data().phoneNum)
                 } else {
                 console.log("No such user exists.");
                 }
@@ -101,32 +106,59 @@ export default function Profile({navigation}) {
                 </View>
                 <View style={styles.options}>
                     <Text>First Name</Text>
-                    <Text>{userDetails.firstName}</Text>
+                    <TextInput
+                keyboardType='default'
+                textContentType="name"
+                autoCapitalize='none'
+                value={fName}
+                onChangeText={text => setFName(text)}
+                style={{paddingRight: 10}}
+                />
                 </View>
                 <View style={styles.options}>
                     <Text>Last Name</Text>
-                    <Text>{userDetails.lastName}</Text>
-                </View>
-                {/* <View style={styles.options}>
-                    <Text>Email</Text>
-                    <Text>{userDetails.email}</Text>
-                </View> */}
-                <Input
+                    <TextInput
                 keyboardType='email-address'
                 textContentType='emailAddress'
                 autoCapitalize='none'
-                value={email}
-                onChangeText={text => setEmail(text)}
-                placeholder = {userDetails.email}
-                leftIcon = {<Icon name="at" size = {20} color = 'white' style={{paddingRight: 5}}/>}               
-				/>
+                value={lName}
+                onChangeText={text => setLName(text)}
+                style={{paddingRight: 10}}
+                />
+                </View>
+                <View style={styles.options}>
+                    <Text>Email</Text>
+                    <TextInput
+                    keyboardType='email-address'
+                    textContentType='emailAddress'
+                    autoCapitalize='none'
+                    value={email}
+                    onChangeText={text => setEmail(text)}
+                    style={{paddingRight: 10}}           
+                    />
+                </View>
+                
                 <View style={styles.options}>
                     <Text>Gender</Text>
-                    <Text>{userDetails.gender}</Text>
+                    <TextInput
+                    keyboardType="default"
+                    textContentType="name"
+                    autoCapitalize='none'
+                    value={gender}
+                    onChangeText={text => setGender(text)}
+                    style={{paddingRight: 10}}
+                    />
                 </View>
                 <TouchableOpacity style={styles.options} >
                     <Text>Number</Text>
-                    <Text>{userDetails.phoneNum}</Text>
+                    <TextInput
+                    keyboardType="phone-pad"
+                    textContentType="telephoneNumber"
+                    autoCapitalize='none'
+                    value={phone}
+                    onChangeText={text => setPhone(text)}
+                    style={{paddingRight: 10}}
+                    />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.backbtn} onPress={onHandleSave}>
 				    <Text>Save</Text>
