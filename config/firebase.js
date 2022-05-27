@@ -3,6 +3,8 @@ import  "firebase/compat/firestore";
 import 'firebase/compat/auth';
 import apiKeys from './keys';
 
+
+// Initializing firebase.
 let Firebase;
 
 if (firebase.apps.length === 0) {
@@ -13,7 +15,9 @@ export default Firebase;
 
 
 export async function registration(email, password, name, phoneNum) {
+  // User registration.
   const db = firebase.firestore();
+  // splitting name into first and last name.
   const firstName = name.split(' ').slice(0, -1).join(' ');
   const lastName = name.split(' ').slice(-1).join(' ');
 
@@ -33,6 +37,7 @@ export async function registration(email, password, name, phoneNum) {
         numberOfNights: 0,
         phoneNum: phoneNum,
         uid: currentUser.uid,
+        gender: "N/A",
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -45,6 +50,7 @@ export async function registration(email, password, name, phoneNum) {
 }
 
 export async function signIn(email, password) {
+  // Sign in function 
   try {
    await firebase
       .auth()
@@ -58,6 +64,7 @@ export async function signIn(email, password) {
 }
 
 export async function passwordReset(email) {
+  // Password Reset function.
   try{
     await firebase
     .auth()
@@ -70,6 +77,7 @@ export async function passwordReset(email) {
 }
 
 export async function loggingOut() {
+  // Signing out function.
   try {
     await firebase.auth().signOut();
     console.log("User has been signed out")
@@ -79,10 +87,12 @@ export async function loggingOut() {
 }
 
 export async function bookRoom(nights,roomID, roomName, inDate, outDate){
+  // User booking a room function.
     const db = firebase.firestore();
     const currentUser = firebase.auth().currentUser;
 
   try {
+    // Update user data with room name.
     db.collection("Users")
     .doc(currentUser.uid)
     .update({
@@ -90,6 +100,7 @@ export async function bookRoom(nights,roomID, roomName, inDate, outDate){
       numberOfNights: nights,
       roomName: roomName
     });
+    // update room data.
     db.collection("Rooms")
     .doc(roomID)
     .update({
@@ -100,7 +111,30 @@ export async function bookRoom(nights,roomID, roomName, inDate, outDate){
     console.log("User and Room Details have been updated successfully.")
     return 0;
   } catch(err){
-    console.log("Unexpected error.", err.message);
+    console.log("Error while updating user and room details.", err.message);
     return 1;
   }
+}
+export async function updateUserData(fname,lname,email,number,gender){
+  // Updating user data 
+  const db = firebase.firestore();
+  const currentUser = firebase.auth().currentUser;
+
+  try {
+    db.collection("Users")
+    .doc(currentUser.uid)
+    .update({
+      firstName: fname,
+      lastName: lname,
+      email: email,
+      phoneNum: number,
+      gender: gender,
+    });
+    console.log("User Details have been updated successfully.")
+    return 0;
+  } catch(err){
+    console.log("Error while updating user details.", err.message);
+    return 1;
+  }
+
 }
