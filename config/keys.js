@@ -1,3 +1,4 @@
+// Firebase keys.
 export default {
      firebaseConfig :{
   apiKey: "AIzaSyBESqOWbc5mpsJHB7DE-isPZsaogIFFu0k",
