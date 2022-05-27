@@ -34,7 +34,7 @@ export default function SignupPage({navigation}){
 			setLoading(false);
 		} else if (!validateText(name)) {
 			setLoading(false);
-		} else if (!validatePhone(phone)) {
+		} else if (!validateNumber(phone, 10)) {
 			setLoading(false);
 		} else if (await registration(email,password,name,phone) == 0 ) { // Returns 0 when successful
 		}else{

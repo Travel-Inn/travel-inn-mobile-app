@@ -4,29 +4,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from "firebase/compat/app";
 
 
-export default function UserDetails() {
-    const [userDetails, setUserDetails] = React.useState([]);
+export default function UserDetails({route, navigation}) {
+    // Receiving user data.
+    const {userData} = route.params;
 
-    React.useEffect(() =>{
-            const db = firebase.firestore();
-            const user = firebase.auth().currentUser;
-            db.collection("Users").doc(user.uid)
-            .get()
-            .then((doc) => {
-                if (doc.exists){
-                console.log("User data has been extracted.");
-                setUserDetails(doc.data());
-                setName(userDetails.name);
-                } else {
-                console.log("No such user exists.");
-                }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
-
-
-
-        },[])
   return(
     <View style={styles.container} >
 		<ScrollView>
@@ -37,21 +18,21 @@ export default function UserDetails() {
                 <View style={styles.user}>
                     <Image source={require('../../images/profile.jpg')} style={styles.profileImage}/>
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={{color: 'white'}}>{userDetails.firstName} {userDetails.lastName}</Text>
-                        <Text style={{color: 'white'}}>{userDetails.email}</Text>
+                        <Text style={{color: 'white'}}>{userData.firstName} {userData.lastName}</Text>
+                        <Text style={{color: 'white'}}>{userData.email}</Text>
                     </View>
                 </View>
                 <View style={styles.options}>
                     <Text>First Name</Text>
-                    <Text>{userDetails.firstName}</Text>
+                    <Text>{userData.firstName}</Text>
                 </View>
                 <View style={styles.options}>
                     <Text>Last Name</Text>
-                    <Text>{userDetails.lastName}</Text>
+                    <Text>{userData.lastName}</Text>
                 </View>
                 <View style={styles.options}>
                     <Text>Email</Text>
-                    <Text>{userDetails.email}</Text>
+                    <Text>{userData.email}</Text>
                 </View>
                 <View style={styles.options}>
                     <Text>Gender</Text>
@@ -59,7 +40,7 @@ export default function UserDetails() {
                 </View>
                 <View style={styles.options}>
                     <Text>Number</Text>
-                    <Text>{userDetails.phoneNum}</Text>
+                    <Text>{userData.phoneNum}</Text>
                 </View>
 				
 			</View>

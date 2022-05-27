@@ -1,8 +1,6 @@
 import React from 'react';
 import { BackHandler,Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
-import style from 'react-native-datepicker/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { loggingOut } from '../../config/firebase';
 
 export default function HistoryScreen({navigation}) {
 

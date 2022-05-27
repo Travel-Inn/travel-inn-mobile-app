@@ -14,12 +14,14 @@ export default function Contact({navigation}){
     useEffect(() => {
         LogBox.ignoreLogs(['Setting a timer']);
         const getContacts=async()=> {
+            // Retrieving contact document. 
             let contactValues = await firebase
             .firestore()
             .collection("Contacts")
             .doc("contact_id")
             .get();
 
+            // Assigning contact fields to respective variables.
             let contacts = contactValues.data();
             setPhone(contacts.phone);
             setEmail(contacts.email);
