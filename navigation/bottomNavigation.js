@@ -16,7 +16,7 @@ export default function BottomTabs(){
     const Tab = createBottomTabNavigator();
     
     return(
-        <Tab.Navigator initialRouteName='Home' backBehavior='history' screenOptions={{headerShown: false, tabBarShowLabel: false}}>
+        <Tab.Navigator initialRouteName='Home' backBehavior='history' screenOptions={{headerShown: false, tabBarShowLabel: false, tabBarHideOnKeyboard: true}}>
             <Tab.Screen name="Home" component={Home} options={{tabBarIcon: ()=>(
                 <Icon name="home" size={20} color = "black"/>
             )}}/>
