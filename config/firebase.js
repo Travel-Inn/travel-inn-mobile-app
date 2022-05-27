@@ -33,8 +33,6 @@ export async function registration(email, password, name, phoneNum) {
         firstName: firstName,
         lastName: lastName,
         checkIn: false,
-        roomName: "",
-        numberOfNights: 0,
         phoneNum: phoneNum,
         uid: currentUser.uid,
         gender: "N/A",
