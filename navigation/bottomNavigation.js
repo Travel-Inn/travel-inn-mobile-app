@@ -11,6 +11,7 @@ import Profile from '../screens/profile/profile';
 import Room from '../screens/search/room';
 import UserDetails from '../screens/profile/userDetails';
 
+// User stack.
 export default function BottomTabs(){
     const Tab = createBottomTabNavigator();
     

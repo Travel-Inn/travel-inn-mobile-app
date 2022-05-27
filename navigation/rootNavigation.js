@@ -6,6 +6,7 @@ import AuthStack from './authStack';
 import Firebase from '../config/firebase'; 
 import { AuthenticatedUserContext } from './AuthenticatedUserProvider';
 
+// Listener for user auth changes. 
 
 //const auth = firebase.auth();
 const auth = Firebase.auth();
@@ -39,6 +40,7 @@ export default function RootNavigator() {
   }
 
   return (
+    // If user is logged in, direct user to home stack, else authentication stack.
     <NavigationContainer>
       {user ? <HomeStack/> : <AuthStack/> }
     </NavigationContainer>

@@ -7,6 +7,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
 
+// Auth stack.  
 export default function AuthStack() {
   return (
     <Stack.Navigator initialRouteName='Login' screenOptions={{headerShown: false}}>
