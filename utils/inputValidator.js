@@ -155,3 +155,14 @@ export function validateCreditCard(cardNo, expiryDate, CVC, cardName) {
             return true;
         } else return false;
 }
+
+export function validateGender(gender){
+    gender = gender.trim().toLowerCase();
+    // Validate gender
+    if (gender != "male"){
+        return true;
+    } else if (gender != "female"){
+        return true;
+    }
+    else return false;
+}
