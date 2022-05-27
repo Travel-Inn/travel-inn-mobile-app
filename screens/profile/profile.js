@@ -2,7 +2,6 @@ import React from 'react';
 import {Text, View, ImageBackground, TouchableOpacity, Image, TextInput, LogBox, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import firebase from "firebase/compat/app";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input } from 'react-native-elements';
 import { loggingOut, updateUserData } from '../../config/firebase';
 import { validateNumber, validateText, validateEmail, validateGender } from '../../utils/inputValidator';
 
@@ -20,6 +19,7 @@ export default function Profile({navigation}) {
     React.useEffect(() =>{
 		LogBox.ignoreLogs(['Setting a timer']);
         // Retrieving user data.
+        console.log(nav[nav.length-1])
             const db = firebase.firestore();
             const user = firebase.auth().currentUser;
             db.collection("Users").doc(user.uid)
@@ -42,7 +42,7 @@ export default function Profile({navigation}) {
 
 
 
-        },[])
+        },[nav])
 
     const onHandleSave = async () => {
 	setLoading(true);
@@ -78,7 +78,7 @@ export default function Profile({navigation}) {
                         <Text style={{color: 'white'}}>{userDetails.email}</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.options} onPress={()=>setNav([...nav,'profile', {userData: userDetails}])}>
+                <TouchableOpacity style={styles.options} onPress={()=>setNav([...nav,'profile'])}>
                     <Text>Manage Your Account</Text>
                     <Icon name="angle-right" size={25} color="black" />
                 </TouchableOpacity>
