@@ -5,7 +5,7 @@ import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
 import { registration } from '../../config/firebase';
-import { validateEmail, validatePassword, validatePhone, validateText }from '../../utils/inputValidator';
+import { validateEmail, validatePassword, validateNumber, validateText }from '../../utils/inputValidator';
 
 
 export default function SignupPage({navigation}){
@@ -76,7 +76,6 @@ export default function SignupPage({navigation}){
 				<Input
 					keyboardType='email-address'
 					textContentType='emailAddress'
-					autoCapitalize='none'
 					value={email}
 					onChangeText={text => setEmail(text)}
 					placeholder = "abcde123@example.com"
@@ -85,7 +84,6 @@ export default function SignupPage({navigation}){
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
 				/>
 				<Input
-					autoCapitalize="none"
 					value={password}
 					onChangeText={text => setPassword(text)}
 					placeholder = "password"
@@ -96,7 +94,7 @@ export default function SignupPage({navigation}){
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -7}}
 				/>
 				<Input
-					autoCapitalize="True"
+					autoCapitalize="words"
 					value={name}
 					onChangeText={text => setName(text)}
 					placeholder = "Full Name"
@@ -105,7 +103,7 @@ export default function SignupPage({navigation}){
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
 				/>
 				<Input
-					autoCapitalize="True"
+					autoCapitalize="words"
 					value={phone}
 					onChangeText={text => setPhone(text)}
 					placeholder = "Phone Number"
