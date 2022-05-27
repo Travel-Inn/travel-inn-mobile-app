@@ -9,6 +9,8 @@ import DatePicker from 'react-native-datepicker';
 import { searchRoom } from '../../config/firebase';
 import { NavigationContainer } from '@react-navigation/native';
 import { validateBedNum, validatePrices } from '../../utils/inputValidator';
+import { loggingOut } from '../../config/firebase';
+
 
 export default function Booking({navigation}) {
 	// Initializing input variables.
@@ -154,8 +156,7 @@ export default function Booking({navigation}) {
 					// Checks the current state and variables. 
 					loading ? 
 					<ActivityIndicator size={50} animating={true} color="white"/>:
-					userDetails === "empty" ?
-					<Text style={{color: 'white'}}>Authentication error. Log out and log in again.</Text> : //TODO: Force log out.
+					userDetails === "empty" ? {loggingOut} :// Authentication error. Force log out. 
 					userDetails === "error" ?
 					<Text style={{color: 'white'}}>Error extracting user details. Restart app.</Text> :	 //TODO: Force restart app.
 					values === "empty" ?
