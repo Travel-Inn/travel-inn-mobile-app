@@ -45,7 +45,7 @@ export default function Payment({route, navigation}){
 			console.log("Number of nights should be greater than 0.");
 		} else if (validateCreditCard(cardNo, expiryDate, CVC, cardName)){ // Validate CC details
 			setLoading(false);
-		}  else if (await bookRoom(nights, roomID, roomName, inDate, outDate) ==0 ){ // Room book was successful.
+		}  else if (await bookRoom(roomID, roomName, roomPrice, roomType, inDate, outDate) ==0 ){ // Room book was successful.
 			setLoading(false);
 			console.log("Room has been booked successfully.");
 			navigation.navigate('Congrats'); //Move to congrats page.

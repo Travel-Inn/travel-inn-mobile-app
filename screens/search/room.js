@@ -47,7 +47,7 @@ export default function Room({route, navigation}) {
                 </View>
                 <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('Payment', {
                  roomPrice: roomDetails.roomPrice, roomType: roomDetails.roomType.trim(),
-                 roomName: roomDetails.roomName.trim(), roomID: roomDetails.id.trim(),
+                 roomName: roomDetails.roomName.trim(), roomID: roomDetails.roomID.trim(),
                  userInfo: userData})}>
                     <Text>Book Room</Text>
                 </TouchableOpacity>

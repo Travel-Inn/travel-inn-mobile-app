@@ -1,8 +1,13 @@
 import React from 'react';
-import { BackHandler,Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import { BackHandler,Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import firebase from "firebase/compat/app";
 
-export default function HistoryScreen({navigation}) {
+export default function HistoryScreen({route, navigation}) {
+	const [values, setValues] = React.useState([]);
+	const [loading, setLoading] = React.useState([]); 
+	const db = firebase.firestore();
+	const uid = firebase.auth().currentUser.uid;
 
     const rooms =[
 		{
@@ -32,6 +37,26 @@ export default function HistoryScreen({navigation}) {
 
 	]
 
+	React.useEffect(() => {
+		setLoading(true);
+		db.collection("Users")
+		.doc(uid)
+		.collection("bookedRooms")
+		.onSnapshot((querySnapshot) => {
+			if(querySnapshot.empty){
+				setValues("empty");
+				setLoading(false);
+			}else{
+				querySnapshot.forEach((doc) => {
+					setValues(values=>[...values,doc.data()]);
+					console.log(doc.data().bookedOn);
+					console.log(doc.data().roomName);
+				});
+				setLoading(false);
+			}
+		});
+	},[])
+
   return(
     <View style={styles.container} >
 		<ScrollView>
@@ -46,20 +71,30 @@ export default function HistoryScreen({navigation}) {
 					</TouchableOpacity>
 				</View>
             {
-                rooms.length==0?
-				<View style={{height: Dimensions.get('screen').height*0.4, justifyContent: 'center'}}>
-					<Text style={styles.nothing}>Nothing to See Here</Text>
+				loading?
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size='large' />
 				</View>
 				:
-				rooms.map((item,index)=>{
+                values == "empty"?
+				<View style={{height: Dimensions.get('screen').height*0.4, justifyContent: 'center'}}>
+					<Text style={styles.nothing}>No rooms booked.</Text>
+				</View>
+				:
+				values == "error"?
+				<View style={{height: Dimensions.get('screen').height*0.4, justifyContent: 'center'}}>
+					<Text style={styles.nothing}>No rooms booked.</Text>
+				</View>
+				:				
+				values.map((item,index)=>{
 					return <View key={index}  style={styles.room}>
-                                <Image source={item.image} 
+                                <Image source={require("../../images/contact.jpg")} 
 								style={{flex: 2, maxHeight: "100%", borderRadius: 8}} />
                                 <View style={{flex: 4, justifyContent: 'space-around', paddingLeft: 15}}>
-                                    <Text style={styles.roominfo}>{item.name}</Text>
-                                    <Text style={styles.roominfo}>Room no. {item.num}</Text>
-									<Text style={styles.roominfo}>Booked on: {item.booked}</Text>
-                                    <Text style={{color: 'orange', fontWeight: 'bold'}}>GHC {item.price.toFixed(2)}</Text>
+                                    <Text style={styles.roominfo}>{item.roomType}</Text>
+                                    <Text style={styles.roominfo}>Room no. {item.roomName}</Text>
+									<Text style={styles.roominfo}>Booked on: {item.bookedOnk}</Text>
+                                    <Text style={{color: 'orange', fontWeight: 'bold'}}>GHC {item.roomPrice}.00</Text>
                                 </View>
                             </View>
                 })

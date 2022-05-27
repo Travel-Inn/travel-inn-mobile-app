@@ -86,28 +86,26 @@ export async function loggingOut() {
   }
 }
 
-export async function bookRoom(nights,roomID, roomName, inDate, outDate){
+export async function bookRoom(roomID, roomName, roomPrice, roomType, inDate, outDate){
   // User booking a room function.
     const db = firebase.firestore();
     const currentUser = firebase.auth().currentUser;
 
   try {
-    // Update user data with room name.
+    // update user booked rooms.
     db.collection("Users")
     .doc(currentUser.uid)
-    .update({
-      checkIn: true,
-      numberOfNights: nights,
-      roomName: roomName
-    });
-    // update room data.
-    db.collection("Rooms")
-    .doc(roomID)
-    .update({
+    .collection("bookedRooms")
+    .add({
+      bookedOn: new Date(),
+      roomName: roomName,
+      roomID: roomID,
       checkInDate:inDate,
       checkOutDate:outDate,
-      isRoomAvailable: false,
-    })
+      roomPrice: roomPrice ,
+      roomStatus: "pending", 
+      roomType: roomType
+    });
     console.log("User and Room Details have been updated successfully.")
     return 0;
   } catch(err){

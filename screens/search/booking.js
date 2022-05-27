@@ -56,7 +56,7 @@ export default function Booking({navigation}) {
 				.catch((error) => {
 					setValues("Error");
 					setLoading(false); // If there was an error, update values with the error.
-					console.log("Error getting documents: ", error);
+					console.log("Error getting documents: ", error.message);
 				});
 			}	
 	}
