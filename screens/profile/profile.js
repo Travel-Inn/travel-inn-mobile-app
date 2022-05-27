@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, ImageBackground, TouchableOpacity, Image, TextInput, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {Text, View, ImageBackground, TouchableOpacity, Image, TextInput, LogBox, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import firebase from "firebase/compat/app";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
@@ -18,6 +18,7 @@ export default function Profile({navigation}) {
     const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() =>{
+		LogBox.ignoreLogs(['Setting a timer']);
         // Retrieving user data.
             const db = firebase.firestore();
             const user = firebase.auth().currentUser;
@@ -56,7 +57,7 @@ export default function Profile({navigation}) {
         setLoading(false);
     } else if (!validateGender(gender)){
         setLoading(false);
-    }else if (await updateUserData(fName.trim(), lname.trim(), email.trim(),number.trim(), gender) == 0) {
+    }else if (await updateUserData(fName.trim(), lName.trim(), email.trim(),phone.trim(), gender) == 0) {
         setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1));
 	}else{
 	 setLoading(false);
@@ -160,9 +161,14 @@ export default function Profile({navigation}) {
                     style={{paddingRight: 10}}
                     />
                 </TouchableOpacity>
+                <View style={{flexDirection: "row", width: Dimensions.get('screen').width*0.8, justifyContent:'space-around'}}>
+                <TouchableOpacity style={styles.backbtn} onPress={()=>setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1))}>
+				    <Text>Back</Text>
+			    </TouchableOpacity>		
                 <TouchableOpacity style={styles.backbtn} onPress={onHandleSave}>
 				    <Text>Save</Text>
-			    </TouchableOpacity>				
+			    </TouchableOpacity>	
+                </View>		
 			</View>}
 		</ScrollView>
 	</View>
@@ -224,10 +230,11 @@ const styles = StyleSheet.create({
     },
     backbtn:{
 		backgroundColor: 'white',
-		width: Dimensions.get('screen').width*0.4,
+		width: Dimensions.get('screen').width*0.3,
 		borderRadius: 15,
 		padding: 8,
-		textAlign: 'center',
-		alignSelf: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+
 	},
 });
