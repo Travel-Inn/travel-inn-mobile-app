@@ -1,8 +1,7 @@
 import React from 'react';
-import { ImageBackground, View, Text, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ImageBackground, View, Text, StyleSheet, Dimensions, TouchableWithoutFeedback} from 'react-native';
 
-export default function Congratulation(){
+export default function Congratulation({navigation}){
 
     return(
         <View style={styles.container}>
@@ -15,11 +14,16 @@ export default function Congratulation(){
                     <Text style={{color: 'white'}}>TAP ANYWHERE TO CONTINUE</Text>
                 </View>
             </ImageBackground>
+            <TouchableWithoutFeedback onPress={()=>navigation.navigate('Booking')}><View 
+            style={styles.clickAnywhere}>
+            </View></TouchableWithoutFeedback>
         </View>
 
     )
 }
 
+const fullHeight = Dimensions.get('screen').height;
+const fullWidth = Dimensions.get('screen').width;
 const styles = StyleSheet.create({
     container:{
         flex: 1
@@ -34,14 +38,22 @@ const styles = StyleSheet.create({
         paddingTop: 70,
         paddingBottom: 70,
         backgroundColor: 'rgba(0,0,0, 0.7)',
-        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems:'center',
         borderRadius: 30
     },
     congratText:{
         fontSize: 20,
-        color: 'white'
+        color: 'white',
     },
     info:{
         color: 'white'
+    },
+    clickAnywhere:{
+        opacity: 0,
+        position: 'absolute', 
+        width: fullWidth, 
+        height: fullHeight,
+        zIndex: 2
     }
 })
