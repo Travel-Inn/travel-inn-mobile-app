@@ -4,7 +4,6 @@ import LoginPage from '../screens/authentication/loginPage.js';
 import ForgottenPasswordPage from '../screens/authentication/forg_Pass.js';
 import ResetPasswordPage from '../screens/authentication/resetPassword.js';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
 
 // Auth stack.  

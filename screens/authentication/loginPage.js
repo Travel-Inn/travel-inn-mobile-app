@@ -28,7 +28,7 @@ export default function LoginPage({navigation}){
     } else if (!validatePassword(password)) {
 		setLoading(false);
     } else if (await signIn(email,password) == 0) {
-		successfulToastNotifier("Welcome Back Traveler", "")
+		//successfulToastNotifier("Welcome Back Traveler", "")
 	  }else{
 		  setLoading(false);
 	  } 

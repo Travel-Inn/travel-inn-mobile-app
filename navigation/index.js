@@ -9,12 +9,12 @@ import RootNavigator from './rootNavigation';
 
 export default function Routes() {
   return (
-   <>
+    <>
     <AuthenticatedUserProvider>
       <RootNavigator />
     </AuthenticatedUserProvider>
     <Toast />
     </>
-
+ 
   );
 }
