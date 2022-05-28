@@ -1,10 +1,12 @@
 
 import React from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Dimensions} from 'react-native';
+import {Text,View,StyleSheet,TouchableOpacity,Dimensions,ImageBackground} from 'react-native';
 import { color } from 'react-native-reanimated';
 
 export default function Front({navigation}){
      return (
+       <View style={styles.imagebg}>
+         <ImageBackground style={styles.frontImage} source={require("../../images/splash.jpg")} />
         <View style={styles.container}>
         <Text style={styles.title}>
             Let's Explore
@@ -27,6 +29,7 @@ export default function Front({navigation}){
         </View>
   </View>
   </View>
+  </View>
 
 
     )
@@ -35,14 +38,16 @@ export default function Front({navigation}){
     const styles =StyleSheet.create({
         container:{
             flex:3,
-            padding: 50,
-            backgroundColor: "black",
+            padding:50,
+            backgroundColor:"black",
+            
+            
             
        },
        title: {
         marginBottom: 30,
         position:"relative",
-        bottom:-480,
+        bottom:190,
         paddingHorizontal:12,
         textAlign:"center",
         color: "white",
@@ -58,11 +63,9 @@ export default function Front({navigation}){
       paddingLeft:20,
       paddingRight:20,
     
-		
-
-    
       },
       signup:{
+        flexGrow:3,
         backgroundColor: 'white',
 		borderRadius: 10,
     bottom:40,
@@ -76,7 +79,7 @@ export default function Front({navigation}){
           flex: 1,
          marginBottom:12,
          position:"relative",
-         bottom:-450,
+         bottom:220,
          textAlign:"center",
          color:"white",
          
@@ -116,7 +119,23 @@ export default function Front({navigation}){
         position:"relative",
         bottom:3,
         color:"black",
-      }
+      },
+      frontImage:{
+        flexGrow: 10,
+        transform: [{scaleX: 1.0}],
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexBasis:30,
+        
+		    
+
+      },
+       imagebg:{
+        resizeMode: 'cover',
+        width: Dimensions.get('screen').width,
+        flex: 1,
+       backgroundColor:"black",
+       }
     });
 
  
