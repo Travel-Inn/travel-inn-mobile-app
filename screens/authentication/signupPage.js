@@ -5,7 +5,8 @@ import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
 import { registration } from '../../config/firebase';
-import { validateEmail, validatePassword, validatePhone, validateText }from '../../utils/inputValidator';
+import { validateEmail, validatePassword, validateNumber, validateText }from '../../utils/inputValidator';
+import { successfulToastNotifier } from '../../widgets/toastNotification';
 
 
 export default function SignupPage({navigation}){
@@ -15,7 +16,6 @@ export default function SignupPage({navigation}){
 	const [name, setName] = useState('');
 	const [phone, setPhone] = useState('');
 	const [loading, setLoading] = useState(false);
-
 
 	// For cleaning up the variables. 
 	const emptyState = () => {
@@ -34,14 +34,14 @@ export default function SignupPage({navigation}){
 			setLoading(false);
 		} else if (!validateText(name)) {
 			setLoading(false);
-		} else if (!validatePhone(phone)) {
+		} else if (!validateNumber(phone, 10)) {
 			setLoading(false);
-		} else if (await registration(email,password,name,phone) == 0 ) { // Returns 0 when successful
+		} else if (await registration(email,password,name,phone) == 0 ) {
+			 // Returns 0 when successful
 		}else{
 			setLoading(false);
 			console.log("Unexpected error occurred.")
 		}
-	  
   };
 
     return(
@@ -58,25 +58,24 @@ export default function SignupPage({navigation}){
 			<View style={styles.form}>
 				<Text style={styles.signupText}>Sign Up</Text>
 				<View style = {styles.signUpOptions}>
-					<TouchableOpacity
+					{/* <TouchableOpacity
 						onPress={null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
 					<Text>Create with Google</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
+					</TouchableOpacity> */}
+					{/* <TouchableOpacity
 						onPress = {null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
 					<Text>Create with Apple</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</View>
 				<Input
 					keyboardType='email-address'
 					textContentType='emailAddress'
-					autoCapitalize='none'
 					value={email}
 					onChangeText={text => setEmail(text)}
 					placeholder = "abcde123@example.com"
@@ -85,7 +84,6 @@ export default function SignupPage({navigation}){
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
 				/>
 				<Input
-					autoCapitalize="none"
 					value={password}
 					onChangeText={text => setPassword(text)}
 					placeholder = "password"
@@ -96,7 +94,7 @@ export default function SignupPage({navigation}){
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -7}}
 				/>
 				<Input
-					autoCapitalize="True"
+					autoCapitalize="words"
 					value={name}
 					onChangeText={text => setName(text)}
 					placeholder = "Full Name"
@@ -105,7 +103,7 @@ export default function SignupPage({navigation}){
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -5}}
 				/>
 				<Input
-					autoCapitalize="True"
+					autoCapitalize="words"
 					value={phone}
 					onChangeText={text => setPhone(text)}
 					placeholder = "Phone Number"

@@ -1,18 +1,18 @@
 import React from 'react';
-import { useState } from 'react';
 import { Text,  View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator} from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
 import { signIn } from '../../config/firebase';
 import { validateEmail, validatePassword } from '../../utils/inputValidator';
+import { successfulToastNotifier } from '../../widgets/toastNotification';
 
 
 export default function LoginPage({navigation}){
 	// Initializing stateful variables.
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [loading, setLoading] = useState(false);
+	const [email, setEmail] = React.useState('');
+	const [password, setPassword] = React.useState('');
+	const [loading, setLoading] = React.useState(false);
 
 	// Cleaning up variables.
 	const emptyState = () => {
@@ -47,20 +47,21 @@ export default function LoginPage({navigation}){
 			<View style={styles.form}>
 				<Text style={styles.loginText}>Login</Text>
 				<View style = {styles.signUpOptions}>
-					<TouchableOpacity
+					{/* <TouchableOpacity
 						onPress = {null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
 					<Text>Login with Google</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
+					</TouchableOpacity> */}
+					 {/* If apple login is possible display the option. If not don't display.
+					{isAppleLoginAvailable && <TouchableOpacity
 						onPress = {null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
 					<Text>Login with Apple</Text>
-					</TouchableOpacity>
+					</TouchableOpacity>} */}
 				</View>
 				<Input
 					keyboardType="email-address"

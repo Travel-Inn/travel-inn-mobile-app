@@ -6,6 +6,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   return (
+    // Provider so can listen to user changes everywhere in the
     <AuthenticatedUserContext.Provider value={{ user, setUser }}>
       {children}
     </AuthenticatedUserContext.Provider>

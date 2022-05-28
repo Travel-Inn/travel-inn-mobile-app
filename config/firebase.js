@@ -2,18 +2,25 @@ import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
 import 'firebase/compat/auth';
 import apiKeys from './keys';
+import { errorToastNotifier, successfulToastNotifier } from "../widgets/toastNotification";
+import parseErrorStack from "react-native/Libraries/Core/Devtools/parseErrorStack";
 
+// Initializing firebase.
 let Firebase;
 
 if (firebase.apps.length === 0) {
   Firebase = firebase.initializeApp(apiKeys.firebaseConfig);
+} else {
+  Firebase = firebase.app()
 }
 
 export default Firebase;
 
 
 export async function registration(email, password, name, phoneNum) {
+  // User registration.
   const db = firebase.firestore();
+  // splitting name into first and last name.
   const firstName = name.split(' ').slice(0, -1).join(' ');
   const lastName = name.split(' ').slice(-1).join(' ');
 
@@ -29,78 +36,135 @@ export async function registration(email, password, name, phoneNum) {
         firstName: firstName,
         lastName: lastName,
         checkIn: false,
-        roomName: "",
-        numberOfNights: 0,
         phoneNum: phoneNum,
         uid: currentUser.uid,
+        gender: "N/A",
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      console.log("User details have been stored successfully")
       return 0;
   } catch (err) {
-    console.log("There is something wrong!!!!", err.message);
-      return 1;
+    if (err.code === "auth/email-already-in-use"){
+    errorToastNotifier("Error","There is an account with the given email address.");
+    } else if (err.code === "auth/invalid-email"){
+      errorToastNotifier("Error", "Invalid email.");
+    } else if(err.code === "auth/weak-password") {
+      errorToastNotifier("Error", "Weak password.")
+    } else if (err.code === "auth/too-many-requests"){
+      errorToastNotifier("Error", "Too many attempts. Try again later.")
+    }else {
+      errorToastNotifier("Error", "Unexpected error.")
+      console.log(err.message);
+    }
+    return 1;
   }
 }
 
 export async function signIn(email, password) {
+  // Sign in function 
   try {
    await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
-      console.log("User has been signed in")
       return 0;
   } catch (err) {
-    console.log("There is something wrong!", err.message);
+    if (err.code === "auth/invalid-email"){
+    errorToastNotifier("Error","Invalid Email");
+    } else if (err.code === "auth/wrong-password"){
+      errorToastNotifier("Error", "Wrong password. ");
+    } else if (err.code === "auth/user-not-found") {
+      errorToastNotifier("Error", "There is no user with the provided email address.");
+    } else if (err.code === "auth/user-disabled") {
+      errorToastNotifier("Error", "Email address has been disabled");
+    } else if (err.code === "auth/too-many-requests"){
+      errorToastNotifier("Error", "Too many attempts. Try again later.")
+    }else {
+      errorToastNotifier("Error", "Unexpected error.");
+      console.log(err.message);
+    }
     return 1;
   }
 }
 
 export async function passwordReset(email) {
+  // Password Reset function.
   try{
     await firebase
     .auth()
     .sendPasswordResetEmail(email);
-    console.log("Password reset link has been sent")
     return 0;
   } catch(err) {
-    console.log("There is something wrong", err.message);
+       if (err.code === "auth/invalid-email"){
+      errorToastNotifier("Error", "Invalid email.");
+    } else if(err.code === "auth/user-not-found") {
+      errorToastNotifier("Error", "There's no user corresponding to the email address.");
+    } else if (err.code === "auth/too-many-requests"){
+      errorToastNotifier("Error", "Too many attempts. Try again later.")
+    }else {
+      errorToastNotifier("Error", "Unexpected error.");
+      console.log(err.message);
+    }
+    return 1;
   }
 }
 
 export async function loggingOut() {
+  // Signing out function.
   try {
     await firebase.auth().signOut();
-    console.log("User has been signed out")
+    successfulToastNotifier("Success", "User has signed out.")
   } catch (err) {
-    console.log('There is something wrong!', err.message);
+      errorToastNotifier("Error","Unexpected error.");
+      console.log(err.message);
   }
 }
 
-export async function bookRoom(nights,roomID, roomName, inDate, outDate){
+export async function bookRoom(roomID, roomName, roomPrice, roomType, inDate, outDate){
+  // User booking a room function.
     const db = firebase.firestore();
     const currentUser = firebase.auth().currentUser;
+
+  try {
+    // update user booked rooms.
+    db.collection("Users")
+    .doc(currentUser.uid)
+    .collection("bookedRooms")
+    .add({
+      bookedOn: new Date(),
+      roomName: roomName,
+      roomID: roomID,
+      checkInDate:inDate,
+      checkOutDate:outDate,
+      roomPrice: roomPrice ,
+      roomStatus: "Pending", 
+      roomType: roomType
+    });
+    return 0;
+  } catch(err){
+      errorToastNotifier(err.code,err.message);
+    return 1;
+  }
+}
+export async function updateUserData(fname,lname,email,number,gender){
+  // Updating user data 
+  const db = firebase.firestore();
+  const currentUser = firebase.auth().currentUser;
 
   try {
     db.collection("Users")
     .doc(currentUser.uid)
     .update({
-      checkIn: true,
-      numberOfNights: nights,
-      roomName: roomName
+      firstName: fname,
+      lastName: lname,
+      email: email,
+      phoneNum: number,
+      gender: gender,
+      updatedAt: new Date(),
     });
-    db.collection("Rooms")
-    .doc(roomID)
-    .update({
-      checkInDate:inDate,
-      checkOutDate:outDate,
-      isRoomAvailable: false,
-    })
-    console.log("User and Room Details have been updated successfully.")
     return 0;
   } catch(err){
-    console.log("Unexpected error.", err.message);
+      errorToastNotifier(err.code,err.message);
     return 1;
   }
+
 }

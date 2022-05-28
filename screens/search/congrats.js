@@ -1,10 +1,11 @@
 import React from 'react';
-import { ImageBackground, TouchableOpacity, View, Text, StyleSheet } from 'react-native-web';
+import { ImageBackground, View, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Congratulation({navigation}){
+export default function Congratulation(){
+
     return(
         <View style={styles.container}>
-        <TouchableOpacity onPress ={()=>navigation.navigate('Home')}>
             <ImageBackground source={require("../../images/congrat.jpg")} style ={styles.screenImage}>
                 <View style={styles.congratView}>
                     <Text style={styles.congratText}>CONGRATULATIONS</Text>
@@ -14,7 +15,6 @@ export default function Congratulation({navigation}){
                     <Text style={{color: 'white'}}>TAP ANYWHERE TO CONTINUE</Text>
                 </View>
             </ImageBackground>
-            </TouchableOpacity>
         </View>
 
     )

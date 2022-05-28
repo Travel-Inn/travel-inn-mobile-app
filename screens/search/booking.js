@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, 
-	Dimensions, SliderComponent, ActivityIndicator} from 'react-native';
+	Dimensions, SliderComponent, KeyboardAvoidingView, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 import firebase from "firebase/compat/app";
@@ -9,6 +9,9 @@ import DatePicker from 'react-native-datepicker';
 import { searchRoom } from '../../config/firebase';
 import { NavigationContainer } from '@react-navigation/native';
 import { validateBedNum, validatePrices } from '../../utils/inputValidator';
+import { loggingOut } from '../../config/firebase';
+import { errorToastNotifier, successfulToastNotifier } from '../../widgets/toastNotification';
+
 
 export default function Booking({navigation}) {
 	// Initializing input variables.
@@ -19,6 +22,12 @@ export default function Booking({navigation}) {
 	const [values, setValues] = React.useState([]);
 	const [loading, setLoading] = React.useState(false);
 	const db = firebase.firestore();
+
+	const onHandleLogout = () =>{
+		errorToastNotifier("Error", "Authentication error. Logging out...");
+		loggingOut();
+		return null;
+	}
 
 	const onHandleSearch = () => {
 		setValues([]); // room details
@@ -56,7 +65,7 @@ export default function Booking({navigation}) {
 				.catch((error) => {
 					setValues("Error");
 					setLoading(false); // If there was an error, update values with the error.
-					console.log("Error getting documents: ", error);
+					//console.log("Error getting documents: ", error.message);
 				});
 			}	
 	}
@@ -73,12 +82,12 @@ export default function Booking({navigation}) {
 			console.log("User data has been extracted.");
 			setUserDetails(doc.data()); // If there's a match, update user details var with user data.
 			} else {
-			console.log("No such user exists."); 
 			setUserDetails("empty"); // If there's no match, update user details with empty.
 		}
 		}).catch((error) => {
-			setUserDetails("error"); // If there's a match, update user details with error.
-			console.log("Error getting document:", error); //TODO: Remove this print statement.
+			setUserDetails("error"); // If there's an error, update user details with error.
+			errorToastNotifier("Error", "Unexpected error. Please restart app.")
+			//console.log("Error getting document:", error); 
 		});
 	},[])
 
@@ -86,6 +95,7 @@ export default function Booking({navigation}) {
   return(
     <View style={styles.container} >
 		<ScrollView>
+			<KeyboardAvoidingView>
 			<ImageBackground source={require("../../images/booking-image.jpg")} resizeMode="cover" style={styles.pageImage}>
 				<Text style={styles.screenName}>Booking</Text>
 			</ImageBackground>
@@ -97,7 +107,7 @@ export default function Booking({navigation}) {
 						keyboardType="numeric"
 						onChangeText={text => setBedNum(text)}
 						placeholder = "Number of beds"
-						placeholderTextColor={"white"}
+						placeholderTextColor={"grey"}
 						leftIcon={
 						<Icon name='users' size={20} color="white" 
 							style={{position: 'absolute', left: 15, top: 15}}
@@ -116,7 +126,7 @@ export default function Booking({navigation}) {
 							keyboardType="numeric"
 							onChangeText={text => setMinPrice(text)}
 							placeholder = "min"
-							placeholderTextColor={'white'}
+							placeholderTextColor={'grey'}
 							inputStyle = {{
 											backgroundColor: "black", textAlign: 'center',
 											borderColor: "black", borderRadius: 10, color: 'white',
@@ -129,7 +139,7 @@ export default function Booking({navigation}) {
 							textContentType="none"
 							keyboardType="numeric"
 							onChangeText={text => setMaxPrice(text)}
-							placeholderTextColor={'white'}
+							placeholderTextColor={'grey'}
 							placeholder = "max"
 							inputStyle = {{
 											backgroundColor: "black", 
@@ -153,14 +163,10 @@ export default function Booking({navigation}) {
 					// Checks the current state and variables. 
 					loading ? 
 					<ActivityIndicator size={50} animating={true} color="white"/>:
-					userDetails === "empty" ?
-					<Text style={{color: 'white'}}>Authentication error. Log out and log in again.</Text> : //TODO: Force log out.
-					userDetails === "error" ?
-					<Text style={{color: 'white'}}>Error extracting user details. Restart app.</Text> :	 //TODO: Force restart app.
-					values === "empty" ?
-					<Text style={{color: 'white'}}>No room matched your specification</Text> :
-					values === "error" ?
-					<Text style={{color: 'white'}}>There was an error retrieving the rooms. Try Again.</Text> :
+					userDetails === "empty" ? onHandleLogout() :// Authentication error. Force log out. 
+					userDetails === "error" ? <Text style={{color: 'white'}}>Error extracting user details. Restart app.</Text> :	 //TODO: Force restart app.
+					values === "empty" ? <Text style={{color: 'white'}}>No room matched your specification</Text> :
+					values === "error" ? <Text style={{color: 'white'}}>There was an error retrieving the rooms. Try Again.</Text> :
 					Array.isArray(values) ?
 					values.map((item,index)=>{
 					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room',{roomDetails: item, userData: userDetails})}>
@@ -174,6 +180,7 @@ export default function Booking({navigation}) {
 				<Text style={{color: 'white'}}></Text>
 				}
 			</View>
+			</KeyboardAvoidingView>
 		</ScrollView>
 	</View>
   );

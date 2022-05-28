@@ -9,13 +9,13 @@ import Menu from '../screens/menu/menu';
 import Payment from '../screens/search/payment';
 import Profile from '../screens/profile/profile';
 import Room from '../screens/search/room';
-import UserDetails from '../screens/profile/userDetails';
 
+// User stack.
 export default function BottomTabs(){
     const Tab = createBottomTabNavigator();
     
     return(
-        <Tab.Navigator initialRouteName='Home' backBehavior='history' screenOptions={{headerShown: false, tabBarShowLabel: false}}>
+        <Tab.Navigator initialRouteName='Home' backBehavior='history' screenOptions={{headerShown: false, tabBarShowLabel: false, tabBarHideOnKeyboard: true}}>
             <Tab.Screen name="Home" component={Home} options={{tabBarIcon: ()=>(
                 <Icon name="home" size={20} color = "black"/>
             )}}/>
@@ -29,7 +29,6 @@ export default function BottomTabs(){
                 <Icon name="user" size={20} color = "black"/>
             )}}/>
             <Tab.Screen name="Contact" component={Contact} options={{tabBarButton:()=>null, tabBarVisible: false}} />
-            <Tab.Screen name="User" component={UserDetails} options={{tabBarButton:()=>null, tabBarVisible: false}} />
             <Tab.Screen name="Room" component={Room} options={{tabBarButton:()=>null, tabBarVisible: false}} />
             <Tab.Screen name="Payment" component={Payment} options={{tabBarButton:()=>null, tabBarVisible: false}} />
             <Tab.Screen name="History" component={HistoryScreen} options={{tabBarButton:()=>null, tabBarVisible: false}} />

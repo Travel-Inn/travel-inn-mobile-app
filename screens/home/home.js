@@ -1,9 +1,11 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { successfulToastNotifier } from '../../widgets/toastNotification';
+
 
 
 export default function Home({navigation}){
-
+  
     return(
 		<View style={styles.container}>
 			<View style = {styles.imageContainer}>

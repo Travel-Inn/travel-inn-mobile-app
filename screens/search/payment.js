@@ -1,13 +1,15 @@
 import React from 'react';
-import firebase from "firebase/compat/app";
 import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, StyleSheet, TextInput,ActivityIndicator} from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bookRoom } from '../../config/firebase';
 import { validateCreditCard, validateDates } from '../../utils/inputValidator';
 import { getNumberOfNights } from '../../utils/numberOfNights';
 import { pluralChecker } from '../../utils/pluralCheck';
+import { errorToastNotifier, successfulToastNotifier } from '../../widgets/toastNotification';
+import { convertDate } from '../../utils/timestampToDate';
 
 	const fullWidth = Dimensions.get('screen').width;
 	const ninety = Dimensions.get('screen').width*0.9;
@@ -21,8 +23,8 @@ export default function Payment({route, navigation}){
 	const  tomorrow = new Date();
 	tomorrow.setDate(tomorrow.getDate() + 1); // Tomorrow's date
 	const [step, setStep] = React.useState('white');
-	const [inDate, setInDate] = React.useState(currDate); // Checkin Date
-	const [outDate, setOutDate] = React.useState(tomorrow); // Checkout Date
+	const [inDate, setInDate] = React.useState(); // Checkin Date
+	const [outDate, setOutDate] = React.useState(); // Checkout Date
 	const [nights, setNights] = React.useState(''); // Number of nights
 	const [plural, setPlural] = React.useState(''); // Plural checker
 	const [cardNo, setCardNo] = React.useState('');
@@ -32,22 +34,22 @@ export default function Payment({route, navigation}){
 	const [loading, setLoading] = React.useState(false);
 
 	const onHandleSubmit = async () => {
-	
+
 		setLoading(true);
-		const date1 = new Date(inDate).getDate();
-		const date2 = new Date(outDate).getDate();
-		const currDate1 = currDate.getDate();
+		const date1 = new Date(inDate).getTime();
+		const date2 = new Date(outDate).getTime();
+		const currDate1 = currDate.getTime();
 		
 		if (validateDates(currDate1, date1, date2)){ // Checks for dates.
 			setLoading(false);
-		} else if (nights.length<=0){ // Check for nights.
+		} else if (nights ==0){ // Check for nights.
 			setLoading(false);
-			console.log("Number of nights should be greater than 0.");
+			errorToastNotifier("Error", "Number of nights should be greater than 0.")
 		} else if (validateCreditCard(cardNo, expiryDate, CVC, cardName)){ // Validate CC details
 			setLoading(false);
-		}  else if (await bookRoom(nights, roomID, roomName, inDate, outDate) ==0 ){ // Room book was successful.
+		}  else if (await bookRoom(roomID, roomName, roomPrice, roomType, Date(inDate), Date(outDate)) ==0 ){ // Room book was successful.
 			setLoading(false);
-			console.log("Room has been booked successfully.");
+			//successfulToastNotifier("Success", "Your room was booked successfully.")
 			navigation.navigate('Congrats'); //Move to congrats page.
 		} else {
 			setLoading(false);
@@ -59,7 +61,7 @@ export default function Payment({route, navigation}){
 		React.useEffect(() => {
 		// Runs whenever use changes the checkIn and checkOut date.
 		// Gets the number of nights and checks the 'plurality'.
-		const temp =getNumberOfNights(inDate, outDate);
+		const temp = getNumberOfNights(inDate, outDate);
 		const temp1 = pluralChecker(temp);
 		setNights(temp);
 		setPlural(temp1);
@@ -104,12 +106,12 @@ export default function Payment({route, navigation}){
 				<Text style={{fontSize: 18, fontWeight: 'bold', marginVertical: 15}}>Booking Details</Text>
 				<View style={{flexDirection: 'row', width: ninety, justifyContent: 'space-around', alignItems: 'center', marginVertical: 5}}>
 					<View style={{justifyContent: 'center', alignItems: 'center', padding: 5}}>
-						<Text style={{fontSize: 12, fontWeight: 'bold'}}>Check In</Text>
+						<Text style={{fontSize: 12, fontWeight: 'bold'}}>Check In Date</Text>
 						<DatePicker
 							date={inDate}
 							mode="date"
-							placeholder="Check In"
-							format="MM-DD-YYYY"
+							placeholder="Select Date"
+							format="MM/DD/YYYY"
 							minDate={currDate} // Minimum date shouldn't be lower than current date.
 							maxDate={outDate} // Maximum date shouldn't be greater than check out date.
 							confirmBtnText="Confirm"
@@ -120,31 +122,32 @@ export default function Payment({route, navigation}){
 							style={{marginLeft: 15}}
 							customStyles={{
 								dateInput:{
-									backgroundColor: 'black',
-									color: 'white',
-									borderColor: "black",
+									backgroundColor: 'white',
+									color: 'black',
+									borderColor: "white",
 									borderStyle: 'solid',
 									borderWidth: 1,
 									borderRadius: 10,
 									marginRight: 10
 								},
 								placeholderText:{
-									color: 'white',
+									color: 'black',
 								}
 							}}
 						/>
+
 					</View>
 					<View style={{justifyContent: 'center', alignItems: 'center', borderRightWidth: 1, borderLeftWidth: 1, padding: 5}}>
-						<Text style={{fontSize: 12}}>{nights} Night{plural}</Text>
+						<Text style={{fontSize: 12}}>  {nights} Night{plural}  </Text>
 					</View>
 					<View style={{justifyContent: 'center', alignItems: 'center', padding: 5}}>
-						<Text style={{fontSize: 12, fontWeight: 'bold'}}>Check Out</Text>
+						<Text style={{fontSize: 12, fontWeight: 'bold'}}>Check Out Date</Text>
 						<DatePicker
 							date={outDate}
 							mode="date"
-							placeholder="Check In"
-							format="MM-DD-YYYY"
-							minDate={inDate} // Minimum date shouldn't be lower than checkIn Date.
+							placeholder="Select Date"
+							format="MM/DD/YYYY"
+							minDate={tomorrow} // Minimum date shouldn't be lower than checkIn Date.
 							confirmBtnText="Confirm"
 							iconSource={null}
 							onDateChange={(date) => {setOutDate(date);}}
@@ -153,16 +156,16 @@ export default function Payment({route, navigation}){
 							style={{marginLeft: 15}}
 							customStyles={{
 								dateInput:{
-									backgroundColor: 'black',
-									color: 'white',
-									borderColor: "black",
+									backgroundColor: 'white',
+									color: 'black',
+									borderColor: "white",
 									borderStyle: 'solid',
 									borderWidth: 1,
 									borderRadius: 10,
 									marginRight: 10
 								},
 								placeholderText:{
-									color: 'white',
+									color: 'black',
 								}
 							}}
 						/>
@@ -173,7 +176,7 @@ export default function Payment({route, navigation}){
 				</Text>
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: eighty, marginVertical: 5}}>
 					<Text>{roomType}</Text>
-					<Text>GHC {roomPrice}</Text>
+					<Text>GHC {roomPrice}.00</Text>
 				</View>
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: eighty, marginVertical: 5}}>
 					<Text>Number of Nights</Text>
@@ -181,12 +184,12 @@ export default function Payment({route, navigation}){
 				</View>
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: eighty, marginVertical: 5}}>
 					<Text>Taxes and Fees</Text>
-					<Text>GHC 50</Text>
+					<Text>GHC 50.00</Text>
 				</View>
 				<View style={{flexDirection: 'row', justifyContent: 'space-between', width: fullWidth,paddingHorizontal: 20, 
 				padding: 10, borderTopWidth: 1, borderBottomWidth: 1, marginVertical: 5}}>
 					<Text>Total Amount</Text>
-					<Text>GHC {(roomPrice * nights) + 50}</Text>
+					<Text>GHC {(roomPrice * nights) + 50}.00</Text>
 				</View>
 				<TouchableOpacity style={styles.button} onPress={()=>setStep('black')}>
 					<Text style={{color: 'white', textAlign: 'center'}}>Continue</Text>

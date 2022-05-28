@@ -1,10 +1,69 @@
 import React from 'react';
-import {Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {Text, View, ImageBackground, TouchableOpacity, Image, TextInput, LogBox, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import firebase from "firebase/compat/app";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { loggingOut } from '../../config/firebase';
+import { loggingOut, updateUserData } from '../../config/firebase';
+import { validateNumber, validateText, validateEmail, validateGender } from '../../utils/inputValidator';
+import { successfulToastNotifier } from '../../widgets/toastNotification';
 
 export default function Profile({navigation}) {
     const [nav, setNav] = React.useState(["mainprofile"]);
+    const [userDetails, setUserDetails] = React.useState([]);
+    // Initializing stateful variables.
+    const [fName, setFName] = React.useState('');
+    const [lName, setLName] = React.useState('');
+    const [ email, setEmail] = React.useState('');
+    const [gender, setGender] = React.useState('');
+    const [ phone, setPhone ] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
+
+    React.useEffect(() =>{
+		LogBox.ignoreLogs(['Setting a timer']);
+        // Retrieving user data.
+            const db = firebase.firestore();
+            const user = firebase.auth().currentUser;
+            db.collection("Users").doc(user.uid)
+            .get()
+            .then((doc) => {
+                if (doc.exists){
+                console.log("User data have been extracted.");
+                setUserDetails(doc.data());
+                setEmail(doc.data().email)
+                setFName(doc.data().firstName)
+                setLName(doc.data().lastName)
+                setGender(doc.data().gender)
+                setPhone(doc.data().phoneNum)
+                } else {
+                console.log("No such user exists.");
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+
+
+
+        },[nav])
+
+    const onHandleSave = async () => {
+	setLoading(true);
+	// Routine input checks.
+    if (!validateText(fName)) {  
+    setLoading(false);
+    } else if (!validateText(lName)){
+    setLoading(false);
+    } else if (!validateEmail(email)) { 
+		setLoading(false);
+    } else if (!validateNumber(phone, 10)){
+        setLoading(false);
+    } else if (!validateGender(gender)){
+        setLoading(false);
+    }else if (await updateUserData(fName.trim(), lName.trim(), email.trim(),phone.trim(), gender.trim()) == 0) {
+        successfulToastNotifier("Success", "User Details have been updated successfully.");
+        setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1));
+	}else{
+	 setLoading(false);
+	} 
+  };
 
   return(
     <View style={styles.container} >
@@ -16,8 +75,8 @@ export default function Profile({navigation}) {
                 <View style={styles.user}>
                     <Image source={require('../../images/profile.jpg')} style={styles.profileImage}/>
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={{color: 'white'}}>Samuel Nai</Text>
-                        <Text style={{color: 'white'}}>samuel.nai@yahoo.com</Text>
+                        <Text style={{color: 'white'}}>{userDetails.firstName} {userDetails.lastName}</Text>
+                        <Text style={{color: 'white'}}>{userDetails.email}</Text>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.options} onPress={()=>setNav([...nav,'profile'])}>
@@ -43,34 +102,74 @@ export default function Profile({navigation}) {
                 <View style={styles.user}>
                     <Image source={require('../../images/profile.jpg')} style={styles.profileImage}/>
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={{color: 'white'}}>Samuel Nai</Text>
-                        <Text style={{color: 'white'}}>samuel.nai@yahoo.com</Text>
+                        <Text style={{color: 'white'}}>{userDetails.firstName} {userDetails.lastName}</Text>
+                        <Text style={{color: 'white'}}>{userDetails.email}</Text>
                     </View>
                 </View>
                 <View style={styles.options}>
                     <Text>First Name</Text>
-                    <Text>Samuel</Text>
+                    <TextInput
+                keyboardType='default'
+                textContentType="name"
+                autoCapitalize='none'
+                value={fName}
+                onChangeText={text => setFName(text)}
+                style={{paddingRight: 10}}
+                />
                 </View>
                 <View style={styles.options}>
                     <Text>Last Name</Text>
-                    <Text>Nai</Text>
+                    <TextInput
+                keyboardType='email-address'
+                textContentType='emailAddress'
+                autoCapitalize='none'
+                value={lName}
+                onChangeText={text => setLName(text)}
+                style={{paddingRight: 10}}
+                />
                 </View>
                 <View style={styles.options}>
                     <Text>Email</Text>
-                    <Text>Samuel.nai@yahoo.com</Text>
+                    <TextInput
+                    keyboardType='email-address'
+                    textContentType='emailAddress'
+                    autoCapitalize='none'
+                    value={email}
+                    onChangeText={text => setEmail(text)}
+                    style={{paddingRight: 10}}           
+                    />
                 </View>
+                
                 <View style={styles.options}>
                     <Text>Gender</Text>
-                    <Text>Male</Text>
+                    <TextInput
+                    keyboardType="default"
+                    textContentType="name"
+                    autoCapitalize='none'
+                    value={gender}
+                    onChangeText={text => setGender(text)}
+                    style={{paddingRight: 10}}
+                    />
                 </View>
                 <TouchableOpacity style={styles.options} >
                     <Text>Number</Text>
-                    <Text>0551540686</Text>
+                    <TextInput
+                    keyboardType="phone-pad"
+                    textContentType="telephoneNumber"
+                    autoCapitalize='none'
+                    value={phone}
+                    onChangeText={text => setPhone(text)}
+                    style={{paddingRight: 10}}
+                    />
                 </TouchableOpacity>
+                <View style={{flexDirection: "row", width: Dimensions.get('screen').width*0.8, justifyContent:'space-around'}}>
                 <TouchableOpacity style={styles.backbtn} onPress={()=>setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1))}>
-				    <Text>Done</Text>
-			    </TouchableOpacity>
-				
+				    <Text>Back</Text>
+			    </TouchableOpacity>		
+                <TouchableOpacity style={styles.backbtn} onPress={onHandleSave}>
+				    <Text>Save</Text>
+			    </TouchableOpacity>	
+                </View>		
 			</View>}
 		</ScrollView>
 	</View>
@@ -132,10 +231,11 @@ const styles = StyleSheet.create({
     },
     backbtn:{
 		backgroundColor: 'white',
-		width: Dimensions.get('screen').width*0.4,
+		width: Dimensions.get('screen').width*0.3,
 		borderRadius: 15,
 		padding: 8,
-		textAlign: 'center',
-		alignSelf: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+
 	},
 });
