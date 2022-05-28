@@ -16,6 +16,7 @@ export default function SignupPage({navigation}){
 	const [name, setName] = useState('');
 	const [phone, setPhone] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [showpass, setShowpass] = React.useState(true);
 
 	// For cleaning up the variables. 
 	const emptyState = () => {
@@ -88,8 +89,12 @@ export default function SignupPage({navigation}){
 					onChangeText={text => setPassword(text)}
 					placeholder = "password"
 					leftIcon = {<Icon name="lock" size = {20} color = 'white' style={{paddingRight: 5}}/>}
-					secureTextEntry={true}
-					rightIcon ={<Icon name="eye" size={20} color ="white"/>}
+					secureTextEntry={showpass}
+					rightIcon ={showpass==true?
+					<Icon name="eye" size={20} color ="white" onPress={(()=>setShowpass(!showpass))}/>
+					:
+					<Icon name="eye-slash" size={20} color ="white" onPress={(()=>setShowpass(!showpass))}/>
+					}
 					inputStyle = {{color: "white"}}
 					leftIconContainerStyle ={{backgroundColor: "black", marginBottom: -7}}
 				/>
