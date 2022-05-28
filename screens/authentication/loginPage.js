@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
 import { signIn } from '../../config/firebase';
 import { validateEmail, validatePassword } from '../../utils/inputValidator';
+import { successfulToastNotifier } from '../../widgets/toastNotification';
 
 
 export default function LoginPage({navigation}){
@@ -27,6 +28,7 @@ export default function LoginPage({navigation}){
     } else if (!validatePassword(password)) {
 		setLoading(false);
     } else if (await signIn(email,password) == 0) {
+		successfulToastNotifier("Welcome Back Traveler", "")
 	  }else{
 		  setLoading(false);
 	  } 
@@ -46,13 +48,13 @@ export default function LoginPage({navigation}){
 			<View style={styles.form}>
 				<Text style={styles.loginText}>Login</Text>
 				<View style = {styles.signUpOptions}>
-					<TouchableOpacity
+					{/* <TouchableOpacity
 						onPress = {null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
 					<Text>Login with Google</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 					 {/* If apple login is possible display the option. If not don't display.
 					{isAppleLoginAvailable && <TouchableOpacity
 						onPress = {null}

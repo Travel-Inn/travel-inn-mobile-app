@@ -2,6 +2,8 @@ import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
 import 'firebase/compat/auth';
 import apiKeys from './keys';
+import { errorToastNotifier, successfulToastNotifier } from "../widgets/toastNotification";
+import parseErrorStack from "react-native/Libraries/Core/Devtools/parseErrorStack";
 
 // Initializing firebase.
 let Firebase;
@@ -38,10 +40,16 @@ export async function registration(email, password, name, phoneNum) {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      console.log("User details have been stored successfully")
       return 0;
   } catch (err) {
-    console.log("There is something wrong!!!!", err.message);
+    errorToastNotifier(err.code,err.message);
+    // if (err.code == auth/invalid-email){
+    // errorToastNotifier("Error","Invalid Email");
+    // } else if (err.code == auth/invalid-password){
+    //   errorToastNotifier("Error", "Invalid password. Password should be at least 6 characters.");
+    // } else {
+    //   errorToastNotifier("Error", "Unexpected error.")
+    // }
       return 1;
   }
 }
@@ -52,10 +60,18 @@ export async function signIn(email, password) {
    await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
-      console.log("User has been signed in")
       return 0;
   } catch (err) {
-    console.log("There is something wrong!", err.message);
+    errorToastNotifier(err.code,err.message);
+    // if (err.code == auth/invalid-email){
+    // errorToastNotifier("Error","Invalid Email");
+    // } else if (err.code == auth/invalid-password){
+    //   errorToastNotifier("Error", "Invalid password. Password should be at least 6 characters.");
+    // } else if (err.code == auth/user-not-found) {
+    //   errorToastNotifier("Error", "There is no existing user record corresponding to the provided identifier.");
+    // } else {
+    //   errorToastNotifier("Error", "Unexpected error.");
+    // }
     return 1;
   }
 }
@@ -66,10 +82,9 @@ export async function passwordReset(email) {
     await firebase
     .auth()
     .sendPasswordResetEmail(email);
-    console.log("Password reset link has been sent")
     return 0;
   } catch(err) {
-    console.log("There is something wrong", err.message);
+      errorToastNotifier(err.code,err.message);
   }
 }
 
@@ -77,9 +92,9 @@ export async function loggingOut() {
   // Signing out function.
   try {
     await firebase.auth().signOut();
-    console.log("User has been signed out")
+    successfulToastNotifier("Success", "User has signed out.")
   } catch (err) {
-    console.log('There is something wrong!', err.message);
+      errorToastNotifier(err.code,err.message);
   }
 }
 
@@ -103,10 +118,9 @@ export async function bookRoom(roomID, roomName, roomPrice, roomType, inDate, ou
       roomStatus: "pending", 
       roomType: roomType
     });
-    console.log("User and Room Details have been updated successfully.")
     return 0;
   } catch(err){
-    console.log("Error while updating user and room details.", err.message);
+      errorToastNotifier(err.code,err.message);
     return 1;
   }
 }
@@ -126,10 +140,9 @@ export async function updateUserData(fname,lname,email,number,gender){
       gender: gender,
       updatedAt: new Date(),
     });
-    console.log("User Details have been updated successfully.")
     return 0;
   } catch(err){
-    console.log("Error while updating user details.", err.message);
+      errorToastNotifier(err.code,err.message);
     return 1;
   }
 

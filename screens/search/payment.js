@@ -1,5 +1,4 @@
 import React from 'react';
-import firebase from "firebase/compat/app";
 import {View, Text, TouchableOpacity, ImageBackground, ScrollView, Dimensions, StyleSheet, TextInput,ActivityIndicator} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { Input } from 'react-native-elements';
@@ -8,6 +7,7 @@ import { bookRoom } from '../../config/firebase';
 import { validateCreditCard, validateDates } from '../../utils/inputValidator';
 import { getNumberOfNights } from '../../utils/numberOfNights';
 import { pluralChecker } from '../../utils/pluralCheck';
+import { errorToastNotifier, successfulToastNotifier } from '../../widgets/toastNotification';
 
 	const fullWidth = Dimensions.get('screen').width;
 	const ninety = Dimensions.get('screen').width*0.9;
@@ -42,12 +42,12 @@ export default function Payment({route, navigation}){
 			setLoading(false);
 		} else if (nights.length<=0){ // Check for nights.
 			setLoading(false);
-			console.log("Number of nights should be greater than 0.");
+			errorToastNotifier("Error", "Number of nights should be greater than 0.")
 		} else if (validateCreditCard(cardNo, expiryDate, CVC, cardName)){ // Validate CC details
 			setLoading(false);
 		}  else if (await bookRoom(roomID, roomName, roomPrice, roomType, inDate, outDate) ==0 ){ // Room book was successful.
 			setLoading(false);
-			console.log("Room has been booked successfully.");
+			successfulToastNotifier("Room has been booked Successfully.");
 			navigation.navigate('Congrats'); //Move to congrats page.
 		} else {
 			setLoading(false);

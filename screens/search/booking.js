@@ -10,6 +10,7 @@ import { searchRoom } from '../../config/firebase';
 import { NavigationContainer } from '@react-navigation/native';
 import { validateBedNum, validatePrices } from '../../utils/inputValidator';
 import { loggingOut } from '../../config/firebase';
+import { errorToastNotifier, successfulToastNotifier } from '../../widgets/toastNotification';
 
 
 export default function Booking({navigation}) {
@@ -23,7 +24,7 @@ export default function Booking({navigation}) {
 	const db = firebase.firestore();
 
 	const onHandleLogout = () =>{
-		console.log("User details haven't been stored.")
+		errorToastNotifier("Error", "Authentication error. Logging out...");
 		loggingOut();
 		return null;
 	}
@@ -64,7 +65,7 @@ export default function Booking({navigation}) {
 				.catch((error) => {
 					setValues("Error");
 					setLoading(false); // If there was an error, update values with the error.
-					console.log("Error getting documents: ", error.message);
+					//console.log("Error getting documents: ", error.message);
 				});
 			}	
 	}
@@ -81,12 +82,12 @@ export default function Booking({navigation}) {
 			console.log("User data has been extracted.");
 			setUserDetails(doc.data()); // If there's a match, update user details var with user data.
 			} else {
-			console.log("No such user exists."); 
 			setUserDetails("empty"); // If there's no match, update user details with empty.
 		}
 		}).catch((error) => {
-			setUserDetails("error"); // If there's a match, update user details with error.
-			console.log("Error getting document:", error); //TODO: Remove this print statement.
+			setUserDetails("error"); // If there's an error, update user details with error.
+			errorToastNotifier("Error", "Unexpected error. Please restart app.")
+			//console.log("Error getting document:", error); 
 		});
 	},[])
 
@@ -163,12 +164,9 @@ export default function Booking({navigation}) {
 					loading ? 
 					<ActivityIndicator size={50} animating={true} color="white"/>:
 					userDetails === "empty" ? onHandleLogout() :// Authentication error. Force log out. 
-					userDetails === "error" ?
-					<Text style={{color: 'white'}}>Error extracting user details. Restart app.</Text> :	 //TODO: Force restart app.
-					values === "empty" ?
-					<Text style={{color: 'white'}}>No room matched your specification</Text> :
-					values === "error" ?
-					<Text style={{color: 'white'}}>There was an error retrieving the rooms. Try Again.</Text> :
+					userDetails === "error" ? <Text style={{color: 'white'}}>Error extracting user details. Restart app.</Text> :	 //TODO: Force restart app.
+					values === "empty" ? <Text style={{color: 'white'}}>No room matched your specification</Text> :
+					values === "error" ? <Text style={{color: 'white'}}>There was an error retrieving the rooms. Try Again.</Text> :
 					Array.isArray(values) ?
 					values.map((item,index)=>{
 					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room',{roomDetails: item, userData: userDetails})}>

@@ -4,6 +4,7 @@ import firebase from "firebase/compat/app";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { loggingOut, updateUserData } from '../../config/firebase';
 import { validateNumber, validateText, validateEmail, validateGender } from '../../utils/inputValidator';
+import { successfulToastNotifier } from '../../widgets/toastNotification';
 
 export default function Profile({navigation}) {
     const [nav, setNav] = React.useState(["mainprofile"]);
@@ -25,7 +26,7 @@ export default function Profile({navigation}) {
             .get()
             .then((doc) => {
                 if (doc.exists){
-                console.log("User data has been extracted.");
+                console.log("User data have been extracted.");
                 setUserDetails(doc.data());
                 setEmail(doc.data().email)
                 setFName(doc.data().firstName)
@@ -44,7 +45,6 @@ export default function Profile({navigation}) {
         },[nav])
 
     const onHandleSave = async () => {
-        console.log("Save has been clicked");
 	setLoading(true);
 	// Routine input checks.
     if (!validateText(fName)) {  
@@ -58,6 +58,7 @@ export default function Profile({navigation}) {
     } else if (!validateGender(gender)){
         setLoading(false);
     }else if (await updateUserData(fName.trim(), lName.trim(), email.trim(),phone.trim(), gender.trim()) == 0) {
+        successfulToastNotifier("Success", "User Details have been updated successfully.");
         setNav((nav)=>nav.filter((_,i)=> i!==nav.length-1));
 	}else{
 	 setLoading(false);

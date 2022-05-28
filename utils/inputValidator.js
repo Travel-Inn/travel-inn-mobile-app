@@ -1,9 +1,9 @@
-import { toastNotifier } from "../widgets/toastNotification";
+import { errorToastNotifier } from "../widgets/toastNotification";
 
 export function validateEmail(email) {
     // Email shouldn't be empty.
     if (!(email.trim())) {
-        console.log("Email shouldn't be empty");
+        errorToastNotifier("Error", "Email shouldn't be empty");
         return false;
     }
     // Regex for matching email. Email should contain a domain, an @ and a name.
@@ -11,8 +11,7 @@ export function validateEmail(email) {
     if (validRegex.test(email)){
         return true;
     } else{
-        toastNotifier();
-        console.log('Email should be of a valid format. Eg: JohnDoe@gmail.com');
+        errorToastNotifier("Error", 'Email should be of a valid format. Eg: JohnDoe@gmail.com');
         return false;  
     }
 }
@@ -21,12 +20,12 @@ export function validateEmail(email) {
 export function validatePassword(password){
     // Password shouldn't be empty.
     if (!(password.trim())) {
-        console.log("password shouldn't be empty.")
+        errorToastNotifier("Error", "Password shouldn't be empty.");
         return false;
     }
     // Password should be greater than 8.
     if (password.trim().length <9) {
-        console.log("Password should be greater than 8 characters.")
+        errorToastNotifier("Error","Password should be greater than 8 characters.");
         return false;
     }
 
@@ -37,7 +36,7 @@ export function validatePassword(password){
     if (securePasswordRegex.test(password.trim())){
         return true;
     }else{
-        console.log('Password should contain a capital letter, smaller case letter, number and a symbol.');
+        errorToastNotifier("Error",'Password should contain a capital letter,\n smaller case letter, number and a symbol.');
         return false;
     }
 }
@@ -46,7 +45,7 @@ export function validateText(name)
 {
     // Text shouldn't be empty.
     if (!(name.trim())){
-        console.log("Name field shouldn't be empty.")
+        errorToastNotifier("Error", "Name field shouldn't be empty.");
         return false;
     }
     // Regex for matching name. Name should contain only letters and a hyphen.
@@ -54,7 +53,7 @@ export function validateText(name)
     if (validRegex.test(name)){
         return true;
     }else{
-        console.log('Name field should contain only characters. Eg: John Doe');
+        errorToastNotifier("Error", 'Name field should contain only characters. Eg: John Doe');
         return false;
     }
 }
@@ -63,12 +62,12 @@ export function validateNumber(phone, length)
 {
     // Phone shouldn't be empty.
     if (!(phone.trim())){
-        console.log("Number Field should not be empty.");
+        errorToastNotifier("Error", "Number field shouldn't be empty.");       
         return false;
     }
     // Phone should be 10 digits.
     if (phone.trim().length != length){
-        console.log("Number Field should be " + {length} +" characters.");
+        errorToastNotifier("Error", "Number Field should be " + length +" characters.");
         return false;
     }
     // Regex for matching phone. Phone should be a number.
@@ -76,7 +75,7 @@ export function validateNumber(phone, length)
     if (validRegex.test(phone)){
         return true;
     }else {
-        console.log("Number Field should be a number. ");
+        errorToastNotifier("Error", "Number Field should be a number. ");
         return false;
     }
 }
@@ -85,29 +84,29 @@ export function validatePrices(minPrice, maxPrice){
 
     // Min price shouldn't be empty.
      if (!minPrice) {
-        console.log("Minimum price shouldn't be empty.");
+        errorToastNotifier("Error", "Minimum price shouldn't be empty.");
         return false;
     }
     // Min price shouldn't be less than 1.
     if (minPrice <= 0) {
-        console.log("Minimum price should start from 1.");
+        errorToastNotifier("Error", "Minimum price should start from 1.");
         return false;
     }
 
     // Max price shouldn't be empty.
      if (!maxPrice) {
-        console.log("Maximum price shouldn't be empty.");
+        errorToastNotifier("Error", "Maximum price shouldn't be empty.");
         return false;
     }
     // Max price shouldn't be less than zero.
     if (maxPrice <= 0) {
-        console.log("Maximum price should start from 1.");
+        errorToastNotifier("Error", "Maximum price should start from 1.");
         return false;
     }
 
     // Min price shouldn't be greater than max price. 
     if (minPrice > maxPrice) {
-        console.log("Minimum price shouldn't be greater than Maximum Price.");
+        errorToastNotifier("Error", "Minimum price shouldn't be greater than Maximum Price");
         return false
     }
     // All checks passed.
@@ -118,12 +117,12 @@ export function validateBedNum(bedNum){
 
     // Bed num shouldn't be empty.
     if (!bedNum){
-        console.log("Number of beds shouldn't be empty.");
+        errorToastNotifier("Error", "Number of beds shouldn't be empty.");
         return false;
     }
     // Bed num shouldn't be less than zero.
     if (bedNum <= 0){
-        console.log("Number of beds should start from 1.");
+        errorToastNotifier("Error", "Number of beds should start from 1.");
         return false;
     }
     // All checks passed. 
@@ -133,13 +132,13 @@ export function validateBedNum(bedNum){
 export function validateDates(currDate1, date1, date2){
     // Validate dates.
     if (date2 < currDate1){
-		console.log("CheckOut date cannot be less than current date.");
+        errorToastNotifier("Error", "CheckOut date cannot be less than current date.");
         return true;
 		} else if (date1 < currDate1){
-		console.log("CheckIn date cannot be less than current date.")
+        errorToastNotifier("Error", "CheckIn date cannot be less than current date.");
         return true;
 		}else if (date2 < date1){
-		console.log("CheckIn date cannot be greater than checkOut date.");
+        errorToastNotifier("Error", "CheckIn date cannot be greater than checkout date.");
         return true;
         }
         else return false;
@@ -150,7 +149,7 @@ export function validateCreditCard(cardNo, expiryDate, CVC, cardName) {
      if (!validateNumber(cardNo, 16)) {
             return true;
 		} else if (!expiryDate) { 
-			console.log("Expiry date shouldn't be empty.");
+            errorToastNotifier("Error", "Expiry date cannot be empty.");
             return true;
 		} else if (!validateNumber(CVC, 3)) {
             return true;
@@ -168,7 +167,7 @@ export function validateGender(gender){
         return true;
     }
     else{
-        console.log("Invalid input for Gender");
+        errorToastNotifier("Error", "Invalid input for Gender");
      return false;
     }
 }

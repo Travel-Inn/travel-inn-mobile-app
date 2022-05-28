@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { passwordReset } from '../../config/firebase';
 import { validateEmail } from '../../utils/inputValidator';
+import {successfulToastNotifier} from '../../widgets/toastNotification';
 
 export default function ForgottenPasswordPage({navigation}){
 	// Initializing stateful variables. 
@@ -22,7 +23,8 @@ export default function ForgottenPasswordPage({navigation}){
     if (!validateEmail(email)) {
 		setLoading(false);
     } else if (await passwordReset(email) == 0){ // If password was successful.
-	  	setLoading(false);
+		setLoading(false);
+		successfulToastNotifier("Success", "Password link has been sent to your mail.");
 		emptyState();
 		navigation.navigate('Login') // Move to login page.
     } else {
