@@ -1,7 +1,7 @@
 // import React from 'react';
 // import SnackBar from 'react-native-snackbar-component';
 
-// export default function ShowSnackBar(){
+// export default function ShowSnackBar(text){
 //     const [dismissSnack, setDismissSnack] = React.useState(true);
 
 //     React.useEffect(()=>{
@@ -10,6 +10,7 @@
 //    return(
 //     <SnackBar
 //     visible={dismissSnack}
-//     textMessage="Hello There" />
+//     textMessage={text} />
 //    );
 // } 
+ 
