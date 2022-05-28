@@ -10,6 +10,8 @@ let Firebase;
 
 if (firebase.apps.length === 0) {
   Firebase = firebase.initializeApp(apiKeys.firebaseConfig);
+} else {
+  Firebase = firebase.app()
 }
 
 export default Firebase;
@@ -42,15 +44,19 @@ export async function registration(email, password, name, phoneNum) {
       });
       return 0;
   } catch (err) {
-    errorToastNotifier(err.code,err.message);
-    // if (err.code == auth/invalid-email){
-    // errorToastNotifier("Error","Invalid Email");
-    // } else if (err.code == auth/invalid-password){
-    //   errorToastNotifier("Error", "Invalid password. Password should be at least 6 characters.");
-    // } else {
-    //   errorToastNotifier("Error", "Unexpected error.")
-    // }
-      return 1;
+    if (err.code === "auth/email-already-in-use"){
+    errorToastNotifier("Error","There is an account with the given email address.");
+    } else if (err.code === "auth/invalid-email"){
+      errorToastNotifier("Error", "Invalid email.");
+    } else if(err.code === "auth/weak-password") {
+      errorToastNotifier("Error", "Weak password.")
+    } else if (err.code === "auth/too-many-requests"){
+      errorToastNotifier("Error", "Too many attempts. Try again later.")
+    }else {
+      errorToastNotifier("Error", "Unexpected error.")
+      console.log(err.message);
+    }
+    return 1;
   }
 }
 
@@ -62,16 +68,20 @@ export async function signIn(email, password) {
       .signInWithEmailAndPassword(email, password);
       return 0;
   } catch (err) {
-    errorToastNotifier(err.code,err.message);
-    // if (err.code == auth/invalid-email){
-    // errorToastNotifier("Error","Invalid Email");
-    // } else if (err.code == auth/invalid-password){
-    //   errorToastNotifier("Error", "Invalid password. Password should be at least 6 characters.");
-    // } else if (err.code == auth/user-not-found) {
-    //   errorToastNotifier("Error", "There is no existing user record corresponding to the provided identifier.");
-    // } else {
-    //   errorToastNotifier("Error", "Unexpected error.");
-    // }
+    if (err.code === "auth/invalid-email"){
+    errorToastNotifier("Error","Invalid Email");
+    } else if (err.code === "auth/wrong-password"){
+      errorToastNotifier("Error", "Wrong password. ");
+    } else if (err.code === "auth/user-not-found") {
+      errorToastNotifier("Error", "There is no existing user record corresponding to the provided identifier.");
+    } else if (err.code === "auth/user-disabled") {
+      errorToastNotifier("Error", "Email address has been disabled");
+    } else if (err.code === "auth/too-many-requests"){
+      errorToastNotifier("Error", "Too many attempts. Try again later.")
+    }else {
+      errorToastNotifier("Error", "Unexpected error.");
+      console.log(err.message);
+    }
     return 1;
   }
 }
@@ -84,7 +94,17 @@ export async function passwordReset(email) {
     .sendPasswordResetEmail(email);
     return 0;
   } catch(err) {
-      errorToastNotifier(err.code,err.message);
+       if (err.code === "auth/invalid-email"){
+      errorToastNotifier("Error", "Invalid email.");
+    } else if(err.code === "auth/user-not-found") {
+      errorToastNotifier("Error", "There's no user corresponding to the email address.");
+    } else if (err.code === "auth/too-many-requests"){
+      errorToastNotifier("Error", "Too many attempts. Try again later.")
+    }else {
+      errorToastNotifier("Error", "Unexpected error.");
+      console.log(err.message);
+    }
+    return 1;
   }
 }
 
@@ -94,7 +114,8 @@ export async function loggingOut() {
     await firebase.auth().signOut();
     successfulToastNotifier("Success", "User has signed out.")
   } catch (err) {
-      errorToastNotifier(err.code,err.message);
+      errorToastNotifier("Error","Unexpected error.");
+      console.log(err.message);
   }
 }
 
@@ -115,7 +136,7 @@ export async function bookRoom(roomID, roomName, roomPrice, roomType, inDate, ou
       checkInDate:inDate,
       checkOutDate:outDate,
       roomPrice: roomPrice ,
-      roomStatus: "pending", 
+      roomStatus: "Pending", 
       roomType: roomType
     });
     return 0;
