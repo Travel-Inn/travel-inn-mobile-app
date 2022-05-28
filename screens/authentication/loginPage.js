@@ -1,24 +1,27 @@
 import React from 'react';
-import { useState } from 'react';
 import { Text,  View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator} from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
-import { signIn } from '../../config/firebase';
+import { googleSignIn, signIn } from '../../config/firebase';
 import { validateEmail, validatePassword } from '../../utils/inputValidator';
 
 
 export default function LoginPage({navigation}){
 	// Initializing stateful variables.
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [loading, setLoading] = useState(false);
+	const [email, setEmail] = React.useState('');
+	const [password, setPassword] = React.useState('');
+	const [loading, setLoading] = React.useState(false);
 
 	// Cleaning up variables.
 	const emptyState = () => {
 		setEmail('');
 		setPassword('');
   };
+
+  const onHandleGoogleSignIn = async () => {
+	  await googleSignIn();
+  }
 
   const onHandleLogin = async () => {
 	setLoading(true);
@@ -48,19 +51,20 @@ export default function LoginPage({navigation}){
 				<Text style={styles.loginText}>Login</Text>
 				<View style = {styles.signUpOptions}>
 					<TouchableOpacity
-						onPress = {null}
+						onPress = {onHandleGoogleSignIn}
 						color = "black"
 						style= {styles.signUpOption}
 					>
 					<Text>Login with Google</Text>
 					</TouchableOpacity>
-					<TouchableOpacity
+					 {/* If apple login is possible display the option. If not don't display.
+					{isAppleLoginAvailable && <TouchableOpacity
 						onPress = {null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
 					<Text>Login with Apple</Text>
-					</TouchableOpacity>
+					</TouchableOpacity>} */}
 				</View>
 				<Input
 					keyboardType="email-address"

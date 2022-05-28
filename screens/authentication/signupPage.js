@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions, 
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
-import { registration } from '../../config/firebase';
+import { googleSignIn , registration } from '../../config/firebase';
 import { validateEmail, validatePassword, validateNumber, validateText }from '../../utils/inputValidator';
 
 
@@ -15,6 +15,10 @@ export default function SignupPage({navigation}){
 	const [name, setName] = useState('');
 	const [phone, setPhone] = useState('');
 	const [loading, setLoading] = useState(false);
+
+	const onHandleGoogleSignIn = async () => {
+	  await googleSignIn();
+  }
 
 
 	// For cleaning up the variables. 
@@ -59,19 +63,19 @@ export default function SignupPage({navigation}){
 				<Text style={styles.signupText}>Sign Up</Text>
 				<View style = {styles.signUpOptions}>
 					<TouchableOpacity
-						onPress={null}
+						onPress={onHandleGoogleSignIn}
 						color = "black"
 						style= {styles.signUpOption}
 					>
 					<Text>Create with Google</Text>
 					</TouchableOpacity>
-					<TouchableOpacity
+					{/* <TouchableOpacity
 						onPress = {null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
 					<Text>Create with Apple</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</View>
 				<Input
 					keyboardType='email-address'
