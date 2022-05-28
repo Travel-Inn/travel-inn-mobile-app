@@ -1,3 +1,5 @@
+import { toastNotifier } from "../widgets/toastNotification";
+
 export function validateEmail(email) {
     // Email shouldn't be empty.
     if (!(email.trim())) {
@@ -9,6 +11,7 @@ export function validateEmail(email) {
     if (validRegex.test(email)){
         return true;
     } else{
+        toastNotifier();
         console.log('Email should be of a valid format. Eg: JohnDoe@gmail.com');
         return false;  
     }

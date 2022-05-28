@@ -2,8 +2,6 @@ import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
 import 'firebase/compat/auth';
 import apiKeys from './keys';
-import {GoogleAuthProvider, getAuth} from 'firebase/compat/auth';
-import {GoogleSignin,GoogleSigninButton, statusCodes} from '@react-native-google-signin/google-signin';
 
 // Initializing firebase.
 let Firebase;
@@ -14,21 +12,6 @@ if (firebase.apps.length === 0) {
 
 export default Firebase;
 
-GoogleSignin.configure({
-  webClientId: "208360428593-1874986b299e2ou9laon0v52jtmai5vu.apps.googleusercontent.com",
-});
-
-export async function googleSignIn() {
-  // Get the users ID token
-  const { idToken } = await GoogleSignin.signIn();
-
-  // Create a Google credential with the token
-  const googleCredential = firebase.auth.GoogleAuthProvider.credential(idToken);
-
-  // Sign-in the user with the credential
-  return firebase.auth().signInWithCredential(googleCredential);
-  
-};
 
 export async function registration(email, password, name, phoneNum) {
   // User registration.

@@ -3,7 +3,7 @@ import { Text,  View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions,
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeeIcon from 'react-native-vector-icons/FontAwesome5';
-import { googleSignIn, signIn } from '../../config/firebase';
+import { signIn } from '../../config/firebase';
 import { validateEmail, validatePassword } from '../../utils/inputValidator';
 
 
@@ -18,10 +18,6 @@ export default function LoginPage({navigation}){
 		setEmail('');
 		setPassword('');
   };
-
-  const onHandleGoogleSignIn = async () => {
-	  await googleSignIn();
-  }
 
   const onHandleLogin = async () => {
 	setLoading(true);
@@ -51,7 +47,7 @@ export default function LoginPage({navigation}){
 				<Text style={styles.loginText}>Login</Text>
 				<View style = {styles.signUpOptions}>
 					<TouchableOpacity
-						onPress = {onHandleGoogleSignIn}
+						onPress = {null}
 						color = "black"
 						style= {styles.signUpOption}
 					>
