@@ -3,13 +3,8 @@ import { convertDate } from "./timestampToDate";
 export function getNumberOfNights(start, end) {
 
     if (start && end) {
-    console.log("This is the start date", start);
-    console.log("This is the end date.",end);
-   
     var start = new Date(start);
     var end = new Date(end);
-    console.log("This is the start date", start);
-    console.log("This is the end date.",end);
 
     // Function to calculate the number of nights between two dates.
 

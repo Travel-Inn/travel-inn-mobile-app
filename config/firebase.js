@@ -73,7 +73,7 @@ export async function signIn(email, password) {
     } else if (err.code === "auth/wrong-password"){
       errorToastNotifier("Error", "Wrong password. ");
     } else if (err.code === "auth/user-not-found") {
-      errorToastNotifier("Error", "There is no existing user record corresponding to the provided identifier.");
+      errorToastNotifier("Error", "There is no user with the provided email address.");
     } else if (err.code === "auth/user-disabled") {
       errorToastNotifier("Error", "Email address has been disabled");
     } else if (err.code === "auth/too-many-requests"){

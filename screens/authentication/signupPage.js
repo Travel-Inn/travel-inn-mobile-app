@@ -37,7 +37,7 @@ export default function SignupPage({navigation}){
 		} else if (!validateNumber(phone, 10)) {
 			setLoading(false);
 		} else if (await registration(email,password,name,phone) == 0 ) {
-			//successfulToastNotifier("Welcome to Travel Inn", "") // Returns 0 when successful
+			 // Returns 0 when successful
 		}else{
 			setLoading(false);
 			console.log("Unexpected error occurred.")

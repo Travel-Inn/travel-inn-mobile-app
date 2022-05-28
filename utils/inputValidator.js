@@ -72,7 +72,7 @@ export function validateNumber(phone, length)
     }
     // Regex for matching phone. Phone should be a number.
     var validRegex = /^[0-9]+$/;
-    if (validRegex.test(phone)){
+    if (validRegex.test(phone.trim())){
         return true;
     }else {
         errorToastNotifier("Error", "Number Field should be a number. ");
@@ -134,10 +134,7 @@ export function validateDates(currDate1, date1, date2){
     if (date2 < currDate1){
         errorToastNotifier("Error", "CheckOut date cannot be less than current date.");
         return true;
-		} else if (date1 < currDate1){
-        errorToastNotifier("Error", "CheckIn date cannot be less than current date.");
-        return true;
-		}else if (date2 < date1){
+    } else if (date2 < date1){
         errorToastNotifier("Error", "CheckIn date cannot be greater than checkout date.");
         return true;
         }
