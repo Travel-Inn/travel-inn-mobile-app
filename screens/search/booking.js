@@ -22,6 +22,12 @@ export default function Booking({navigation}) {
 	const [loading, setLoading] = React.useState(false);
 	const db = firebase.firestore();
 
+	const onHandleLogout = () =>{
+		console.log("User details haven't been stored.")
+		loggingOut();
+		return null;
+	}
+
 	const onHandleSearch = () => {
 		setValues([]); // room details
 		setLoading(true); 
@@ -156,7 +162,7 @@ export default function Booking({navigation}) {
 					// Checks the current state and variables. 
 					loading ? 
 					<ActivityIndicator size={50} animating={true} color="white"/>:
-					userDetails === "empty" ? {loggingOut} :// Authentication error. Force log out. 
+					userDetails === "empty" ? onHandleLogout() :// Authentication error. Force log out. 
 					userDetails === "error" ?
 					<Text style={{color: 'white'}}>Error extracting user details. Restart app.</Text> :	 //TODO: Force restart app.
 					values === "empty" ?
