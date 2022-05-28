@@ -60,7 +60,7 @@ export default function Menu({navigation}) {
 				const menuname= snapshot.data().menuName;
 				const menutype= snapshot.data().menuType;
 				
-				// setBreakfastBeverages(breakfastBeverages=>[...breakfastBeverages,snapshot.data()]);
+				
 				if(menuname!="Dessert"){
 					db.collection('menu').doc(snapshot.data().menuName).collection('beverages').get().then((querysnapshot)=>{
 						querysnapshot.forEach( snapshot=>{
