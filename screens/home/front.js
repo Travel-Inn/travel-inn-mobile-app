@@ -39,7 +39,7 @@ export default function Front({navigation}){
         container:{
             flex:3,
             padding:50,
-            backgroundColor:"black",
+            backgroundColor:"#1b1a1a",
             
             
             
@@ -134,7 +134,7 @@ export default function Front({navigation}){
         resizeMode: 'cover',
         width: Dimensions.get('screen').width,
         flex: 1,
-       backgroundColor:"black",
+       
        }
     });
 
