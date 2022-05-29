@@ -82,7 +82,9 @@ export default function HistoryScreen({route, navigation}) {
                                 </View>
 								<View style={{justifyContent: 'center', alignItems: 'flex-end'}}>
 									<Text style={[styles.statuscheck,{backgroundColor: roomState=="Awaiting"? 'grey':
-									roomState=="In Use"? 'green': 'red'}]}>{roomState}</Text>
+									roomState=="In Use"? 'green': 'red'}]}>
+										{roomState}
+									</Text>
 								</View>
                             </View>
                 })
