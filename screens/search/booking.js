@@ -116,6 +116,7 @@ export default function Booking({navigation}) {
 						}}
 						inputContainerStyle={{borderBottomWidth: 0}}
 					/>
+					<Text style={{fontWeight: "bold", marginLeft: 10}}>Price</Text>
 					<View style={{flexDirection: 'row', justifyContent: 'space-between', 
 						marginLeft: "-30%", maxWidth: "50%", marginBottom: -20}}>
 						<Input
