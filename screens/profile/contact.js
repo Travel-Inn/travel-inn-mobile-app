@@ -3,7 +3,7 @@ import firebase from "firebase/compat/app";
 import { Text,Linking, View, StyleSheet, Dimensions, ImageBackground, ScrollView, LogBox} from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 
-export default function Contact({navigation}){
+export default function Contact(){
     const [ phone, setPhone ] = useState('');
     const [ email, setEmail] = useState('');
     const [facebook, setFacebook] = useState('');
@@ -84,9 +84,13 @@ const styles = StyleSheet.create({
     },
     whiteText:{
         color: 'white',
-        marginBottom: 10,
+        fontSize: 20,
 		textAlign: 'center',
-        fontSize: 20
+		borderRadius: 25,
+		backgroundColor: 'rgba(0,0,0, 0.7)',
+		padding: 2,
+		paddingLeft: 8,
+		paddingRight: 8
       },
     contacts:{
         flex: 1,
