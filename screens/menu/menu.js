@@ -3,7 +3,6 @@ import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
 import "firebase/compat/storage";
 import { Text, View, ImageBackground, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions, LogBox} from 'react-native';
-import RestaurantMenu from './restaurantMenu.js';
 
 export default function Menu({navigation}) {
 	 const [ breakfastBeverages, setBreakfastBeverages ] = React.useState([]);
@@ -204,12 +203,15 @@ const styles = StyleSheet.create({
 	 flex: 1,
 	},
 	tabName:{
-		backgroundColor: 'rgba(0,0,0, 0.7)',
 		color: 'white',
+        fontSize: 20,
 		width: 150,
 		textAlign: 'center',
-		borderRadius: 15,
-		padding: 10
+		borderRadius: 25,
+		backgroundColor: 'rgba(0,0,0, 0.7)',
+		padding: 5,
+		paddingLeft: 10,
+		paddingRight: 10
 	},
 	menuPageInfo: {
 		textAlign: 'center',
