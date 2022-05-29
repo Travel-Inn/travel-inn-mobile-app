@@ -204,11 +204,12 @@ export default function Payment({route, navigation}){
 			<View style={{justifyContent: 'center', alignItems: 'center'}}>
 				<Text style={{width: eighty}}>Card Number</Text>
 				<Input
-				placeholder = "1234 1234 5678 5678"
+				placeholder = "eg. 1234 1234 5678 5678"
 				keyboardType='numeric'
 				value={cardNo}
 				onChangeText={text => setCardNo(text)}
 				style={styles.contactInfo}
+				textContentType="creditCardNumber"
 				maxLength={16}
 				/>
 				<Text style={{width: eighty}}>Expiry Date</Text>
@@ -221,7 +222,7 @@ export default function Payment({route, navigation}){
 				/>
 				<Text style={{width: eighty}}>CVC</Text>
 				<Input
-				placeholder = "123"
+				placeholder = "eg. 123"
 				keyboardType='numeric'
 				value={CVC}
 				onChangeText={text => setCVC(text)}
@@ -230,7 +231,7 @@ export default function Payment({route, navigation}){
 				/>
 				<Text style={{width: eighty}}>Name on Card</Text>
 				<Input
-				placeholder="John Doe"
+				placeholder="eg. John Doe"
 				value ={cardName}
 				onChangeText={text => setCardName(text)}
 				style={styles.contactInfo}
@@ -260,9 +261,13 @@ const styles = StyleSheet.create({
 	screenName:{
 		color: 'white',
         fontSize: 23,
-		width: 120,
+		width: 150,
 		textAlign: 'center',
 		borderRadius: 25,
+		backgroundColor: 'rgba(0,0,0, 0.7)',
+		padding: 5,
+		paddingLeft: 10,
+		paddingRight: 10
 	},
 	pageImage: {
 		textAlign: 'center',
@@ -276,8 +281,8 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
     },
 	contactInfo:{
-		color: 'white', 
-		backgroundColor: 'grey',
+		color: 'grey',
+		backgroundColor: 'lightgrey',
 		width: eighty, 
 		padding: 10, 
 		borderRadius: 10,
@@ -288,6 +293,8 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		padding: 10,
 		width: '30%',
-		textAlign: 'center'
+		textAlign: 'center',
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 })
