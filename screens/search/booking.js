@@ -47,6 +47,7 @@ export default function Booking({navigation}) {
 			db.collection("Rooms").where("isRoomAvailable", "==", true)
 			.where("bedNum", "==", newBedNum).where("roomPrice", ">", newMinPrice)
 			.where("roomPrice", "<", newMaxPrice)
+			    .limit(3)
 				.get()
 				.then((querySnapshot) => {
 				if(querySnapshot.empty){
