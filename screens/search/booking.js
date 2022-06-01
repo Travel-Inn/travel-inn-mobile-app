@@ -109,7 +109,7 @@ export default function Booking({navigation}) {
    roomID: " 2JglW1loJB2c6j9xkxbD",
    roomName: "A2",
    roomPrice: 700,
-   roomType: "Double room with Two Double Beds"
+   roomType: "Double room with Two Beds"
         }, 
         {
           bedNum:8,
