@@ -16,7 +16,7 @@ export default function Booking({navigation}) {
 	const [maxPrice, setMaxPrice] = React.useState('');
 	const [bedNum, setBedNum] = React.useState('');
 	const [userDetails, setUserDetails] = React.useState([]);
-	const [values, setValues] = React.useState([]);
+	const [values, setValues] = React.useState('null');
 	const [loading, setLoading] = React.useState(false);
 	const db = firebase.firestore();
 
@@ -90,6 +90,39 @@ export default function Booking({navigation}) {
 		});
 	},[])
 
+	const rooms = [
+        {
+   bedNum: 4,
+   image_url: require("../../images/booking-image.jpg"),
+   isRoomAvailable: true,
+   roomDesc: "1 double bed",
+   roomID: " 0VyAI83Q70Ej5YllIfOd",
+   roomName: "A1",
+   roomPrice: 800,
+   roomType: "Deluxe Queen Room"
+        }, 
+        {
+   bedNum: 3,
+   image_url: require("../../images/booking-image.jpg"),
+   isRoomAvailable: true,
+   roomDesc: "2 double beds",
+   roomID: " 2JglW1loJB2c6j9xkxbD",
+   roomName: "A2",
+   roomPrice: 700,
+   roomType: "Double room with Two Double Beds"
+        }, 
+        {
+          bedNum:8,
+   image_url: require("../../images/booking-image.jpg"),
+   isRoomAvailable: true,
+   roomDesc: "2 bunk beds",
+   roomID: " 8LsnqsMvFslGUea1vGuM",
+   roomName: "A8",
+   roomPrice: 400,
+   roomType: "4-Bed Dormitory Room"
+        }, 
+     ]
+
 
   return(
     <View style={styles.container} >
@@ -161,6 +194,18 @@ export default function Booking({navigation}) {
 
 				{
 					// Checks the current state and variables. 
+
+					values === "null" ? 
+     rooms.map((item,index)=>{
+     return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room',{roomDetails: item, userData: userDetails})}>
+     <Image source={require('../../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
+     <View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
+      <Text>{item.roomType}</Text>
+      <Text>{item.roomDesc}</Text>
+      <Text>{item.roomPrice}</Text>
+     </View>
+     </TouchableOpacity>
+     }) :
 					loading ? 
 					<ActivityIndicator size={50} animating={true} color="white"/>:
 					userDetails === "empty" ? onHandleLogout() :// Authentication error. Force log out. 
