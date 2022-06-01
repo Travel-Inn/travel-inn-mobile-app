@@ -35,7 +35,7 @@ export default function Front({navigation}){
         container:{
             flex:3,
             padding:50,
-            backgroundColor:"black",
+            backgroundColor:"#1b1a1a",
             
             
             
