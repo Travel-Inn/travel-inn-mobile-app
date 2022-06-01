@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackHandler,Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions, ActivityIndicator, SegmentedControlIOSComponent} from 'react-native';
+import {Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from "firebase/compat/app";
 import { convertDate } from '../../utils/timestampToDate';
@@ -7,6 +7,7 @@ import { convertDate } from '../../utils/timestampToDate';
 export default function HistoryScreen({route, navigation}) {
 	const [values, setValues] = React.useState([]);
 	const [loading, setLoading] = React.useState([]);
+	const [roomState, setRoomState] = React.useState('Awaiting');
 	const db = firebase.firestore();
 	const uid = firebase.auth().currentUser.uid;
 
@@ -79,6 +80,12 @@ export default function HistoryScreen({route, navigation}) {
 									<Text style={styles.roominfo}>Status: {item.roomStatus}</Text>
                                     <Text style={{color: 'orange', fontWeight: 'bold'}}>GHC {item.roomPrice}.00</Text>
                                 </View>
+								<View style={{justifyContent: 'center', alignItems: 'flex-end'}}>
+									<Text style={[styles.statuscheck,{backgroundColor: roomState=="Awaiting"? 'grey':
+									roomState=="In Use"? 'green': 'red'}]}>
+										{roomState}
+									</Text>
+								</View>
                             </View>
                 })
             }
@@ -99,9 +106,14 @@ const styles = StyleSheet.create({
 	screenName:{
 		color: 'white',
         fontSize: 23,
-		width: 100,
+		width: 150,
 		textAlign: 'center',
 		borderRadius: 25,
+		backgroundColor: 'rgba(0,0,0, 0.7)',
+		padding: 5,
+		paddingLeft: 10,
+		paddingRight: 10
+		
 	},
 	pageImage: {
 		textAlign: 'center',
@@ -151,12 +163,18 @@ const styles = StyleSheet.create({
 		width: Dimensions.get('screen').width*0.4,
 		borderRadius: 15,
 		padding: 8,
-		textAlign: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
 		alignSelf: 'center'
 	},
 	nothing:{
 		fontSize: 25, 
 		color: "grey",
 		textAlign: 'center',
+	},
+	statuscheck:{
+		padding: 5,
+		color: 'white',
+		borderRadius: 5,
 	}
 });

@@ -184,9 +184,13 @@ const styles = StyleSheet.create({
 	screenName:{
 		color: 'white',
         fontSize: 23,
-		width: 100,
+		width: 150,
 		textAlign: 'center',
 		borderRadius: 25,
+		backgroundColor: 'rgba(0,0,0, 0.7)',
+		padding: 5,
+		paddingLeft: 10,
+		paddingRight: 10
 	},
 	pageImage: {
 		textAlign: 'center',

@@ -1,13 +1,10 @@
 import React from 'react';
 import { Text, View, ImageBackground, TouchableOpacity, Image, StyleSheet, ScrollView, 
-	Dimensions, SliderComponent, KeyboardAvoidingView, ActivityIndicator} from 'react-native';
+	Dimensions, KeyboardAvoidingView, ActivityIndicator, LogBox} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 import firebase from "firebase/compat/app";
 import  "firebase/compat/firestore";
-import DatePicker from 'react-native-datepicker';
-import { searchRoom } from '../../config/firebase';
-import { NavigationContainer } from '@react-navigation/native';
 import { validateBedNum, validatePrices } from '../../utils/inputValidator';
 import { loggingOut } from '../../config/firebase';
 import { errorToastNotifier, successfulToastNotifier } from '../../widgets/toastNotification';
@@ -50,6 +47,7 @@ export default function Booking({navigation}) {
 			db.collection("Rooms").where("isRoomAvailable", "==", true)
 			.where("bedNum", "==", newBedNum).where("roomPrice", ">", newMinPrice)
 			.where("roomPrice", "<", newMaxPrice)
+			    .limit(3)
 				.get()
 				.then((querySnapshot) => {
 				if(querySnapshot.empty){
@@ -72,6 +70,7 @@ export default function Booking({navigation}) {
 
 	React.useEffect(() =>{
 		// Retrieve user data.
+		LogBox.ignoreLogs(['Setting a timer']);
 		const db = firebase.firestore();
 		const user = firebase.auth().currentUser;
 		db.collection("Users")
@@ -118,6 +117,7 @@ export default function Booking({navigation}) {
 						}}
 						inputContainerStyle={{borderBottomWidth: 0}}
 					/>
+					<Text style={{fontWeight: "bold", marginLeft: 10}}>Price</Text>
 					<View style={{flexDirection: 'row', justifyContent: 'space-between', 
 						marginLeft: "-30%", maxWidth: "50%", marginBottom: -20}}>
 						<Input
@@ -192,11 +192,15 @@ const styles = StyleSheet.create({
 	 backgroundColor: 'black'
 	},
 	screenName:{
-		backgroundColor: 'rgba(0,0,0, 0.7)',
 		color: 'white',
-		width: 100,
+        fontSize: 23,
+		width: 150,
 		textAlign: 'center',
 		borderRadius: 25,
+		backgroundColor: 'rgba(0,0,0, 0.7)',
+		padding: 5,
+		paddingLeft: 10,
+		paddingRight: 10
 	},
 	pageImage: {
 		textAlign: 'center',
