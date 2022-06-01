@@ -48,7 +48,7 @@ export default function Front({navigation}){
         textAlign:"center",
         color: "white",
         fontSize: 35,
-        fontStyle:"italic",
+        fontStyle:"normal",
         fontWeight: "bold" 
         
       },
