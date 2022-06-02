@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
 		width: 100,
 		textAlign: 'center',
 		borderRadius: 25,
+        overflow: 'hidden'
 	},
 	pageImage: {
 		textAlign: 'center',
