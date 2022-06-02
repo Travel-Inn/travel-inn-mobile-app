@@ -211,7 +211,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0,0,0, 0.7)',
 		padding: 5,
 		paddingLeft: 10,
-		paddingRight: 10
+		paddingRight: 10,
+		overflow: 'hidden'
 	},
 	menuPageInfo: {
 		textAlign: 'center',

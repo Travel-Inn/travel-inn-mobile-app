@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0,0,0, 0.7)',
 		padding: 2,
 		paddingLeft: 8,
-		paddingRight: 8
+		paddingRight: 8,
+        overflow: 'hidden'
       },
     contacts:{
         flex: 1,

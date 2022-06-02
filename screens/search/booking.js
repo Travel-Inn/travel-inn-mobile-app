@@ -16,7 +16,7 @@ export default function Booking({navigation}) {
 	const [maxPrice, setMaxPrice] = React.useState('');
 	const [bedNum, setBedNum] = React.useState('');
 	const [userDetails, setUserDetails] = React.useState([]);
-	const [values, setValues] = React.useState([]);
+	const [values, setValues] = React.useState('null');
 	const [loading, setLoading] = React.useState(false);
 	const db = firebase.firestore();
 
@@ -90,6 +90,39 @@ export default function Booking({navigation}) {
 		});
 	},[])
 
+	const rooms = [
+        {
+   bedNum: 4,
+   image_url: "https://firebasestorage.googleapis.com/v0/b/travel-inn-e9999.appspot.com/o/roomImages%2Froom1.jpg?alt=media&token=ea9f8d59-2484-476c-b9a4-f998324eb41f",
+   isRoomAvailable: true,
+   roomDesc: "1 double bed",
+   roomID: " 0VyAI83Q70Ej5YllIfOd",
+   roomName: "A1",
+   roomPrice: 800,
+   roomType: "Deluxe Queen Room"
+        }, 
+        {
+   bedNum: 3,
+   image_url: "https://firebasestorage.googleapis.com/v0/b/travel-inn-e9999.appspot.com/o/roomImages%2Froom10.jpg?alt=media&token=11755922-7889-462f-b1c9-c8d81f5b9f78",
+   isRoomAvailable: true,
+   roomDesc: "2 double beds",
+   roomID: " 2JglW1loJB2c6j9xkxbD",
+   roomName: "A2",
+   roomPrice: 700,
+   roomType: "Double room with Two Beds"
+        }, 
+        {
+          bedNum:8,
+   image_url: "https://firebasestorage.googleapis.com/v0/b/travel-inn-e9999.appspot.com/o/roomImages%2Froom3.png?alt=media&token=2f49b7ba-41f6-4f1d-8cdf-d082a727ba4c",
+   isRoomAvailable: true,
+   roomDesc: "2 bunk beds",
+   roomID: " 8LsnqsMvFslGUea1vGuM",
+   roomName: "A8",
+   roomPrice: 400,
+   roomType: "4-Bed Dormitory Room"
+        }, 
+     ]
+
 
   return(
     <View style={styles.container} >
@@ -161,6 +194,18 @@ export default function Booking({navigation}) {
 
 				{
 					// Checks the current state and variables. 
+
+					values === "null" ? 
+     rooms.map((item,index)=>{
+     return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room',{roomDetails: item, userData: userDetails})}>
+     <Image source={{uri: item.image_url}} style={{flex: 2, maxHeight: "100%"}} />
+     <View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
+      <Text>{item.roomType}</Text>
+      <Text>{item.roomDesc}</Text>
+      <Text>{item.roomPrice}</Text>
+     </View>
+     </TouchableOpacity>
+     }) :
 					loading ? 
 					<ActivityIndicator size={50} animating={true} color="white"/>:
 					userDetails === "empty" ? onHandleLogout() :// Authentication error. Force log out. 
@@ -170,7 +215,7 @@ export default function Booking({navigation}) {
 					Array.isArray(values) ?
 					values.map((item,index)=>{
 					return <TouchableOpacity key={index} style={styles.room}  onPress={()=>navigation.navigate('Room',{roomDetails: item, userData: userDetails})}>
-					<Image source={require('../../images/booking-room2.jpg')} style={{flex: 2, maxHeight: "100%"}} />
+					<Image source={{uri: item.image_url}} style={{flex: 2, maxHeight: "100%"}} />
 					<View style={{flex: 4, justifyContent: 'space-around', alignItems: 'center'}}>
 						<Text>{item.roomType}</Text>
 						<Text>{item.roomDesc}</Text>
@@ -200,7 +245,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0,0,0, 0.7)',
 		padding: 5,
 		paddingLeft: 10,
-		paddingRight: 10
+		paddingRight: 10,
+		overflow: 'hidden'
 	},
 	pageImage: {
 		textAlign: 'center',
