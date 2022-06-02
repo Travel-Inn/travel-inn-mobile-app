@@ -28,7 +28,7 @@ export default function Room({route, navigation}) {
                     <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>GHC {roomDetails.roomPrice}</Text>
                 </View>
                 <View style={{borderBottomColor: 'white', borderBottomWidth: 1, marginBottom: 20}}>
-                    <Image source={require('../../images/room-detail.jpg')} style={styles.roomImage}/>
+                    <Image source={{uri: roomDetails.image_url}} style={styles.roomImage}/>
                 </View>
                 <Text>Amenities Included with booking</Text>
                 <View style={styles.amenities}>
