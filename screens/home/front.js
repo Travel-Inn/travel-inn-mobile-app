@@ -46,7 +46,7 @@ export default function Front({navigation}){
         bottom:190,
         paddingHorizontal:12,
         textAlign:"center",
-        color: "yellow",
+        color: "white",
         fontSize: 35,
         fontStyle:"normal",
         fontWeight: "bold" 
