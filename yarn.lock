@@ -1689,7 +1689,7 @@
     "@types/long" "^4.0.1"
     "lodash.camelcase" "^4.3.0"
     "long" "^4.0.0 || ^5.2.0"
-    "protobufjs" "^6.10.0"
+    "protobufjs" "^6.11.3"
     "yargs" "^16.2.0"
 
 "@hapi/hoek@^9.0.0":
@@ -5358,10 +5358,10 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.13.1"
 
-"protobufjs@^6.10.0":
+"protobufjs@^6.11.3":
   "integrity" "sha512-4BQJoPooKJl2G9j3XftkIXjoC9C0Av2NOrWmbLWT1vH32GcSUHjM0Arra6UfTsVyfMAuFzaLucXn1sadxJydAw=="
-  "resolved" "https://registry.npmjs.org/protobufjs/-/protobufjs-6.11.2.tgz"
-  "version" "6.11.2"
+  "resolved" "https://registry.npmjs.org/protobufjs/-/protobufjs-6.11.3.tgz"
+  "version" "6.11.3"
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
