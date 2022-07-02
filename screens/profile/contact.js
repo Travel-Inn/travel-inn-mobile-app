@@ -58,7 +58,7 @@ export default function Contact(){
                         <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL('mailto:${email}')}>{email}</Text>
                     </View>
                     <View style={styles.contact}><Icons name="phone" size = {20} color="white"/>
-                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL('tel:{phone}')}>{phone}</Text>
+                        <Text style={{color: 'white', paddingLeft: 10}}  onPress={()=> Linking.openURL('tel:${phone}')}>{phone}</Text>
                     </View>
 				</ScrollView>
             </View>

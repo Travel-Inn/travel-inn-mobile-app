@@ -3770,9 +3770,9 @@
   dependencies:
     "function-bind" "^1.1.1"
 
-"hermes-engine@~0.7.0":
+"hermes-engine@~0.10.0":
   "integrity" "sha512-E2DkRaO97gwL98LPhgfkMqhHiNsrAjIfEk3wWYn2Y31xdkdWn0572H7RnVcGujMJVqZNJvtknxlpsUb8Wzc3KA=="
-  "resolved" "https://registry.npmjs.org/hermes-engine/-/hermes-engine-0.7.2.tgz"
+  "resolved" "https://registry.npmjs.org/hermes-engine/-/hermes-engine-0.10.0.tgz"
   "version" "0.7.2"
 
 "hermes-profile-transformer@^0.0.6":
@@ -5611,7 +5611,7 @@
     "anser" "^1.4.9"
     "base64-js" "^1.1.2"
     "event-target-shim" "^5.0.1"
-    "hermes-engine" "~0.7.0"
+    "hermes-engine" "~0.10.0"
     "invariant" "^2.2.4"
     "jsc-android" "^245459.0.0"
     "metro-babel-register" "0.64.0"
