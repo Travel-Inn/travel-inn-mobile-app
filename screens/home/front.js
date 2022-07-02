@@ -22,7 +22,7 @@ export default function Front({navigation}){
           </TouchableOpacity>
           <View style={styles.logintext}>
             <TouchableOpacity style={styles.login} onPress={()=>navigation.navigate('Login')}>
-              <Text style={styles.h5}> Log In</Text>
+              <Text style={styles.h5}> Log In </Text>
               </TouchableOpacity>
           </View>
         </View>
@@ -33,7 +33,7 @@ export default function Front({navigation}){
 
     const styles =StyleSheet.create({
         container:{
-            flex:3,
+            flex:2,
             padding:50,
             backgroundColor:"#1b1a1a",
             
