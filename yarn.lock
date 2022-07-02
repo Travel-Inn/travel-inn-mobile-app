@@ -1886,7 +1886,7 @@
     "mime" "^2.4.1"
     "node-fetch" "^2.6.0"
     "open" "^6.2.0"
-    "shell-quote" "1.6.1"
+    "shell-quote" "1.7.3"
 
 "@react-native-community/cli-types@^5.0.1":
   "integrity" "sha512-BesXnuFFlU/d1F3+sHhvKt8fUxbQlAbZ3hhMEImp9A6sopl8TEtryUGJ1dbazGjRXcADutxvjwT/i3LJVTIQug=="
@@ -5415,7 +5415,7 @@
   "resolved" "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.24.4.tgz"
   "version" "4.24.4"
   dependencies:
-    "shell-quote" "^1.6.1"
+    "shell-quote" "^1.7.3"
     "ws" "^7"
 
 "react-dom@>=17.0.1", "react-dom@17.0.1":
@@ -6031,10 +6031,10 @@
   "resolved" "https://registry.npmjs.org/shebang-regex/-/shebang-regex-1.0.0.tgz"
   "version" "1.0.0"
 
-"shell-quote@^1.6.1", "shell-quote@1.6.1":
+"shell-quote@^1.7.3", "shell-quote@1.7.3":
   "integrity" "sha1-9HgZSczkAmlxJ0MOo7PFR29IF2c="
-  "resolved" "https://registry.npmjs.org/shell-quote/-/shell-quote-1.6.1.tgz"
-  "version" "1.6.1"
+  "resolved" "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.3.tgz"
+  "version" "1.7.3"
   dependencies:
     "array-filter" "~0.0.0"
     "array-map" "~0.0.0"
