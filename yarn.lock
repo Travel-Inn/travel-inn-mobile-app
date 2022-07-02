@@ -3773,7 +3773,7 @@
 "hermes-engine@~0.10.0":
   "integrity" "sha512-E2DkRaO97gwL98LPhgfkMqhHiNsrAjIfEk3wWYn2Y31xdkdWn0572H7RnVcGujMJVqZNJvtknxlpsUb8Wzc3KA=="
   "resolved" "https://registry.npmjs.org/hermes-engine/-/hermes-engine-0.10.0.tgz"
-  "version" "0.7.2"
+  "version" "0.10.0"
 
 "hermes-profile-transformer@^0.0.6":
   "integrity" "sha512-cnN7bQUm65UWOy6cbGcCcZ3rpwW8Q/j4OP5aWRhEry4Z2t2aR1cjrbp0BS+KiBN0smvP1caBgAuxutvyvJILzQ=="
